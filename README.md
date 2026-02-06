@@ -79,4 +79,4 @@ Released under the MIT License.
 
 ## Stewardship
 
-Crafted and maintained with an unwavering focus on quality, restraint, and enduring valueee.
+Crafted and maintained with an unwavering focus on quality, restraint, and enduring valuee.
