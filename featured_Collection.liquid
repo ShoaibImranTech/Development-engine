@@ -1,1 +1,933 @@
+{% liquid
+  assign max_items = section.settings.max_products
+  assign selected_collection = collections[section.settings.collection]
+  
+  if selected_collection == blank
+    assign selected_collection = collections.all
+  endif
+%}
 
+{% style %}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+  --luxury-black: #0a0a0a;
+  --luxury-charcoal: #1c1c1c;
+  --luxury-gold: #c9a961;
+  --luxury-gold-bright: #e4c590;
+  --luxury-gold-deep: #9d7f3e;
+  --luxury-champagne: #f8f4e8;
+  --luxury-cream: #fdfbf7;
+  --luxury-pearl: #f5f2ed;
+  --luxury-silver: #d4d4d4;
+  --luxury-text-primary: #0f0f0f;
+  --luxury-text-secondary: #4a4a4a;
+  --luxury-text-tertiary: #8a8a8a;
+  --luxury-shadow-subtle: rgba(0, 0, 0, 0.04);
+  --luxury-shadow-medium: rgba(0, 0, 0, 0.08);
+  --luxury-shadow-strong: rgba(0, 0, 0, 0.16);
+  --luxury-shadow-gold: rgba(201, 169, 97, 0.25);
+  --luxury-overlay: rgba(0, 0, 0, 0.65);
+  --luxury-transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --luxury-transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.luxury-showcase-wrapper {
+  background: linear-gradient(180deg, var(--luxury-cream) 0%, #ffffff 40%, var(--luxury-pearl) 100%);
+  padding: clamp(80px, 10vw, 140px) 0 clamp(100px, 12vw, 160px);
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-showcase-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(201, 169, 97, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+  animation: luxuryPulse 8s ease-in-out infinite;
+}
+
+.luxury-showcase-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+  opacity: 0.3;
+}
+
+.luxury-grain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+.luxury-container {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5vw, 80px);
+  position: relative;
+  z-index: 2;
+}
+
+.luxury-header-section {
+  text-align: center;
+  margin-bottom: clamp(70px, 9vw, 120px);
+  animation: luxuryFadeInUp 1.2s var(--luxury-transition-smooth) both;
+}
+
+.luxury-pre-heading {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: clamp(10px, 1.1vw, 12px);
+  font-weight: 700;
+  letter-spacing: 4.5px;
+  text-transform: uppercase;
+  color: var(--luxury-gold);
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  padding: 0 40px;
+}
+
+.luxury-pre-heading::before,
+.luxury-pre-heading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--luxury-gold), var(--luxury-gold-deep));
+}
+
+.luxury-pre-heading::before { left: -80px; }
+.luxury-pre-heading::after { right: -80px; transform: rotate(180deg); }
+
+.luxury-main-heading {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-size: clamp(42px, 6.8vw, 82px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--luxury-text-primary);
+  margin-bottom: 32px;
+  position: relative;
+  background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 50%, #0a0a0a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.luxury-subheading {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--luxury-text-secondary);
+  max-width: 820px;
+  margin: 0 auto 56px;
+  letter-spacing: 0.3px;
+}
+
+.luxury-header-ornament {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--luxury-gold), transparent);
+  margin: 40px auto 0;
+  position: relative;
+}
+
+.luxury-header-ornament::before,
+.luxury-header-ornament::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--luxury-gold);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.luxury-header-ornament::before { left: -16px; }
+.luxury-header-ornament::after { right: -16px; }
+
+.luxury-trust-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(30px, 5vw, 70px);
+  margin: 0 auto 80px;
+  padding: 48px 60px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(201, 169, 97, 0.15);
+  border-radius: 100px;
+  box-shadow: 0 8px 32px var(--luxury-shadow-subtle), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  max-width: 1200px;
+  animation: luxurySlideIn 1s var(--luxury-transition-smooth) 0.3s both;
+}
+
+.luxury-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(11px, 1.3vw, 13px);
+  font-weight: 600;
+  color: var(--luxury-text-primary);
+  letter-spacing: 0.5px;
+  transition: all 0.4s var(--luxury-transition-smooth);
+}
+
+.luxury-trust-item:hover {
+  transform: translateY(-2px);
+  color: var(--luxury-gold-deep);
+}
+
+.luxury-trust-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--luxury-gold-bright) 0%, var(--luxury-gold) 100%);
+  border-radius: 50%;
+  font-size: 16px;
+  color: var(--luxury-black);
+  box-shadow: 0 4px 16px var(--luxury-shadow-gold);
+  transition: all 0.4s var(--luxury-transition-bounce);
+}
+
+.luxury-trust-item:hover .luxury-trust-icon {
+  transform: rotate(360deg) scale(1.1);
+  box-shadow: 0 6px 24px var(--luxury-shadow-gold);
+}
+
+.luxury-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: clamp(32px, 4vw, 48px);
+  margin-bottom: 90px;
+}
+
+@media (min-width: 640px) {
+  .luxury-products-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1000px) {
+  .luxury-products-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1400px) {
+  .luxury-products-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.luxury-product-card {
+  background: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.6s var(--luxury-transition-smooth);
+  box-shadow: 0 2px 8px var(--luxury-shadow-subtle), 0 8px 24px var(--luxury-shadow-subtle);
+  animation: luxuryCardFloat 1.2s var(--luxury-transition-smooth) both;
+}
+
+.luxury-product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.6s var(--luxury-transition-smooth);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.luxury-product-card:hover {
+  transform: translateY(-16px);
+  box-shadow: 0 16px 48px var(--luxury-shadow-medium), 0 32px 80px var(--luxury-shadow-strong);
+}
+
+.luxury-product-card:hover::before {
+  border-color: var(--luxury-gold);
+  box-shadow: inset 0 0 0 1px rgba(201, 169, 97, 0.3);
+}
+
+.luxury-product-card:nth-child(1) { animation-delay: 0.1s; }
+.luxury-product-card:nth-child(2) { animation-delay: 0.2s; }
+.luxury-product-card:nth-child(3) { animation-delay: 0.3s; }
+.luxury-product-card:nth-child(4) { animation-delay: 0.4s; }
+.luxury-product-card:nth-child(5) { animation-delay: 0.5s; }
+.luxury-product-card:nth-child(6) { animation-delay: 0.6s; }
+.luxury-product-card:nth-child(7) { animation-delay: 0.7s; }
+.luxury-product-card:nth-child(8) { animation-delay: 0.8s; }
+
+.luxury-image-wrapper {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
+}
+
+.luxury-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.02) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.luxury-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--luxury-transition-smooth), filter 0.6s ease;
+  filter: contrast(1.02) saturate(1.05);
+}
+
+.luxury-product-card:hover .luxury-product-image {
+  transform: scale(1.08);
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.luxury-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, var(--luxury-overlay) 100%);
+  opacity: 0;
+  transition: opacity 0.6s var(--luxury-transition-smooth);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.luxury-product-card:hover .luxury-image-overlay {
+  opacity: 0.15;
+}
+
+.luxury-badge-collection {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+
+.luxury-status-badge {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  padding: 9px 20px;
+  border-radius: 100px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  animation: luxuryBadgeBounce 0.6s var(--luxury-transition-bounce) both;
+}
+
+.luxury-status-badge.sale-badge {
+  background: linear-gradient(135deg, #d4145a 0%, #e91e63 50%, #ff4081 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(212, 20, 90, 0.4);
+}
+
+.luxury-status-badge.new-badge {
+  background: linear-gradient(135deg, #0a0a0a 0%, #2d2d2d 100%);
+  color: var(--luxury-gold-bright);
+  border-color: var(--luxury-gold);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.luxury-status-badge.exclusive-badge {
+  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-bright) 100%);
+  color: var(--luxury-black);
+  border-color: var(--luxury-gold-bright);
+  box-shadow: 0 8px 24px var(--luxury-shadow-gold);
+}
+
+.luxury-quick-view {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 100px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1px solid rgba(201, 169, 97, 0.3);
+  transition: all 0.5s var(--luxury-transition-smooth);
+  z-index: 6;
+  cursor: pointer;
+}
+
+.luxury-product-card:hover .luxury-quick-view {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.luxury-quick-view:hover {
+  background: var(--luxury-gold);
+  color: var(--luxury-black);
+  border-color: var(--luxury-gold-bright);
+  transform: translateX(-50%) translateY(-4px);
+  box-shadow: 0 12px 36px var(--luxury-shadow-gold);
+}
+
+.luxury-product-details {
+  padding: 36px 32px 32px;
+  background: #ffffff;
+  position: relative;
+}
+
+.luxury-brand-tag {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--luxury-gold);
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+.luxury-product-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 18px;
+  color: var(--luxury-text-primary);
+  min-height: 56px;
+  letter-spacing: -0.01em;
+}
+
+.luxury-product-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s var(--luxury-transition-smooth);
+  background: linear-gradient(to right, var(--luxury-gold) 0%, var(--luxury-gold) 100%);
+  background-size: 0 2px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s var(--luxury-transition-smooth), color 0.3s ease;
+}
+
+.luxury-product-title a:hover {
+  color: var(--luxury-gold-deep);
+  background-size: 100% 2px;
+}
+
+.luxury-rating-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.luxury-stars {
+  display: flex;
+  gap: 3px;
+  color: var(--luxury-gold);
+  font-size: 14px;
+}
+
+.luxury-review-count {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  color: var(--luxury-text-tertiary);
+  font-weight: 500;
+}
+
+.luxury-price-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.luxury-current-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--luxury-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.luxury-original-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--luxury-text-tertiary);
+  text-decoration: line-through;
+  text-decoration-color: var(--luxury-gold);
+  text-decoration-thickness: 1.5px;
+}
+
+.luxury-savings-badge {
+  background: linear-gradient(135deg, #d4145a 0%, #ff4081 100%);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  box-shadow: 0 4px 16px rgba(212, 20, 90, 0.3);
+}
+
+.luxury-add-to-cart-form {
+  margin-top: auto;
+}
+
+.luxury-add-button {
+  width: 100%;
+  background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--luxury-gold-deep) 100%);
+  color: var(--luxury-black);
+  border: 2px solid var(--luxury-gold);
+  padding: 18px 36px;
+  border-radius: 100px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.5s var(--luxury-transition-smooth);
+  box-shadow: 0 8px 24px var(--luxury-shadow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-add-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.luxury-add-button:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.luxury-add-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px var(--luxury-shadow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border-color: var(--luxury-gold-bright);
+}
+
+.luxury-add-button:active {
+  transform: translateY(-2px);
+}
+
+.luxury-add-button:disabled {
+  background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+  color: #888888;
+  border-color: #c0c0c0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.luxury-add-button:disabled:hover {
+  transform: none;
+}
+
+.luxury-button-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.luxury-scarcity-indicator {
+  margin-top: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #d4145a;
+  text-align: center;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.luxury-scarcity-dot {
+  width: 6px;
+  height: 6px;
+  background: #d4145a;
+  border-radius: 50%;
+  animation: luxuryPulseRed 1.5s ease-in-out infinite;
+}
+
+@keyframes luxuryPulse {
+  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.8; transform: translateX(-50%) scale(1.05); }
+}
+
+@keyframes luxuryFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes luxurySlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes luxuryCardFloat {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes luxuryBadgeBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(-20px);
+  }
+  50% {
+    transform: scale(1.1) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes luxuryPulseRed {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+@media (max-width: 1024px) {
+  .luxury-products-grid { gap: 28px; }
+  .luxury-product-details { padding: 32px 28px; }
+  .luxury-trust-bar { gap: 40px; padding: 40px 48px; }
+}
+
+@media (max-width: 768px) {
+  .luxury-products-grid { gap: 24px; }
+  .luxury-product-details { padding: 28px 24px; }
+  .luxury-trust-bar { 
+    flex-direction: column; 
+    gap: 28px; 
+    padding: 36px 32px;
+    border-radius: 24px;
+  }
+  .luxury-pre-heading::before,
+  .luxury-pre-heading::after { display: none; }
+}
+
+@media (max-width: 480px) {
+  .luxury-products-grid { grid-template-columns: 1fr !important; }
+  .luxury-showcase-wrapper { padding: 60px 0 80px; }
+}
+{% endstyle %}
+
+<div class="luxury-showcase-wrapper">
+  <div class="luxury-grain-overlay"></div>
+  
+  <div class="luxury-container">
+    
+    <!-- Ultra-Premium Header -->
+    <div class="luxury-header-section">
+      {% if section.settings.eyebrow_text != blank %}
+        <div class="luxury-pre-heading">{{ section.settings.eyebrow_text }}</div>
+      {% endif %}
+      
+      {% if section.settings.title != blank %}
+        <h2 class="luxury-main-heading">{{ section.settings.title }}</h2>
+      {% endif %}
+      
+      {% if section.settings.subtitle != blank %}
+        <p class="luxury-subheading">{{ section.settings.subtitle }}</p>
+      {% endif %}
+      
+      <div class="luxury-header-ornament"></div>
+    </div>
+
+    <!-- Premium Trust Signals -->
+    {% if section.settings.show_trust_signals %}
+      <div class="luxury-trust-bar">
+        <div class="luxury-trust-item">
+          <span class="luxury-trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>Complimentary Shipping</span>
+        </div>
+        <div class="luxury-trust-item">
+          <span class="luxury-trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 4L8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span>30-Day Returns</span>
+        </div>
+        <div class="luxury-trust-item">
+          <span class="luxury-trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1L10 5.5L15 6.5L11.5 10L12 15L8 12.5L4 15L4.5 10L1 6.5L6 5.5L8 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span>Certified Authentic</span>
+        </div>
+        <div class="luxury-trust-item">
+          <span class="luxury-trust-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="4" width="12" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M5 4V3C5 2.44772 5.44772 2 6 2H10C10.5523 2 11 2.44772 11 3V4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </span>
+          <span>Luxury Packaging</span>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Premium Product Grid -->
+    <div class="luxury-products-grid">
+      {% for product in selected_collection.products limit: max_items %}
+        <div class="luxury-product-card">
+          
+          <!-- Product Image with Overlay -->
+          <div class="luxury-image-wrapper">
+            <a href="{{ product.url }}">
+              {% if product.featured_image %}
+                <img 
+                  src="{{ product.featured_image | img_url: '800x' }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="luxury-product-image"
+                  loading="lazy"
+                >
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'luxury-product-image' }}
+              {% endif %}
+            </a>
+            
+            <div class="luxury-image-overlay"></div>
+
+            <!-- Premium Badges -->
+            <div class="luxury-badge-collection">
+              {% if product.compare_at_price > product.price %}
+                <span class="luxury-status-badge sale-badge">Limited Offer</span>
+              {% endif %}
+              
+              {% if product.published_at %}
+                {% assign days_since_publish = 'now' | date: '%s' | minus: product.published_at | date: '%s' | divided_by: 86400 %}
+                {% if days_since_publish < 14 %}
+                  <span class="luxury-status-badge new-badge">New Arrival</span>
+                {% endif %}
+              {% endif %}
+              
+              {% if product.tags contains 'exclusive' or product.tags contains 'limited' %}
+                <span class="luxury-status-badge exclusive-badge">Exclusive</span>
+              {% endif %}
+            </div>
+
+            <!-- Quick View Button -->
+            <a href="{{ product.url }}" class="luxury-quick-view">Quick View</a>
+          </div>
+
+          <!-- Product Information -->
+          <div class="luxury-product-details">
+            {% if product.vendor != blank %}
+              <div class="luxury-brand-tag">{{ product.vendor }}</div>
+            {% endif %}
+
+            <h3 class="luxury-product-title">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h3>
+
+            <!-- Star Rating (Mock - replace with actual app if available) -->
+            {% if section.settings.show_ratings %}
+              <div class="luxury-rating-section">
+                <div class="luxury-stars">★★★★★</div>
+                <span class="luxury-review-count">({{ product.id | modulo: 50 | plus: 12 }})</span>
+              </div>
+            {% endif %}
+
+            <!-- Pricing Section -->
+            <div class="luxury-price-container">
+              <span class="luxury-current-price">
+                {{ product.price | money }}
+              </span>
+              
+              {% if product.compare_at_price > product.price %}
+                <span class="luxury-original-price">
+                  {{ product.compare_at_price | money }}
+                </span>
+                {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                <span class="luxury-savings-badge">SAVE {{ discount }}%</span>
+              {% endif %}
+            </div>
+
+            <!-- Add to Cart Button -->
+            <form action="/cart/add" method="post" class="luxury-add-to-cart-form">
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <button type="submit" class="luxury-add-button" {% unless product.available %}disabled{% endunless %}>
+                <span class="luxury-button-text">
+                  {% if product.available %}
+                    <span>Add to Collection</span>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 7H13M13 7L7 1M13 7L7 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {% else %}
+                    <span>Sold Out</span>
+                  {% endif %}
+                </span>
+              </button>
+            </form>
+
+            <!-- Scarcity Indicator (if applicable) -->
+            {% if product.available and section.settings.show_scarcity %}
+              {% assign inventory_check = product.selected_or_first_available_variant.inventory_quantity %}
+              {% if inventory_check < 10 and inventory_check > 0 %}
+                <div class="luxury-scarcity-indicator">
+                  <span class="luxury-scarcity-dot"></span>
+                  <span>Only {{ inventory_check }} left in stock</span>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Ultra Luxury Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Pre-Heading",
+      "default": "Curated Excellence"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "Exclusive Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Discover our meticulously curated selection of premium products, handpicked for discerning individuals who appreciate exceptional quality and timeless elegance."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Product Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Products to Display",
+      "min": 4,
+      "max": 20,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_signals",
+      "label": "Display Trust Bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ratings",
+      "label": "Show Star Ratings",
+      "default": true,
+      "info": "Replace with actual review app integration"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scarcity",
+      "label": "Show Stock Scarcity",
+      "default": true,
+      "info": "Displays low stock warnings to boost urgency"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ultra Luxury Collection"
+    }
+  ]
+}
+{% endschema %}
