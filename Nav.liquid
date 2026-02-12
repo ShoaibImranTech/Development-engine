@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Luxury Navigation — Brand Killer</title>
+  
+  <!-- Premium typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ================= FOUNDATION: INVISIBLE LUXURY ================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    :root {
+      /* MICRO-DETAILS: The difference between good and unforgettable */
+      --nav-glass: rgba(255, 255, 255, 0.72);
+      --nav-glass-hover: rgba(255, 255, 255, 0.85);
+      --nav-border: rgba(0, 0, 0, 0.04);
+      --nav-border-active: rgba(0, 0, 0, 0.08);
+      
+      /* Shadow system: Luxury is in the shadows */
+      --shadow-float: 
+        0 0 0 0.5px rgba(0, 0, 0, 0.02),
+        0 2px 4px -1px rgba(0, 0, 0, 0.03),
+        0 8px 16px -4px rgba(0, 0, 0, 0.04),
+        0 16px 32px -8px rgba(0, 0, 0, 0.03),
+        0 32px 64px -16px rgba(0, 0, 0, 0.02);
+      
+      --shadow-hover:
+        0 0 0 0.5px rgba(0, 0, 0, 0.03),
+        0 4px 8px -2px rgba(0, 0, 0, 0.05),
+        0 12px 24px -6px rgba(0, 0, 0, 0.06),
+        0 24px 48px -12px rgba(0, 0, 0, 0.05),
+        0 40px 80px -20px rgba(0, 0, 0, 0.04);
+      
+      /* Monochrome precision - no color, pure form */
+      --mono-100: #FAFAFA;
+      --mono-200: #F5F5F5;
+      --mono-300: #E8E8E8;
+      --mono-400: #D1D1D1;
+      --mono-500: #9E9E9E;
+      --mono-600: #6B6B6B;
+      --mono-700: #404040;
+      --mono-800: #1F1F1F;
+      --mono-900: #0A0A0A;
+      
+      /* Accent: Only when absolutely necessary */
+      --accent-emerald: #059669;
+      --accent-ruby: #DC2626;
+      
+      /* Typography scale: Refined hierarchy */
+      --font-display: 'Cormorant Garamond', serif;
+      --font-ui: 'Montserrat', -apple-system, sans-serif;
+      
+      /* Spatial rhythm: Golden ratio precision */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 16px;
+      --space-xl: 24px;
+      --space-2xl: 32px;
+      
+      /* Motion: Confident, never rushed */
+      --duration-instant: 100ms;
+      --duration-quick: 180ms;
+      --duration-smooth: 320ms;
+      --duration-luxe: 480ms;
+      
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    
+    body {
+      font-family: var(--font-ui);
+      background: var(--mono-100);
+      padding-bottom: calc(88px + env(safe-area-inset-bottom, 24px));
+      transition: padding-bottom var(--duration-smooth) var(--ease-out-expo);
+    }
+    
+    body.nav-hidden {
+      padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    }
+    
+    /* ================= ARCHITECTURE: FLOATING PRECISION ================= */
+    .nav-system {
+      position: fixed;
+      bottom: var(--space-xl);
+      left: 50%;
+      transform: translateX(-50%) translateZ(0);
+      width: calc(100% - 48px);
+      max-width: 420px;
+      z-index: 99999;
+      pointer-events: none;
+    }
+    
+    .nav-bar {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      
+      height: 64px;
+      padding: 6px;
+      
+      background: var(--nav-glass);
+      backdrop-filter: blur(60px) saturate(120%);
+      -webkit-backdrop-filter: blur(60px) saturate(120%);
+      
+      border: 0.5px solid var(--nav-border);
+      border-radius: 32px;
+      
+      box-shadow: var(--shadow-float);
+      
+      pointer-events: auto;
+      will-change: transform, opacity, box-shadow;
+      
+      transition: 
+        transform var(--duration-luxe) var(--ease-out-expo),
+        opacity var(--duration-smooth) var(--ease-out-expo),
+        box-shadow var(--duration-smooth) var(--ease-out-expo),
+        background var(--duration-smooth) var(--ease-out-expo);
+    }
+    
+    /* State: Elevated (on scroll) */
+    .nav-bar.elevated {
+      background: var(--nav-glass-hover);
+      border-color: var(--nav-border-active);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    /* State: Hidden */
+    .nav-bar.hidden {
+      transform: translateY(calc(100% + 48px)) translateZ(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* ================= NAVIGATION ITEMS: INVISIBLE HIERARCHY ================= */
+    .nav-link {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      
+      padding: var(--space-sm) var(--space-xs);
+      
+      color: var(--mono-600);
+      text-decoration: none;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      
+      border-radius: 24px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      
+      background: transparent;
+      
+      will-change: color, background, transform;
+      transform: translateZ(0);
+      
+      transition: 
+        color var(--duration-quick) var(--ease-out-expo),
+        background var(--duration-quick) var(--ease-out-expo),
+        transform var(--duration-instant) var(--ease-out-expo);
+    }
+    
+    /* Hover: Subtle background reveal */
+    @media (hover: hover) and (pointer: fine) {
+      .nav-link:hover {
+        color: var(--mono-800);
+        background: rgba(0, 0, 0, 0.02);
+      }
+      
+      .nav-link:hover .icon {
+        transform: translateY(-1px) scale(1.05) translateZ(0);
+      }
+    }
+    
+    /* Active press: Immediate feedback */
+    .nav-link:active {
+      transform: scale(0.96) translateZ(0);
+      transition-duration: var(--duration-instant);
+    }
+    
+    /* Current page: Confidence through subtlety */
+    .nav-link.current {
+      color: var(--mono-900);
+      font-weight: 600;
+    }
+    
+    .nav-link.current .icon {
+      color: var(--mono-900);
+      stroke-width: 2.2;
+    }
+    
+    /* Active indicator: Single pixel perfection */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0) translateZ(0);
+      transform-origin: center;
+      
+      width: 20px;
+      height: 1.5px;
+      
+      background: var(--mono-900);
+      border-radius: 1px;
+      
+      opacity: 0;
+      will-change: transform, opacity;
+      
+      transition: 
+        transform var(--duration-luxe) var(--ease-out-expo),
+        opacity var(--duration-smooth) var(--ease-out-expo);
+    }
+    
+    .nav-link.current::after {
+      transform: translateX(-50%) scaleX(1) translateZ(0);
+      opacity: 1;
+    }
+    
+    /* ================= ICONOGRAPHY: MINIMAL FORMS ================= */
+    .icon-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+    }
+    
+    .icon {
+      width: 20px;
+      height: 20px;
+      color: var(--mono-600);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      
+      will-change: transform, color;
+      transform: translateZ(0);
+      
+      transition: 
+        color var(--duration-quick) var(--ease-out-expo),
+        transform var(--duration-quick) var(--ease-out-expo);
+    }
+    
+    /* ================= CART INTELLIGENCE: PRECISE NOTIFICATION ================= */
+    .cart-count {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      
+      display: none;
+      align-items: center;
+      justify-content: center;
+      
+      min-width: 17px;
+      height: 17px;
+      padding: 0 4px;
+      
+      background: var(--accent-ruby);
+      color: #FFFFFF;
+      
+      font-family: var(--font-ui);
+      font-size: 9px;
+      font-weight: 700;
+      font-feature-settings: 'tnum' 1;
+      letter-spacing: -0.2px;
+      
+      border: 2px solid var(--nav-glass);
+      border-radius: 10px;
+      
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+      
+      will-change: transform;
+      transform: scale(0) translateZ(0);
+      
+      transition: transform var(--duration-smooth) var(--ease-spring);
+      
+      z-index: 10;
+    }
+    
+    .cart-count.visible {
+      display: flex;
+      transform: scale(1) translateZ(0);
+    }
+    
+    /* Micro-interaction: Cart update pulse */
+    @keyframes countPulse {
+      0%, 100% { transform: scale(1) translateZ(0); }
+      50% { transform: scale(1.12) translateZ(0); }
+    }
+    
+    .cart-count.pulse {
+      animation: countPulse 360ms var(--ease-spring);
+    }
+    
+    /* ================= TRUST SIGNAL: FLOATING CONFIDENCE ================= */
+    .trust-indicator {
+      position: fixed;
+      bottom: calc(var(--space-xl) + 68px + env(safe-area-inset-bottom, 0px));
+      right: var(--space-xl);
+      
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      
+      padding: 9px 15px 9px 13px;
+      
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(40px) saturate(120%);
+      -webkit-backdrop-filter: blur(40px) saturate(120%);
+      
+      color: var(--mono-800);
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      
+      border: 0.5px solid var(--nav-border);
+      border-radius: 18px;
+      
+      box-shadow: 
+        0 0 0 0.5px rgba(0, 0, 0, 0.02),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.03);
+      
+      will-change: transform, opacity;
+      transform: translateZ(0);
+      
+      transition: 
+        transform var(--duration-luxe) var(--ease-out-expo),
+        opacity var(--duration-smooth) var(--ease-out-expo);
+      
+      z-index: 99998;
+      pointer-events: none;
+    }
+    
+    .trust-indicator::before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      
+      background: var(--accent-emerald);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.5 4L6 11.5L2.5 8' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13.5 4L6 11.5L2.5 8' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+      
+      border-radius: 50%;
+    }
+    
+    .trust-indicator.hidden {
+      transform: translateY(80px) translateZ(0);
+      opacity: 0;
+    }
+    
+    /* ================= QUICK ACCESS: CONTEXTUAL CTA ================= */
+    .quick-cta {
+      position: absolute;
+      top: -52px;
+      right: 0;
+      
+      width: 46px;
+      height: 46px;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      background: var(--mono-900);
+      color: #FFFFFF;
+      text-decoration: none;
+      
+      border-radius: 23px;
+      
+      box-shadow: 
+        0 0 0 0.5px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.12),
+        0 8px 24px rgba(0, 0, 0, 0.08);
+      
+      cursor: pointer;
+      
+      will-change: transform, opacity, background;
+      transform: scale(0) translateZ(0);
+      opacity: 0;
+      
+      transition: 
+        transform var(--duration-luxe) var(--ease-spring),
+        opacity var(--duration-smooth) var(--ease-out-expo),
+        background var(--duration-quick) var(--ease-out-expo);
+    }
+    
+    .quick-cta.visible {
+      transform: scale(1) translateZ(0);
+      opacity: 1;
+    }
+    
+    .quick-cta:active {
+      transform: scale(0.92) translateZ(0);
+      transition-duration: var(--duration-instant);
+    }
+    
+    @media (hover: hover) {
+      .quick-cta:hover {
+        background: var(--mono-800);
+      }
+    }
+    
+    .quick-cta svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    
+    /* ================= RESPONSIVE: DEVICE PERFECTION ================= */
+    @media (max-width: 390px) {
+      .nav-system {
+        width: calc(100% - 32px);
+      }
+      
+      .nav-bar {
+        height: 60px;
+        padding: 5px;
+        gap: 1px;
+      }
+      
+      .nav-link {
+        font-size: 8.5px;
+        gap: 2px;
+      }
+      
+      .icon {
+        width: 19px;
+        height: 19px;
+      }
+      
+      .trust-indicator {
+        font-size: 9px;
+        padding: 8px 13px 8px 11px;
+      }
+    }
+    
+    /* Desktop: Invisible */
+    @media (min-width: 1024px) {
+      .nav-system,
+      .trust-indicator {
+        display: none !important;
+      }
+    }
+    
+    /* ================= ACCESSIBILITY: INVISIBLE SUPPORT ================= */
+    .nav-link:focus-visible {
+      outline: 1.5px solid var(--mono-900);
+      outline-offset: 3px;
+    }
+    
+    .quick-cta:focus-visible {
+      outline: 1.5px solid #FFFFFF;
+      outline-offset: 2px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    @media (prefers-contrast: high) {
+      :root {
+        --nav-border: rgba(0, 0, 0, 0.15);
+        --mono-600: #404040;
+      }
+    }
+    
+    /* Dark mode: Inverted luxury */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --nav-glass: rgba(20, 20, 20, 0.72);
+        --nav-glass-hover: rgba(28, 28, 28, 0.85);
+        --nav-border: rgba(255, 255, 255, 0.06);
+        --nav-border-active: rgba(255, 255, 255, 0.1);
+        
+        --mono-100: #0A0A0A;
+        --mono-600: #9E9E9E;
+        --mono-800: #E8E8E8;
+        --mono-900: #FAFAFA;
+      }
+      
+      body {
+        background: var(--mono-100);
+      }
+      
+      .trust-indicator {
+        background: rgba(20, 20, 20, 0.88);
+      }
+      
+      .quick-cta {
+        background: var(--mono-900);
+        color: var(--mono-100);
+      }
+      
+      @media (hover: hover) {
+        .quick-cta:hover {
+          background: var(--mono-800);
+        }
+      }
+      
+      .cart-count {
+        border-color: var(--nav-glass);
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- ================= NAVIGATION SYSTEM ================= -->
+  <div class="nav-system">
+    <nav class="nav-bar" role="navigation" aria-label="Primary">
+      
+      <!-- Home -->
+      <a href="/" class="nav-link" aria-label="Home" data-page="home">
+        <div class="icon-container">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <path d="M9 22V12h6v10"/>
+          </svg>
+        </div>
+        <span>Home</span>
+      </a>
+      
+      <!-- Shop -->
+      <a href="https://www.vyraluxury.com/collections/all" class="nav-link" aria-label="Shop" data-page="shop">
+        <div class="icon-container">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="7" width="18" height="13" rx="2"/>
+            <path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+          </svg>
+        </div>
+        <span>Shop</span>
+      </a>
+      
+      <!-- Search -->
+      <a href="/search" class="nav-link" aria-label="Search" data-page="search">
+        <div class="icon-container">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </div>
+        <span>Search</span>
+      </a>
+      
+      <!-- Cart -->
+      <a href="/cart" class="nav-link" aria-label="Cart" data-page="cart">
+        <div class="icon-container">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-count" role="status" aria-live="polite">0</span>
+        </div>
+        <span>Cart</span>
+      </a>
+      
+      <!-- Account -->
+      <a href="/account" class="nav-link" aria-label="Account" data-page="account">
+        <div class="icon-container">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 21v-2a6 6 0 0 0-6-6H9a6 6 0 0 0-6 6v2"/>
+            <circle cx="11" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span>Account</span>
+      </a>
+      
+      <!-- Quick CTA -->
+      <a href="/new" class="quick-cta" aria-label="New Arrivals">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v18M3 12h18"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+  
+  <!-- Trust Signal -->
+  <div class="trust-indicator" role="status">
+    Free Shipping
+  </div>
+  
+  <!-- ================= INTELLIGENCE ENGINE ================= -->
+  <script>
+    (() => {
+      'use strict';
+      
+      // DOM cache
+      const ui = {
+        nav: document.querySelector('.nav-bar'),
+        links: document.querySelectorAll('.nav-link'),
+        cart: document.querySelector('.cart-count'),
+        trust: document.querySelector('.trust-indicator'),
+        cta: document.querySelector('.quick-cta'),
+        body: document.body
+      };
+      
+      // State machine
+      const state = {
+        scroll: { last: 0, threshold: 100 },
+        nav: { hidden: false, elevated: false },
+        cart: { count: 0, lastUpdate: 0 },
+        raf: null,
+        timers: { reveal: null, hide: null }
+      };
+      
+      // ================= SCROLL ORCHESTRATION =================
+      const handleScroll = () => {
+        const current = window.pageYOffset;
+        const delta = current - state.scroll.last;
+        
+        // Elevation
+        const shouldElevate = current > 40;
+        if (shouldElevate !== state.nav.elevated) {
+          ui.nav.classList.toggle('elevated', shouldElevate);
+          state.nav.elevated = shouldElevate;
+        }
+        
+        // Visibility
+        if (current > state.scroll.threshold) {
+          // Down: hide
+          if (delta > 8 && !state.nav.hidden) {
+            hide();
+          }
+          // Up: reveal
+          else if (delta < -8 && state.nav.hidden) {
+            reveal();
+          }
+          
+          // CTA visibility
+          ui.cta?.classList.add('visible');
+        } else {
+          reveal();
+          ui.cta?.classList.remove('visible');
+        }
+        
+        state.scroll.last = current;
+      };
+      
+      const hide = () => {
+        ui.nav.classList.add('hidden');
+        ui.trust.classList.add('hidden');
+        ui.body.classList.add('nav-hidden');
+        state.nav.hidden = true;
+      };
+      
+      const reveal = () => {
+        ui.nav.classList.remove('hidden');
+        ui.trust.classList.remove('hidden');
+        ui.body.classList.remove('nav-hidden');
+        state.nav.hidden = false;
+      };
+      
+      // Optimized scroll listener
+      let scrollTicking = false;
+      window.addEventListener('scroll', () => {
+        if (!scrollTicking) {
+          requestAnimationFrame(() => {
+            handleScroll();
+            scrollTicking = false;
+          });
+          scrollTicking = true;
+        }
+      }, { passive: true });
+      
+      // ================= TOUCH INTELLIGENCE =================
+      document.addEventListener('touchstart', (e) => {
+        if (e.target.closest('a, button, input, select, textarea')) return;
+        
+        clearTimeout(state.timers.hide);
+        reveal();
+        
+        state.timers.hide = setTimeout(() => {
+          if (window.pageYOffset > state.scroll.threshold) hide();
+        }, 4000);
+      }, { passive: true });
+      
+      // ================= CART SYNCHRONIZATION =================
+      const syncCart = async () => {
+        try {
+          const res = await fetch('/cart.js', {
+            credentials: 'same-origin',
+            headers: { 'Accept': 'application/json' }
+          });
+          
+          if (!res.ok) throw new Error('Cart unavailable');
+          
+          const data = await res.json();
+          const count = data.item_count || 0;
+          
+          if (count !== state.cart.count) {
+            const isIncrease = count > state.cart.count;
+            
+            ui.cart.textContent = count;
+            ui.cart.classList.toggle('visible', count > 0);
+            ui.cart.setAttribute('aria-label', `${count} item${count !== 1 ? 's' : ''}`);
+            
+            // Pulse on increase
+            if (isIncrease) {
+              ui.cart.classList.remove('pulse');
+              void ui.cart.offsetWidth;
+              ui.cart.classList.add('pulse');
+              setTimeout(() => ui.cart.classList.remove('pulse'), 360);
+            }
+            
+            state.cart.count = count;
+          }
+        } catch (err) {
+          // Silent fail
+        }
+      };
+      
+      // Initial sync
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(syncCart, { timeout: 2000 });
+      } else {
+        setTimeout(syncCart, 200);
+      }
+      
+      // Event-driven updates
+      ['cart:updated', 'shopify:section:load'].forEach(evt => {
+        document.addEventListener(evt, syncCart);
+      });
+      
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) syncCart();
+      });
+      
+      // Periodic sync
+      setInterval(syncCart, 15000);
+      
+      // ================= ACTIVE STATE =================
+      const updateActive = () => {
+        const path = location.pathname.replace(/\/$/, '') || '/';
+        
+        ui.links.forEach(link => {
+          const href = link.getAttribute('href').replace(/\/$/, '') || '/';
+          const page = link.dataset.page;
+          
+          const isActive = 
+            href === path ||
+            (page === 'shop' && (path.includes('/collections') || path.includes('/products'))) ||
+            (page === 'search' && path.includes('/search')) ||
+            (page === 'cart' && path.includes('/cart')) ||
+            (page === 'account' && path.includes('/account'));
+          
+          link.classList.toggle('current', isActive);
+          link.setAttribute('aria-current', isActive ? 'page' : 'false');
+        });
+      };
+      
+      updateActive();
+      window.addEventListener('popstate', updateActive);
+      
+      // ================= PERFORMANCE =================
+      const prefetch = document.createElement('link');
+      prefetch.rel = 'dns-prefetch';
+      prefetch.href = location.origin;
+      document.head.appendChild(prefetch);
+      
+      // Cleanup
+      window.addEventListener('beforeunload', () => {
+        Object.values(state.timers).forEach(clearTimeout);
+        if (state.raf) cancelAnimationFrame(state.raf);
+      });
+      
+    })();
+  </script>
+</body>
+</html>
+</body>
+</html>
