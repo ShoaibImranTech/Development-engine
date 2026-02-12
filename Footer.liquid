@@ -1,1 +1,1267 @@
+{%- liquid
+  assign current_year = 'now' | date: '%Y'
+  assign footer_menu_1 = section.settings.menu_1
+  assign footer_menu_2 = section.settings.menu_2
+  assign footer_menu_3 = section.settings.menu_3
+-%}
+
+{%- style -%}
+/* ═══════════════════════════════════════════════════════════════
+   PRESTIGE FOOTER SYSTEM
+   World-Class | Luxury Commerce | CRO-Optimized
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────
+   TYPEFACE SYSTEM — LUXURY SERIF + REFINED SANS
+   ─────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Canela';
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: local('Canela'), local('Freight Display'), local('Tiempos'), local('Georgia');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: local('Suisse Intl'), local('Graphik'), local('Helvetica Neue'), local('SF Pro Display');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   DESIGN TOKENS — PREMIUM COLOR & SPACING SYSTEM
+   ─────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Refined Neutral Palette */
+  --prestige-noir: #0a0a0a;
+  --prestige-noir-rgb: 10, 10, 10;
+  --prestige-graphite: #1a1a1a;
+  --prestige-charcoal: #2d2d2d;
+  --prestige-slate: #525252;
+  --prestige-pewter: #757575;
+  --prestige-silver: #a3a3a3;
+  --prestige-mist: #d4d4d4;
+  --prestige-pearl: #e8e8e8;
+  --prestige-cream: #fafaf9;
+  --prestige-white: #ffffff;
+  --prestige-white-rgb: 255, 255, 255;
+  
+  /* Sophisticated Accent */
+  --prestige-gold: #d4af37;
+  --prestige-gold-rgb: 212, 175, 55;
+  --prestige-gold-muted: #f5f2ed;
+  
+  /* Semantic Colors */
+  --prestige-success: #065f46;
+  --prestige-success-bg: #ecfdf5;
+  
+  /* Typography System */
+  --prestige-font-display: 'Canela', 'Freight Display', 'Tiempos', Georgia, serif;
+  --prestige-font-body: 'Suisse Intl', 'Graphik', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* Fluid Spacing Scale */
+  --prestige-space-3xs: clamp(0.25rem, 0.5vw, 0.375rem);
+  --prestige-space-2xs: clamp(0.375rem, 0.75vw, 0.5rem);
+  --prestige-space-xs: clamp(0.625rem, 1.2vw, 0.875rem);
+  --prestige-space-sm: clamp(0.875rem, 1.8vw, 1.25rem);
+  --prestige-space-md: clamp(1.25rem, 2.5vw, 1.75rem);
+  --prestige-space-lg: clamp(1.75rem, 3.5vw, 2.5rem);
+  --prestige-space-xl: clamp(2.5rem, 5vw, 3.5rem);
+  --prestige-space-2xl: clamp(3.5rem, 7vw, 5rem);
+  --prestige-space-3xl: clamp(5rem, 10vw, 7rem);
+  
+  /* Luxury Motion System */
+  --prestige-ease-elegant: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --prestige-ease-precise: cubic-bezier(0.4, 0, 0.2, 1);
+  --prestige-ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
+  --prestige-ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Shadow System */
+  --prestige-shadow-subtle: 0 1px 3px rgba(var(--prestige-noir-rgb), 0.03), 
+                            0 1px 2px rgba(var(--prestige-noir-rgb), 0.02);
+  --prestige-shadow-soft: 0 4px 12px rgba(var(--prestige-noir-rgb), 0.04), 
+                          0 2px 6px rgba(var(--prestige-noir-rgb), 0.03);
+  --prestige-shadow-medium: 0 8px 24px rgba(var(--prestige-noir-rgb), 0.06), 
+                            0 3px 10px rgba(var(--prestige-noir-rgb), 0.04);
+  
+  /* Layout */
+  --prestige-container: 1480px;
+  --prestige-container-narrow: 1200px;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --prestige-noir: #fafaf9;
+    --prestige-noir-rgb: 250, 250, 249;
+    --prestige-graphite: #e8e8e8;
+    --prestige-charcoal: #d4d4d4;
+    --prestige-cream: #0a0a0a;
+    --prestige-white: #1a1a1a;
+    --prestige-white-rgb: 26, 26, 26;
+    --prestige-pearl: #2d2d2d;
+    --prestige-mist: #404040;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   TRUST BAR — MINIMAL & CONFIDENT
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-trust {
+  background: transparent;
+  border-bottom: 1px solid rgba(var(--prestige-noir-rgb), 0.06);
+  padding: var(--prestige-space-sm) 0;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  opacity: 0;
+  animation: prestige-fade-in 0.8s var(--prestige-ease-reveal) 0.2s forwards;
+}
+
+.prestige-trust__inner {
+  max-width: var(--prestige-container);
+  margin: 0 auto;
+  padding: 0 var(--prestige-space-md);
+  display: flex;
+  justify-content: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  flex-wrap: wrap;
+}
+
+.prestige-trust__item {
+  display: flex;
+  align-items: center;
+  gap: var(--prestige-space-2xs);
+  color: var(--prestige-slate);
+  font-family: var(--prestige-font-body);
+  font-size: clamp(0.75rem, 1vw, 0.8125rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.3s var(--prestige-ease-elegant);
+}
+
+.prestige-trust__item:hover {
+  color: var(--prestige-noir);
+}
+
+.prestige-trust__icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   FOOTER MAIN SECTION
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-footer {
+  background: var(--prestige-white);
+  color: var(--prestige-charcoal);
+  font-family: var(--prestige-font-body);
+  padding: var(--prestige-space-3xl) 0 0;
+  position: relative;
+}
+
+/* Atmospheric Gradient Border */
+.prestige-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--prestige-noir-rgb), 0.08) 20%,
+    rgba(var(--prestige-noir-rgb), 0.08) 80%,
+    transparent 100%
+  );
+}
+
+.prestige-footer__inner {
+  max-width: var(--prestige-container);
+  margin: 0 auto;
+  padding: 0 var(--prestige-space-md) var(--prestige-space-2xl);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   GRID LAYOUT — EDITORIAL ASYMMETRY
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--prestige-space-xl);
+  opacity: 0;
+  animation: prestige-fade-in-up 1s var(--prestige-ease-reveal) 0.3s forwards;
+}
+
+@media (min-width: 768px) {
+  .prestige-footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--prestige-space-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .prestige-footer__grid {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   BRAND SECTION — REFINED HIERARCHY
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-brand__logo {
+  display: inline-block;
+  margin-bottom: var(--prestige-space-md);
+  transition: opacity 0.4s var(--prestige-ease-elegant);
+}
+
+.prestige-brand__logo:hover {
+  opacity: 0.65;
+}
+
+.prestige-brand__logo img {
+  max-width: clamp(150px, 20vw, 200px);
+  height: auto;
+}
+
+.prestige-brand__wordmark {
+  font-family: var(--prestige-font-display);
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--prestige-noir);
+}
+
+.prestige-brand__tagline {
+  font-size: clamp(0.9375rem, 1.2vw, 1rem);
+  line-height: 1.7;
+  color: var(--prestige-pewter);
+  margin: 0 0 var(--prestige-space-lg);
+  max-width: 46ch;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SOCIAL LINKS — MINIMALIST CIRCLES
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-social {
+  display: flex;
+  gap: var(--prestige-space-xs);
+  margin-bottom: var(--prestige-space-lg);
+}
+
+.prestige-social__link {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(var(--prestige-noir-rgb), 0.12);
+  border-radius: 50%;
+  color: var(--prestige-slate);
+  transition: all 0.35s var(--prestige-ease-spring);
+}
+
+.prestige-social__link svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.35s var(--prestige-ease-spring);
+}
+
+.prestige-social__link:hover {
+  background: var(--prestige-noir);
+  border-color: var(--prestige-noir);
+  color: var(--prestige-white);
+  transform: translateY(-2px);
+}
+
+.prestige-social__link:hover svg {
+  transform: scale(1.08);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   PAYMENT ICONS — SUBTLE PRESENTATION
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-payments {
+  display: flex;
+  gap: var(--prestige-space-xs);
+  flex-wrap: wrap;
+  opacity: 0.5;
+  margin-bottom: var(--prestige-space-lg);
+}
+
+.prestige-payments__icon {
+  height: 1.375rem;
+  width: auto;
+  filter: grayscale(1);
+  transition: all 0.3s ease;
+}
+
+.prestige-payments__icon:hover {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   NAVIGATION MENUS — CLEAN TYPOGRAPHY
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--prestige-space-lg);
+}
+
+@media (min-width: 640px) {
+  .prestige-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .prestige-nav {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.prestige-nav__title {
+  font-family: var(--prestige-font-body);
+  font-size: clamp(0.6875rem, 1vw, 0.75rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0 0 var(--prestige-space-sm);
+  color: var(--prestige-noir);
+  opacity: 0.9;
+}
+
+.prestige-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--prestige-space-2xs);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prestige-nav__link {
+  color: var(--prestige-pewter);
+  text-decoration: none;
+  font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+  line-height: 1.65;
+  transition: all 0.25s var(--prestige-ease-elegant);
+  display: inline-block;
+  position: relative;
+}
+
+.prestige-nav__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--prestige-noir);
+  transition: width 0.3s var(--prestige-ease-elegant);
+}
+
+.prestige-nav__link:hover {
+  color: var(--prestige-noir);
+}
+
+.prestige-nav__link:hover::after {
+  width: 100%;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   NEWSLETTER — ELEVATED DESIGN
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-newsletter {
+  background: linear-gradient(135deg, var(--prestige-gold-muted) 0%, var(--prestige-cream) 100%);
+  padding: var(--prestige-space-lg);
+  border-radius: 6px;
+  border: 1px solid rgba(var(--prestige-gold-rgb), 0.15);
+  box-shadow: var(--prestige-shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle grain texture */
+.prestige-newsletter::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 30% 40%, rgba(var(--prestige-gold-rgb), 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.prestige-newsletter__content {
+  position: relative;
+  z-index: 1;
+}
+
+.prestige-newsletter__title {
+  font-family: var(--prestige-font-display);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--prestige-space-2xs);
+  color: var(--prestige-noir);
+}
+
+.prestige-newsletter__desc {
+  font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+  line-height: 1.65;
+  color: var(--prestige-slate);
+  margin: 0 0 var(--prestige-space-md);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   FORM CONTROLS — REFINED INPUTS
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--prestige-space-xs);
+  margin-bottom: var(--prestige-space-sm);
+}
+
+@media (min-width: 640px) {
+  .prestige-form {
+    flex-direction: row;
+  }
+}
+
+.prestige-input {
+  flex: 1;
+  padding: 0.9375rem 1.25rem;
+  background: var(--prestige-white);
+  border: 1px solid rgba(var(--prestige-noir-rgb), 0.12);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+  color: var(--prestige-charcoal);
+  transition: all 0.3s var(--prestige-ease-elegant);
+}
+
+.prestige-input::placeholder {
+  color: var(--prestige-silver);
+}
+
+.prestige-input:focus {
+  outline: none;
+  border-color: var(--prestige-gold);
+  background: var(--prestige-white);
+  box-shadow: 0 0 0 3px rgba(var(--prestige-gold-rgb), 0.1);
+  transform: translateY(-1px);
+}
+
+.prestige-submit {
+  padding: 0.9375rem 1.875rem;
+  background: var(--prestige-noir);
+  color: var(--prestige-white);
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: clamp(0.8125rem, 1vw, 0.875rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.3s var(--prestige-ease-spring);
+  flex-shrink: 0;
+}
+
+.prestige-submit:hover {
+  background: var(--prestige-graphite);
+  transform: translateY(-2px);
+  box-shadow: var(--prestige-shadow-medium);
+}
+
+.prestige-submit:active {
+  transform: translateY(0);
+}
+
+.prestige-disclaimer {
+  font-size: clamp(0.75rem, 0.95vw, 0.8125rem);
+  color: var(--prestige-silver);
+  line-height: 1.6;
+}
+
+.prestige-success {
+  color: var(--prestige-success);
+  background: var(--prestige-success-bg);
+  padding: var(--prestige-space-sm) var(--prestige-space-md);
+  border-radius: 4px;
+  border: 1px solid rgba(6, 95, 70, 0.2);
+  font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+  margin-bottom: var(--prestige-space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--prestige-space-xs);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   FOOTER BASE — LEGAL & COPYRIGHT
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-base {
+  background: var(--prestige-cream);
+  border-top: 1px solid rgba(var(--prestige-noir-rgb), 0.06);
+  padding: var(--prestige-space-md) 0;
+  margin-top: var(--prestige-space-xl);
+  opacity: 0;
+  animation: prestige-fade-in 1s var(--prestige-ease-reveal) 0.5s forwards;
+}
+
+.prestige-base__inner {
+  max-width: var(--prestige-container);
+  margin: 0 auto;
+  padding: 0 var(--prestige-space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--prestige-space-sm);
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .prestige-base__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.prestige-legal {
+  display: flex;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .prestige-legal {
+    justify-content: flex-start;
+  }
+}
+
+.prestige-legal__link {
+  font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+  color: var(--prestige-pewter);
+  text-decoration: none;
+  transition: color 0.25s var(--prestige-ease-elegant);
+  position: relative;
+}
+
+.prestige-legal__link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--prestige-noir);
+  transition: width 0.3s var(--prestige-ease-elegant);
+}
+
+.prestige-legal__link:hover {
+  color: var(--prestige-noir);
+}
+
+.prestige-legal__link:hover::after {
+  width: 100%;
+}
+
+.prestige-copyright {
+  font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+  color: var(--prestige-pewter);
+}
+
+.prestige-locale {
+  padding: 0.5625rem 2.25rem 0.5625rem 0.875rem;
+  background: var(--prestige-white);
+  border: 1px solid rgba(var(--prestige-noir-rgb), 0.12);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+  color: var(--prestige-charcoal);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23525252' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  transition: all 0.3s var(--prestige-ease-elegant);
+}
+
+.prestige-locale:hover {
+  border-color: var(--prestige-noir);
+}
+
+.prestige-locale:focus {
+  outline: none;
+  border-color: var(--prestige-gold);
+  box-shadow: 0 0 0 3px rgba(var(--prestige-gold-rgb), 0.1);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   ANIMATIONS
+   ─────────────────────────────────────────────────────────────── */
+
+@keyframes prestige-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes prestige-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   ACCESSIBILITY — WCAG AAA
+   ─────────────────────────────────────────────────────────────── */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--prestige-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .prestige-nav__link,
+  .prestige-legal__link,
+  .prestige-social__link {
+    border: 1px solid currentColor;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   REDUCED MOTION
+   ─────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  
+  .prestige-trust,
+  .prestige-footer__grid,
+  .prestige-base {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   PRINT OPTIMIZATION
+   ─────────────────────────────────────────────────────────────── */
+
+@media print {
+  .prestige-trust,
+  .prestige-newsletter,
+  .prestige-social,
+  .prestige-payments {
+    display: none !important;
+  }
+  
+  .prestige-footer {
+    background: white !important;
+    padding: 1.5rem 0 !important;
+  }
+  
+  .prestige-footer::before {
+    display: none;
+  }
+  
+  .prestige-base {
+    margin-top: 1rem !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   PERFORMANCE OPTIMIZATIONS
+   ─────────────────────────────────────────────────────────────── */
+
+.prestige-brand__logo img {
+  content-visibility: auto;
+  contain: layout style paint;
+}
+
+.prestige-footer__grid,
+.prestige-nav,
+.prestige-social {
+  will-change: opacity, transform;
+}
+
+/* GPU Acceleration */
+.prestige-social__link,
+.prestige-submit,
+.prestige-nav__link {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .prestige-social__link:hover,
+  .prestige-submit:hover {
+    transform: none;
+  }
+  
+  .prestige-social__link,
+  .prestige-submit,
+  .prestige-nav__link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+{%- endstyle -%}
+
+<!-- SVG Icon System -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="prestige-icon-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+  </symbol>
+  <symbol id="prestige-icon-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+  </symbol>
+  <symbol id="prestige-icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+  </symbol>
+  <symbol id="prestige-icon-headset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+  </symbol>
+  <symbol id="prestige-icon-facebook" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </symbol>
+  <symbol id="prestige-icon-instagram" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+  </symbol>
+  <symbol id="prestige-icon-twitter" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+  </symbol>
+  <symbol id="prestige-icon-pinterest" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/>
+  </symbol>
+  <symbol id="prestige-icon-youtube" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </symbol>
+  <symbol id="prestige-icon-tiktok" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+  </symbol>
+  <symbol id="prestige-icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+</svg>
+
+<!-- Trust Bar -->
+{%- if section.settings.show_trust_bar -%}
+<div class="prestige-trust">
+  <div class="prestige-trust__inner">
+    {%- if section.settings.trust_item_1 != blank -%}
+    <div class="prestige-trust__item">
+      <svg class="prestige-trust__icon"><use href="#prestige-icon-truck"/></svg>
+      <span>{{ section.settings.trust_item_1 }}</span>
+    </div>
+    {%- endif -%}
+    {%- if section.settings.trust_item_2 != blank -%}
+    <div class="prestige-trust__item">
+      <svg class="prestige-trust__icon"><use href="#prestige-icon-rotate"/></svg>
+      <span>{{ section.settings.trust_item_2 }}</span>
+    </div>
+    {%- endif -%}
+    {%- if section.settings.trust_item_3 != blank -%}
+    <div class="prestige-trust__item">
+      <svg class="prestige-trust__icon"><use href="#prestige-icon-shield"/></svg>
+      <span>{{ section.settings.trust_item_3 }}</span>
+    </div>
+    {%- endif -%}
+    {%- if section.settings.trust_item_4 != blank -%}
+    <div class="prestige-trust__item">
+      <svg class="prestige-trust__icon"><use href="#prestige-icon-headset"/></svg>
+      <span>{{ section.settings.trust_item_4 }}</span>
+    </div>
+    {%- endif -%}
+  </div>
+</div>
+{%- endif -%}
+
+<!-- Main Footer -->
+<footer class="prestige-footer">
+  <div class="prestige-footer__inner">
+    <div class="prestige-footer__grid">
+      
+      <!-- Brand & Navigation Column -->
+      <div>
+        <a href="/" class="prestige-brand__logo" aria-label="{{ shop.name }} home">
+          {%- if section.settings.logo != blank -%}
+            {%- assign logo_alt = section.settings.logo.alt | default: shop.name -%}
+            {{- section.settings.logo | image_url: width: 800 | image_tag: 
+              loading: 'lazy',
+              width: section.settings.logo.width,
+              height: section.settings.logo.height,
+              alt: logo_alt
+            -}}
+          {%- else -%}
+            <h2 class="prestige-brand__wordmark">{{ shop.name }}</h2>
+          {%- endif -%}
+        </a>
+        
+        {%- if section.settings.brand_tagline != blank -%}
+        <p class="prestige-brand__tagline">{{ section.settings.brand_tagline }}</p>
+        {%- endif -%}
+        
+        {%- if section.settings.show_social -%}
+        <nav class="prestige-social" aria-label="Social media links">
+          {%- if section.settings.facebook_url != blank -%}
+          <a href="{{ section.settings.facebook_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <svg><use href="#prestige-icon-facebook"/></svg>
+          </a>
+          {%- endif -%}
+          {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg><use href="#prestige-icon-instagram"/></svg>
+          </a>
+          {%- endif -%}
+          {%- if section.settings.twitter_url != blank -%}
+          <a href="{{ section.settings.twitter_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+            <svg><use href="#prestige-icon-twitter"/></svg>
+          </a>
+          {%- endif -%}
+          {%- if section.settings.pinterest_url != blank -%}
+          <a href="{{ section.settings.pinterest_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+            <svg><use href="#prestige-icon-pinterest"/></svg>
+          </a>
+          {%- endif -%}
+          {%- if section.settings.youtube_url != blank -%}
+          <a href="{{ section.settings.youtube_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <svg><use href="#prestige-icon-youtube"/></svg>
+          </a>
+          {%- endif -%}
+          {%- if section.settings.tiktok_url != blank -%}
+          <a href="{{ section.settings.tiktok_url }}" class="prestige-social__link" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+            <svg><use href="#prestige-icon-tiktok"/></svg>
+          </a>
+          {%- endif -%}
+        </nav>
+        {%- endif -%}
+        
+        {%- if shop.enabled_payment_types.size > 0 -%}
+        <div class="prestige-payments">
+          {%- for type in shop.enabled_payment_types limit: 6 -%}
+            {{- type | payment_type_svg_tag: class: 'prestige-payments__icon' -}}
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+        
+        <!-- Navigation Menus -->
+        <nav class="prestige-nav" aria-label="Footer navigation">
+          {%- if linklists[footer_menu_1].links.size > 0 -%}
+          <div>
+            <h3 class="prestige-nav__title">{{ section.settings.menu_1_title }}</h3>
+            <ul class="prestige-nav__list">
+              {%- for link in linklists[footer_menu_1].links -%}
+              <li><a href="{{ link.url }}" class="prestige-nav__link">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          {%- endif -%}
+          
+          {%- if linklists[footer_menu_2].links.size > 0 -%}
+          <div>
+            <h3 class="prestige-nav__title">{{ section.settings.menu_2_title }}</h3>
+            <ul class="prestige-nav__list">
+              {%- for link in linklists[footer_menu_2].links -%}
+              <li><a href="{{ link.url }}" class="prestige-nav__link">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          {%- endif -%}
+          
+          {%- if linklists[footer_menu_3].links.size > 0 -%}
+          <div>
+            <h3 class="prestige-nav__title">{{ section.settings.menu_3_title }}</h3>
+            <ul class="prestige-nav__list">
+              {%- for link in linklists[footer_menu_3].links -%}
+              <li><a href="{{ link.url }}" class="prestige-nav__link">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+          {%- endif -%}
+        </nav>
+      </div>
+      
+      <!-- Newsletter Column -->
+      <div class="prestige-newsletter">
+        <div class="prestige-newsletter__content">
+          <h3 class="prestige-newsletter__title">{{ section.settings.newsletter_title }}</h3>
+          
+          {%- if section.settings.newsletter_desc != blank -%}
+          <p class="prestige-newsletter__desc">{{ section.settings.newsletter_desc }}</p>
+          {%- endif -%}
+          
+          {%- form 'customer', class: 'prestige-form' -%}
+            {%- if form.posted_successfully? -%}
+            <div class="prestige-success">
+              <svg width="16" height="16"><use href="#prestige-icon-check"/></svg>
+              {{ section.settings.success_message }}
+            </div>
+            {%- endif -%}
+            
+            <label for="PrestigeFooterEmail" class="visually-hidden">Email address</label>
+            <input 
+              type="email" 
+              name="contact[email]" 
+              id="PrestigeFooterEmail" 
+              placeholder="{{ section.settings.email_placeholder }}" 
+              class="prestige-input"
+              required
+              autocomplete="email"
+              aria-required="true"
+            >
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <button type="submit" class="prestige-submit">{{ section.settings.button_text }}</button>
+          {%- endform -%}
+          
+          {%- if section.settings.newsletter_disclaimer != blank -%}
+          <p class="prestige-disclaimer">{{ section.settings.newsletter_disclaimer }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+   
+  <!-- Footer Base -->
+  <div class="prestige-base">
+    <div class="prestige-base__inner">
+      <nav class="prestige-legal" aria-label="Legal links">
+        {%- if section.settings.show_privacy and section.settings.privacy_page != blank -%}
+          {%- assign privacy_page = pages[section.settings.privacy_page] -%}
+          {%- if privacy_page -%}
+          <a href="{{ privacy_page.url }}" class="prestige-legal__link">Privacy</a>
+          {%- endif -%}
+        {%- endif -%}
+        
+        {%- if section.settings.show_terms and section.settings.terms_page != blank -%}
+          {%- assign terms_page = pages[section.settings.terms_page] -%}
+          {%- if terms_page -%}
+          <a href="{{ terms_page.url }}" class="prestige-legal__link">Terms</a>
+          {%- endif -%}
+        {%- endif -%}
+        
+        {%- if section.settings.show_refund and section.settings.refund_page != blank -%}
+          {%- assign refund_page = pages[section.settings.refund_page] -%}
+          {%- if refund_page -%}
+          <a href="{{ refund_page.url }}" class="prestige-legal__link">Refunds</a>
+          {%- endif -%}
+        {%- endif -%}
+      </nav>
+      
+      <p class="prestige-copyright">&copy; {{ current_year }} {{ shop.name }}</p>
+      
+      {%- if section.settings.show_locale and localization.available_countries.size > 1 -%}
+      {%- form 'localization' -%}
+        <label for="PrestigeLocaleSelector" class="visually-hidden">Country / Region</label>
+        <select id="PrestigeLocaleSelector" name="country_code" class="prestige-locale" onchange="this.form.submit()">
+          {%- for country in localization.available_countries -%}
+          <option value="{{ country.iso_code }}" {%- if country.iso_code == localization.country.iso_code -%}selected{%- endif -%}>
+            {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+          </option>
+          {%- endfor -%}
+        </select>
+      {%- endform -%}
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Prestige Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Trust Bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bar",
+      "label": "Show trust bar",
+      "default": true,
+      "info": "Builds confidence at point of decision"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_1",
+      "label": "Trust item 1",
+      "default": "Complimentary Shipping"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_2",
+      "label": "Trust item 2",
+      "default": "Easy Returns"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_3",
+      "label": "Trust item 3",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_4",
+      "label": "Trust item 4",
+      "default": "Expert Support"
+    },
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer logo",
+      "info": "Recommended: SVG or 2x PNG (400px width)"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_tagline",
+      "label": "Brand tagline",
+      "default": "Precision. Quality. Craftsmanship.",
+      "info": "Short mission statement or brand promise"
+    },
+    {
+      "type": "header",
+      "content": "Social Media"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social links",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok URL"
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menus"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_title",
+      "label": "Menu 1 title",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_title",
+      "label": "Menu 2 title",
+      "default": "Support"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "menu_3_title",
+      "label": "Menu 3 title",
+      "default": "About"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Menu 3",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter heading",
+      "default": "Private Access"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_desc",
+      "label": "Newsletter description",
+      "default": "Early releases, editorial updates, and exclusive offers."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_disclaimer",
+      "label": "Disclaimer text",
+      "default": "Unsubscribe anytime. Privacy respected."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you. Welcome."
+    },
+    {
+      "type": "header",
+      "content": "Legal Pages"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_privacy",
+      "label": "Show privacy policy link",
+      "default": true
+    },
+    {
+      "type": "page",
+      "id": "privacy_page",
+      "label": "Privacy policy page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_terms",
+      "label": "Show terms of service link",
+      "default": true
+    },
+    {
+      "type": "page",
+      "id": "terms_page",
+      "label": "Terms of service page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_refund",
+      "label": "Show refund policy link",
+      "default": true
+    },
+    {
+      "type": "page",
+      "id": "refund_page",
+      "label": "Refund policy page"
+    },
+    {
+      "type": "header",
+      "content": "Localization"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale",
+      "label": "Show country/region selector",
+      "default": false,
+      "info": "Show only if you have multiple markets enabled"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prestige Footer"
+    }
+  ]
+}
+{% endschema %}
 
