@@ -1,7 +1,6 @@
-
 {% schema %}
 {
-  "name": "GLAMHIVE Pections",
+  "name": "GLAMHctions",
   "settings": [
     {
       "type": "text",
@@ -38,8 +37,8 @@
       "type": "collection_list",
       "id": "secondary_collections",
       "label": "Secondary Collections",
-      "limit": 6,
-      "info": "Limit to 6 collections maximum for optimal conversions"
+      "limit": 12,
+      "info": "Display up to 12 collections in premium carousel"
     },
     {
       "type": "checkbox",
@@ -101,7 +100,7 @@
   ],
   "presets": [
     {
-      "name": "GLAMHIVE — Prestige Collection"
+      "name": "GLAMHIVE — Premium Carousel"
     }
   ]
 }
@@ -109,8 +108,8 @@
 
 {% style %}
 /* ═══════════════════════════════════════════════════════════════
-   GLAMHIVE PRESTIGE COLLECTION SYSTEM
-   Ultra-Premium | World-Class | Timeless Luxury
+   GLAMHIVE PRESTIGE COLLECTION WITH PREMIUM CAROUSEL
+   Ultra-Premium | World-Class | CRO-Optimized | Professional
    ═══════════════════════════════════════════════════════════════ */
 
 /* ───────────────────────────────────────────────────────────────
@@ -304,7 +303,7 @@
   }
 }
 
-/* Image with Progressive Blur Enhancement */
+/* Image with Progressive Enhancement */
 .glamhive-featured-image {
   width: 100%;
   height: 100%;
@@ -439,35 +438,153 @@
 {% endif %}
 
 /* ───────────────────────────────────────────────────────────────
-   SECONDARY COLLECTIONS GRID — REFINED MASONRY
+   PREMIUM CAROUSEL WRAPPER
    ─────────────────────────────────────────────────────────────── */
 
+.glamhive-carousel-wrapper {
+  position: relative;
+  opacity: 0;
+  animation: glamhive-fade-in-up 1s var(--glamhive-ease-reveal) 0.6s forwards;
+}
+
+.glamhive-carousel-container {
+  position: relative;
+  margin: 0 calc(var(--glamhive-space-md) * -1);
+  padding: 0 var(--glamhive-space-md);
+}
+
 .glamhive-secondary-grid {
-  display: grid;
+  display: flex;
   gap: var(--glamhive-space-md);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: var(--glamhive-space-sm);
 }
 
-@media (min-width: 1280px) {
-  .glamhive-secondary-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.glamhive-secondary-grid::-webkit-scrollbar {
+  display: none;
 }
 
-@media (min-width: 768px) and (max-width: 1279px) {
-  .glamhive-secondary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ───────────────────────────────────────────────────────────────
+   CAROUSEL NAVIGATION — LUXURY CONTROLS
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(var(--glamhive-text-inverse-rgb), 0.98);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--glamhive-text-primary-rgb), 0.06);
+  box-shadow: var(--glamhive-shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.5s var(--glamhive-ease-elegant);
+  opacity: 0;
+  pointer-events: none;
 }
+
+.glamhive-carousel-wrapper:hover .glamhive-carousel-nav {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.glamhive-carousel-nav:hover {
+  background: var(--glamhive-text-inverse);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: var(--glamhive-shadow-xl);
+  border-color: rgba(var(--glamhive-text-primary-rgb), 0.12);
+}
+
+.glamhive-carousel-nav:active {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.glamhive-carousel-nav--prev {
+  left: 1.5rem;
+}
+
+.glamhive-carousel-nav--next {
+  right: 1.5rem;
+}
+
+.glamhive-carousel-nav svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke: var(--glamhive-text-primary);
+  stroke-width: 2;
+  transition: transform 0.3s var(--glamhive-ease-elegant);
+}
+
+.glamhive-carousel-nav:hover svg {
+  transform: scale(1.15);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SCROLL PROGRESS INDICATOR
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-scroll-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: var(--glamhive-space-md);
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+
+.glamhive-carousel-wrapper:hover .glamhive-scroll-indicator {
+  opacity: 1;
+}
+
+.glamhive-scroll-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--glamhive-stone);
+  transition: all 0.5s var(--glamhive-ease-elegant);
+  cursor: pointer;
+  position: relative;
+}
+
+.glamhive-scroll-dot:hover {
+  background: var(--glamhive-text-secondary);
+  transform: scale(1.2);
+}
+
+.glamhive-scroll-dot.active {
+  width: 2.5rem;
+  border-radius: 0.25rem;
+  background: var(--glamhive-text-primary);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SECONDARY COLLECTION ITEMS — PREMIUM CARDS
+   ─────────────────────────────────────────────────────────────── */
 
 .glamhive-secondary-item {
   position: relative;
   display: block;
+  flex: 0 0 auto;
+  width: clamp(16rem, 28vw, 22rem);
+  scroll-snap-align: start;
   border-radius: 0.5rem;
   overflow: hidden;
   background: var(--glamhive-surface);
   box-shadow: var(--glamhive-shadow-sm);
-  opacity: 0;
   {% if section.settings.animation_style == 'subtle' %}
   transition: all 0.5s var(--glamhive-ease-elegant);
   {% elsif section.settings.animation_style == 'dynamic' %}
@@ -475,17 +592,10 @@
   {% endif %}
 }
 
-/* Staggered Fade-in Animation */
-{% for i in (1..6) %}
-.glamhive-secondary-item:nth-child({{ i }}) {
-  animation: glamhive-fade-in-up 1s var(--glamhive-ease-reveal) {{ 0.5 | plus: i | times: 0.08 }}s forwards;
-}
-{% endfor %}
-
 {% if section.settings.animation_style != 'none' %}
 .glamhive-secondary-item:hover {
-  transform: translateY(-0.375rem);
-  box-shadow: var(--glamhive-shadow-lg);
+  transform: translateY(-0.5rem);
+  box-shadow: var(--glamhive-shadow-xl);
 }
 {% endif %}
 
@@ -502,12 +612,6 @@
   background: linear-gradient(135deg, var(--glamhive-stone) 0%, var(--glamhive-smoke) 100%);
 }
 
-@media (min-width: 1280px) {
-  .glamhive-secondary-media {
-    aspect-ratio: 4 / 5;
-  }
-}
-
 .glamhive-secondary-image {
   width: 100%;
   height: 100%;
@@ -522,7 +626,7 @@
 
 {% if section.settings.animation_style != 'none' %}
 .glamhive-secondary-item:hover .glamhive-secondary-image {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 {% endif %}
 
@@ -563,18 +667,18 @@
 
 .glamhive-secondary-title {
   font-family: var(--glamhive-font-display);
-  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 400;
   color: var(--glamhive-text-inverse);
   letter-spacing: -0.01em;
   line-height: 1.3;
-  margin: 0 0 0.375rem;
+  margin: 0 0 0.5rem;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 }
 
 .glamhive-secondary-count {
   font-family: var(--glamhive-font-body);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -591,6 +695,35 @@
   transform: translateY(0);
 }
 {% endif %}
+
+/* ───────────────────────────────────────────────────────────────
+   MOBILE & TABLET OPTIMIZATIONS
+   ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .glamhive-carousel-nav {
+    display: none;
+  }
+  
+  .glamhive-scroll-indicator {
+    opacity: 1;
+  }
+  
+  .glamhive-secondary-item {
+    width: clamp(14rem, 70vw, 18rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .glamhive-secondary-item {
+    width: clamp(12rem, 80vw, 16rem);
+  }
+  
+  .glamhive-carousel-container {
+    margin: 0 calc(var(--glamhive-space-sm) * -1);
+    padding: 0 var(--glamhive-space-sm);
+  }
+}
 
 /* ───────────────────────────────────────────────────────────────
    LOADING STATES — PREMIUM SKELETON
@@ -646,13 +779,15 @@
    ─────────────────────────────────────────────────────────────── */
 
 .glamhive-featured:focus-visible,
-.glamhive-secondary-item:focus-visible {
+.glamhive-secondary-item:focus-visible,
+.glamhive-carousel-nav:focus-visible {
   outline-offset: 0.375rem;
   transition: outline-offset 0.2s ease;
 }
 
 .glamhive-featured:focus:not(:focus-visible),
-.glamhive-secondary-item:focus:not(:focus-visible) {
+.glamhive-secondary-item:focus:not(:focus-visible),
+.glamhive-carousel-nav:focus:not(:focus-visible) {
   outline: none;
 }
 
@@ -689,47 +824,13 @@
   
   .glamhive-prestige-header,
   .glamhive-featured-wrapper,
-  .glamhive-secondary-item {
+  .glamhive-carousel-wrapper {
     opacity: 1;
     transform: none;
   }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   PRINT OPTIMIZATION
-   ─────────────────────────────────────────────────────────────── */
-
-@media print {
-  .glamhive-prestige {
-    background: white !important;
-    padding: 1.5rem 0 !important;
-  }
   
-  .glamhive-prestige::before {
-    display: none;
-  }
-  
-  .glamhive-featured,
-  .glamhive-secondary-item {
-    box-shadow: none !important;
-    page-break-inside: avoid;
-  }
-  
-  .glamhive-featured-overlay,
-  .glamhive-secondary-overlay {
-    opacity: 0.3 !important;
-  }
-  
-  .glamhive-featured-label,
-  .glamhive-featured-cta,
-  .glamhive-secondary-count {
-    display: none !important;
-  }
-  
-  .glamhive-featured-title,
-  .glamhive-secondary-title {
-    color: var(--glamhive-text-primary) !important;
-    text-shadow: none !important;
+  .glamhive-secondary-grid {
+    scroll-behavior: auto;
   }
 }
 
@@ -747,7 +848,8 @@
 .glamhive-featured,
 .glamhive-secondary-item,
 .glamhive-featured-image,
-.glamhive-secondary-image {
+.glamhive-secondary-image,
+.glamhive-carousel-nav {
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-font-smoothing: antialiased;
@@ -778,7 +880,8 @@
   
   /* Enhanced tap target sizes for mobile */
   .glamhive-featured,
-  .glamhive-secondary-item {
+  .glamhive-secondary-item,
+  .glamhive-scroll-dot {
     min-height: 44px;
   }
 }
@@ -891,64 +994,158 @@
     {%- endif -%}
 
     {%- if section.settings.secondary_collections != blank -%}
-      <div class="glamhive-secondary-grid">
-        {%- for collection in section.settings.secondary_collections limit: 6 -%}
-          {%- liquid
-            assign collection_image = collection.featured_image | default: collection.image
-          -%}
+      <div class="glamhive-carousel-wrapper">
+        <div class="glamhive-carousel-container">
           
-          <a 
-            href="{{ collection.url }}" 
-            class="glamhive-secondary-item"
-            aria-label="View {{ collection.title | escape }}"
+          {%- comment -%} Premium Navigation Arrows {%- endcomment -%}
+          <button 
+            class="glamhive-carousel-nav glamhive-carousel-nav--prev" 
+            aria-label="Previous collections"
+            onclick="document.querySelector('.glamhive-secondary-grid').scrollBy({left: -400, behavior: 'smooth'})"
           >
-            <div class="glamhive-secondary-media">
-              {%- if collection_image -%}
-                {%- liquid
-                  assign image_width_xlarge = 1200
-                  assign image_width_large = 900
-                  assign image_width_medium = 600
-                  assign image_width_small = 400
-                -%}
-                
-                <img
-                  srcset="
-                    {{- collection_image | image_url: width: image_width_small }} {{ image_width_small }}w,
-                    {{- collection_image | image_url: width: image_width_medium }} {{ image_width_medium }}w,
-                    {{- collection_image | image_url: width: image_width_large }} {{ image_width_large }}w,
-                    {{- collection_image | image_url: width: image_width_xlarge }} {{ image_width_xlarge }}w
-                  "
-                  sizes="(min-width: 1280px) 480px, (min-width: 768px) 45vw, 90vw"
-                  src="{{ collection_image | image_url: width: image_width_large }}"
-                  alt="{{ collection.title | escape }}"
-                  loading="lazy"
-                  width="{{ collection_image.width }}"
-                  height="{{ collection_image.height }}"
-                  class="glamhive-secondary-image"
-                >
-              {%- else -%}
-                {{- 'collection-' | append: forloop.index | placeholder_svg_tag: 'glamhive-placeholder' -}}
-              {%- endif -%}
-              <div class="glamhive-secondary-overlay" aria-hidden="true"></div>
-            </div>
-            
-            <div class="glamhive-secondary-content">
-              <h3 class="glamhive-secondary-title">
-                {{- collection.title -}}
-              </h3>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <button 
+            class="glamhive-carousel-nav glamhive-carousel-nav--next" 
+            aria-label="Next collections"
+            onclick="document.querySelector('.glamhive-secondary-grid').scrollBy({left: 400, behavior: 'smooth'})"
+          >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          {%- comment -%} Carousel Grid {%- endcomment -%}
+          <div class="glamhive-secondary-grid" id="glamhive-carousel-{{ section.id }}">
+            {%- for collection in section.settings.secondary_collections limit: 12 -%}
+              {%- liquid
+                assign collection_image = collection.featured_image | default: collection.image
+              -%}
               
-              {%- if section.settings.show_product_count and collection.products_count > 0 -%}
-                <p class="glamhive-secondary-count">
-                  {{- collection.products_count -}}
-                  {%- if collection.products_count == 1 %} piece{%- else %} pieces{%- endif -%}
-                </p>
-              {%- endif -%}
-            </div>
-          </a>
-        {%- endfor -%}
+              <a 
+                href="{{ collection.url }}" 
+                class="glamhive-secondary-item"
+                aria-label="View {{ collection.title | escape }}"
+              >
+                <div class="glamhive-secondary-media">
+                  {%- if collection_image -%}
+                    {%- liquid
+                      assign image_width_xlarge = 1200
+                      assign image_width_large = 900
+                      assign image_width_medium = 600
+                      assign image_width_small = 400
+                    -%}
+                    
+                    <img
+                      srcset="
+                        {{- collection_image | image_url: width: image_width_small }} {{ image_width_small }}w,
+                        {{- collection_image | image_url: width: image_width_medium }} {{ image_width_medium }}w,
+                        {{- collection_image | image_url: width: image_width_large }} {{ image_width_large }}w,
+                        {{- collection_image | image_url: width: image_width_xlarge }} {{ image_width_xlarge }}w
+                      "
+                      sizes="(min-width: 1280px) 400px, (min-width: 768px) 35vw, 80vw"
+                      src="{{ collection_image | image_url: width: image_width_large }}"
+                      alt="{{ collection.title | escape }}"
+                      loading="lazy"
+                      width="{{ collection_image.width }}"
+                      height="{{ collection_image.height }}"
+                      class="glamhive-secondary-image"
+                    >
+                  {%- else -%}
+                    {{- 'collection-' | append: forloop.index | placeholder_svg_tag: 'glamhive-placeholder' -}}
+                  {%- endif -%}
+                  <div class="glamhive-secondary-overlay" aria-hidden="true"></div>
+                </div>
+                
+                <div class="glamhive-secondary-content">
+                  <h3 class="glamhive-secondary-title">
+                    {{- collection.title -}}
+                  </h3>
+                  
+                  {%- if section.settings.show_product_count and collection.products_count > 0 -%}
+                    <p class="glamhive-secondary-count">
+                      {{- collection.products_count -}}
+                      {%- if collection.products_count == 1 %} piece{%- else %} pieces{%- endif -%}
+                    </p>
+                  {%- endif -%}
+                </div>
+              </a>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Scroll Progress Dots {%- endcomment -%}
+          <div class="glamhive-scroll-indicator" id="glamhive-indicator-{{ section.id }}">
+            {%- assign collection_count = section.settings.secondary_collections.size -%}
+            {%- if collection_count > 3 -%}
+              {%- for i in (1..5) -%}
+                <div class="glamhive-scroll-dot {% if i == 1 %}active{% endif %}" 
+                     data-index="{{ i }}"
+                     onclick="glamhiveScrollToSection('{{ section.id }}', {{ i | minus: 1 }})"></div>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+
+        </div>
       </div>
     {%- endif -%}
 
   </div>
 </div>
 
+<script>
+(function() {
+  'use strict';
+
+  // Premium Carousel Functionality
+  const carousel = document.getElementById('glamhive-carousel-{{ section.id }}');
+  const indicator = document.getElementById('glamhive-indicator-{{ section.id }}');
+  
+  if (!carousel || !indicator) return;
+
+  const dots = indicator.querySelectorAll('.glamhive-scroll-dot');
+  
+  // Update active dot based on scroll position
+  function updateActiveDot() {
+    const scrollLeft = carousel.scrollLeft;
+    const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+    const scrollPercent = scrollLeft / scrollWidth;
+    const activeIndex = Math.round(scrollPercent * (dots.length - 1));
+    
+    dots.forEach((dot, index) => {
+      if (index === activeIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+  
+  // Smooth scroll with debounce
+  let scrollTimeout;
+  carousel.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(updateActiveDot, 100);
+  });
+  
+  // Initial state
+  updateActiveDot();
+})();
+
+// Scroll to specific section in carousel
+function glamhiveScrollToSection(sectionId, index) {
+  const carousel = document.getElementById('glamhive-carousel-' + sectionId);
+  if (!carousel) return;
+  
+  const itemWidth = carousel.querySelector('.glamhive-secondary-item').offsetWidth;
+  const gap = parseFloat(getComputedStyle(carousel).gap);
+  const scrollDistance = (itemWidth + gap) * index * 2;
+  
+  carousel.scrollTo({
+    left: scrollDistance,
+    behavior: 'smooth'
+  });
+}
+</script>
