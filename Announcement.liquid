@@ -1,0 +1,947 @@
+{% schema %}
+{
+  "name": "GLAMHIVE Premium Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_bar",
+      "label": "Enable Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "bar_style",
+      "label": "Bar Style",
+      "options": [
+        {
+          "value": "elegant",
+          "label": "Elegant (Subtle Premium)"
+        },
+        {
+          "value": "bold",
+          "label": "Bold (High Impact)"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal (Ultra Clean)"
+        }
+      ],
+      "default": "elegant"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {
+          "value": "champagne",
+          "label": "Champagne Gold"
+        },
+        {
+          "value": "noir",
+          "label": "Noir Black"
+        },
+        {
+          "value": "pearl",
+          "label": "Pearl White"
+        },
+        {
+          "value": "rose",
+          "label": "Rose Gold"
+        },
+        {
+          "value": "emerald",
+          "label": "Emerald Green"
+        }
+      ],
+      "default": "champagne"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Enable Message Carousel",
+      "default": true,
+      "info": "Automatically rotate through multiple messages"
+    },
+    {
+      "type": "range",
+      "id": "carousel_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "unit": "s",
+      "label": "Carousel Speed",
+      "info": "Time between message rotations"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show Icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon_type",
+      "label": "Icon Type",
+      "options": [
+        {
+          "value": "sparkles",
+          "label": "✨ Sparkles"
+        },
+        {
+          "value": "crown",
+          "label": "👑 Crown"
+        },
+        {
+          "value": "star",
+          "label": "⭐ Star"
+        },
+        {
+          "value": "gift",
+          "label": "🎁 Gift"
+        },
+        {
+          "value": "truck",
+          "label": "🚚 Delivery"
+        },
+        {
+          "value": "tag",
+          "label": "🏷️ Tag"
+        }
+      ],
+      "default": "sparkles"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_countdown",
+      "label": "Enable Countdown Timer",
+      "default": false,
+      "info": "Add urgency with a countdown timer"
+    },
+    {
+      "type": "text",
+      "id": "countdown_date",
+      "label": "Countdown End Date",
+      "default": "2026-12-31",
+      "info": "Format: YYYY-MM-DD"
+    },
+    {
+      "type": "text",
+      "id": "countdown_text",
+      "label": "Countdown Text",
+      "default": "Sale Ends In:"
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Allow Users to Dismiss",
+      "default": true,
+      "info": "Shows close button"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky (Fixed Position)",
+      "default": true,
+      "info": "Bar stays visible while scrolling"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Announcement Message",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "message_text",
+          "label": "Message Text",
+          "default": "<p><strong>Free Luxury Shipping</strong> on orders over $150</p>"
+        },
+        {
+          "type": "url",
+          "id": "message_link",
+          "label": "Message Link (Optional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "GLAMHIVE — Premium Announcement",
+      "blocks": [
+        {
+          "type": "message",
+          "settings": {
+            "message_text": "<p><strong>Exclusive Launch:</strong> New Collection Available Now</p>"
+          }
+        },
+        {
+          "type": "message",
+          "settings": {
+            "message_text": "<p><strong>Free Luxury Shipping</strong> on all orders over $150</p>"
+          }
+        },
+        {
+          "type": "message",
+          "settings": {
+            "message_text": "<p><strong>Limited Time:</strong> 20% Off Premium Selection</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+/* ═══════════════════════════════════════════════════════════════
+   GLAMHIVE PREMIUM ANNOUNCEMENT BAR
+   Ultra-Luxury | High-Class | CRO-Optimized | Professional
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────
+   DESIGN SYSTEM — COLOR SCHEMES
+   ─────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Champagne Gold */
+  --glamhive-announce-bg-champagne: linear-gradient(135deg, #f4f1ea 0%, #e8dcc8 100%);
+  --glamhive-announce-text-champagne: #2c2416;
+  --glamhive-announce-accent-champagne: #c9a961;
+  --glamhive-announce-border-champagne: rgba(201, 169, 97, 0.2);
+  
+  /* Noir Black */
+  --glamhive-announce-bg-noir: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  --glamhive-announce-text-noir: #fefefe;
+  --glamhive-announce-accent-noir: #c9a961;
+  --glamhive-announce-border-noir: rgba(254, 254, 254, 0.1);
+  
+  /* Pearl White */
+  --glamhive-announce-bg-pearl: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+  --glamhive-announce-text-pearl: #0a0a0a;
+  --glamhive-announce-accent-pearl: #8b7355;
+  --glamhive-announce-border-pearl: rgba(0, 0, 0, 0.06);
+  
+  /* Rose Gold */
+  --glamhive-announce-bg-rose: linear-gradient(135deg, #fdf6f3 0%, #f9e8e0 100%);
+  --glamhive-announce-text-rose: #4a3428;
+  --glamhive-announce-accent-rose: #d4a574;
+  --glamhive-announce-border-rose: rgba(212, 165, 116, 0.2);
+  
+  /* Emerald Green */
+  --glamhive-announce-bg-emerald: linear-gradient(135deg, #0d3d2f 0%, #1a5c47 100%);
+  --glamhive-announce-text-emerald: #fefefe;
+  --glamhive-announce-accent-emerald: #c9a961;
+  --glamhive-announce-border-emerald: rgba(201, 169, 97, 0.2);
+  
+  /* Typography */
+  --glamhive-announce-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Easing */
+  --glamhive-announce-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --glamhive-announce-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   BASE ANNOUNCEMENT BAR
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce {
+  {% if section.settings.sticky %}
+  position: sticky;
+  top: 0;
+  {% else %}
+  position: relative;
+  {% endif %}
+  z-index: 1000;
+  width: 100%;
+  overflow: hidden;
+  {% if section.settings.color_scheme == 'champagne' %}
+  background: var(--glamhive-announce-bg-champagne);
+  color: var(--glamhive-announce-text-champagne);
+  border-bottom: 1px solid var(--glamhive-announce-border-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  background: var(--glamhive-announce-bg-noir);
+  color: var(--glamhive-announce-text-noir);
+  border-bottom: 1px solid var(--glamhive-announce-border-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  background: var(--glamhive-announce-bg-pearl);
+  color: var(--glamhive-announce-text-pearl);
+  border-bottom: 1px solid var(--glamhive-announce-border-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  background: var(--glamhive-announce-bg-rose);
+  color: var(--glamhive-announce-text-rose);
+  border-bottom: 1px solid var(--glamhive-announce-border-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  background: var(--glamhive-announce-bg-emerald);
+  color: var(--glamhive-announce-text-emerald);
+  border-bottom: 1px solid var(--glamhive-announce-border-emerald);
+  {% endif %}
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+  font-family: var(--glamhive-announce-font);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Subtle shimmer effect overlay */
+.glamhive-announce::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: glamhive-announce-shimmer 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glamhive-announce-shimmer {
+  0%, 100% { left: -100%; }
+  50% { left: 100%; }
+}
+
+/* Hidden state */
+.glamhive-announce.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s var(--glamhive-announce-ease), opacity 0.3s ease;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   INNER CONTAINER
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-inner {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 0.875rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-inner {
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   ICON STYLING
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+  {% if section.settings.color_scheme == 'champagne' %}
+  color: var(--glamhive-announce-accent-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  color: var(--glamhive-announce-accent-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  color: var(--glamhive-announce-accent-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  color: var(--glamhive-announce-accent-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  color: var(--glamhive-announce-accent-emerald);
+  {% endif %}
+  animation: glamhive-announce-icon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glamhive-announce-icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.85; }
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-icon {
+    font-size: 1rem;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   MESSAGE CAROUSEL
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-carousel {
+  flex: 1;
+  max-width: 800px;
+  position: relative;
+  overflow: hidden;
+  height: 1.5rem;
+}
+
+.glamhive-announce-messages {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.glamhive-announce-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.6s var(--glamhive-announce-ease), transform 0.6s var(--glamhive-announce-ease);
+  pointer-events: none;
+}
+
+.glamhive-announce-message.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.glamhive-announce-message a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.glamhive-announce-message a:hover {
+  opacity: 0.75;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   MESSAGE TEXT STYLING
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.glamhive-announce-text strong {
+  font-weight: 600;
+  {% if section.settings.color_scheme == 'champagne' %}
+  color: var(--glamhive-announce-accent-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  color: var(--glamhive-announce-accent-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  color: var(--glamhive-announce-accent-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  color: var(--glamhive-announce-accent-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  color: var(--glamhive-announce-accent-emerald);
+  {% endif %}
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-text {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Style variations */
+.glamhive-announce.style-bold .glamhive-announce-text {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8125rem;
+}
+
+.glamhive-announce.style-minimal .glamhive-announce-text {
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   COUNTDOWN TIMER
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: 1rem;
+}
+
+.glamhive-countdown-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.glamhive-countdown-timer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.glamhive-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 2rem;
+}
+
+.glamhive-countdown-value {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  {% if section.settings.color_scheme == 'champagne' %}
+  color: var(--glamhive-announce-accent-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  color: var(--glamhive-announce-accent-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  color: var(--glamhive-announce-accent-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  color: var(--glamhive-announce-accent-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  color: var(--glamhive-announce-accent-emerald);
+  {% endif %}
+}
+
+.glamhive-countdown-label-small {
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  margin-top: 0.125rem;
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-countdown {
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+  
+  .glamhive-countdown-timer {
+    gap: 0.375rem;
+  }
+  
+  .glamhive-countdown-unit {
+    min-width: 1.5rem;
+  }
+  
+  .glamhive-countdown-value {
+    font-size: 0.875rem;
+  }
+  
+  .glamhive-countdown-label-small {
+    font-size: 0.5625rem;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   CTA BUTTON
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-cta {
+  flex-shrink: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  {% if section.settings.color_scheme == 'champagne' %}
+  background: var(--glamhive-announce-accent-champagne);
+  color: var(--glamhive-announce-text-champagne);
+  border: 1px solid var(--glamhive-announce-accent-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  background: var(--glamhive-announce-accent-noir);
+  color: var(--glamhive-announce-bg-noir);
+  border: 1px solid var(--glamhive-announce-accent-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  background: var(--glamhive-announce-accent-pearl);
+  color: #ffffff;
+  border: 1px solid var(--glamhive-announce-accent-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  background: var(--glamhive-announce-accent-rose);
+  color: var(--glamhive-announce-text-rose);
+  border: 1px solid var(--glamhive-announce-accent-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  background: var(--glamhive-announce-accent-emerald);
+  color: var(--glamhive-announce-bg-emerald);
+  border: 1px solid var(--glamhive-announce-accent-emerald);
+  {% endif %}
+  transition: all 0.3s var(--glamhive-announce-ease);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.glamhive-announce-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.glamhive-announce-cta:active {
+  transform: translateY(0);
+}
+
+.glamhive-announce-cta::after {
+  content: '→';
+  font-size: 1rem;
+  transition: transform 0.3s var(--glamhive-announce-ease);
+}
+
+.glamhive-announce-cta:hover::after {
+  transform: translateX(0.25rem);
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-cta {
+    font-size: 0.75rem;
+    padding: 0.4375rem 1rem;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   DISMISS BUTTON
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-dismiss {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s ease, transform 0.3s var(--glamhive-announce-ease);
+  z-index: 10;
+}
+
+.glamhive-announce-dismiss:hover {
+  opacity: 1;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.glamhive-announce-dismiss svg {
+  width: 1rem;
+  height: 1rem;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-dismiss {
+    right: 0.5rem;
+  }
+  
+  .glamhive-announce-dismiss svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   PROGRESS DOTS
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-dots {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.375rem;
+  pointer-events: none;
+}
+
+.glamhive-announce-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  {% if section.settings.color_scheme == 'champagne' %}
+  background: var(--glamhive-announce-accent-champagne);
+  {% elsif section.settings.color_scheme == 'noir' %}
+  background: var(--glamhive-announce-accent-noir);
+  {% elsif section.settings.color_scheme == 'pearl' %}
+  background: var(--glamhive-announce-accent-pearl);
+  {% elsif section.settings.color_scheme == 'rose' %}
+  background: var(--glamhive-announce-accent-rose);
+  {% elsif section.settings.color_scheme == 'emerald' %}
+  background: var(--glamhive-announce-accent-emerald);
+  {% endif %}
+  opacity: 0.3;
+  transition: opacity 0.3s ease, transform 0.3s var(--glamhive-announce-ease);
+}
+
+.glamhive-announce-dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   RESPONSIVE ADJUSTMENTS
+   ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .glamhive-announce-countdown {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .glamhive-announce-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .glamhive-announce-carousel {
+    flex-basis: 100%;
+    order: -1;
+  }
+  
+  .glamhive-announce-cta {
+    margin-left: auto;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────
+   ACCESSIBILITY
+   ─────────────────────────────────────────────────────────────── */
+
+.glamhive-announce-cta:focus-visible,
+.glamhive-announce-dismiss:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glamhive-announce,
+  .glamhive-announce::before,
+  .glamhive-announce-icon,
+  .glamhive-announce-message,
+  .glamhive-announce-cta,
+  .glamhive-announce-dismiss {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+{% endstyle %}
+
+{% if section.settings.enable_bar %}
+<div class="glamhive-announce style-{{ section.settings.bar_style }}" 
+     id="glamhive-announce-{{ section.id }}"
+     role="banner"
+     aria-label="Announcement">
+  
+  <div class="glamhive-announce-inner">
+    
+    {%- if section.settings.show_icon -%}
+      <div class="glamhive-announce-icon" aria-hidden="true">
+        {%- case section.settings.icon_type -%}
+          {%- when 'sparkles' -%}✨
+          {%- when 'crown' -%}👑
+          {%- when 'star' -%}⭐
+          {%- when 'gift' -%}🎁
+          {%- when 'truck' -%}🚚
+          {%- when 'tag' -%}🏷️
+        {%- endcase -%}
+      </div>
+    {%- endif -%}
+    
+    <div class="glamhive-announce-carousel">
+      <div class="glamhive-announce-messages">
+        {%- for block in section.blocks -%}
+          <div class="glamhive-announce-message {% if forloop.first %}active{% endif %}" 
+               data-index="{{ forloop.index0 }}">
+            {%- if block.settings.message_link != blank -%}
+              <a href="{{ block.settings.message_link }}">
+            {%- endif -%}
+            <div class="glamhive-announce-text">
+              {{ block.settings.message_text }}
+            </div>
+            {%- if block.settings.message_link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+      
+      {%- if section.blocks.size > 1 and section.settings.enable_carousel -%}
+        <div class="glamhive-announce-dots" aria-hidden="true">
+          {%- for block in section.blocks -%}
+            <div class="glamhive-announce-dot {% if forloop.first %}active{% endif %}"></div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- if section.settings.enable_countdown and section.settings.countdown_date != blank -%}
+      <div class="glamhive-announce-countdown" id="glamhive-countdown-{{ section.id }}">
+        <span class="glamhive-countdown-label">{{ section.settings.countdown_text }}</span>
+        <div class="glamhive-countdown-timer">
+          <div class="glamhive-countdown-unit">
+            <span class="glamhive-countdown-value" data-unit="days">00</span>
+            <span class="glamhive-countdown-label-small">D</span>
+          </div>
+          <div class="glamhive-countdown-unit">
+            <span class="glamhive-countdown-value" data-unit="hours">00</span>
+            <span class="glamhive-countdown-label-small">H</span>
+          </div>
+          <div class="glamhive-countdown-unit">
+            <span class="glamhive-countdown-value" data-unit="minutes">00</span>
+            <span class="glamhive-countdown-label-small">M</span>
+          </div>
+          <div class="glamhive-countdown-unit">
+            <span class="glamhive-countdown-value" data-unit="seconds">00</span>
+            <span class="glamhive-countdown-label-small">S</span>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.settings.show_cta and section.settings.cta_link != blank -%}
+      <a href="{{ section.settings.cta_link }}" 
+         class="glamhive-announce-cta"
+         aria-label="{{ section.settings.cta_text }}">
+        {{ section.settings.cta_text }}
+      </a>
+    {%- endif -%}
+    
+    {%- if section.settings.dismissible -%}
+      <button class="glamhive-announce-dismiss" 
+              onclick="glamhiveDismissAnnouncement('{{ section.id }}')"
+              aria-label="Dismiss announcement">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    {%- endif -%}
+    
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  const sectionId = '{{ section.id }}';
+  const announceBar = document.getElementById('glamhive-announce-' + sectionId);
+  
+  if (!announceBar) return;
+  
+  // Check if bar was dismissed
+  const dismissKey = 'glamhive-announce-dismissed-' + sectionId;
+  if (localStorage.getItem(dismissKey) === 'true') {
+    announceBar.classList.add('hidden');
+    return;
+  }
+  
+  {% if section.settings.enable_carousel and section.blocks.size > 1 %}
+  // Carousel functionality
+  const messages = announceBar.querySelectorAll('.glamhive-announce-message');
+  const dots = announceBar.querySelectorAll('.glamhive-announce-dot');
+  let currentIndex = 0;
+  const carouselSpeed = {{ section.settings.carousel_speed | times: 1000 }};
+  
+  function showMessage(index) {
+    messages.forEach((msg, i) => {
+      if (i === index) {
+        msg.classList.add('active');
+      } else {
+        msg.classList.remove('active');
+      }
+    });
+    
+    dots.forEach((dot, i) => {
+      if (i === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+  
+  function nextMessage() {
+    currentIndex = (currentIndex + 1) % messages.length;
+    showMessage(currentIndex);
+  }
+  
+  // Auto-rotate messages
+  setInterval(nextMessage, carouselSpeed);
+  {% endif %}
+  
+  {% if section.settings.enable_countdown and section.settings.countdown_date != blank %}
+  // Countdown timer
+  const countdownEl = document.getElementById('glamhive-countdown-' + sectionId);
+  if (countdownEl) {
+    const endDate = new Date('{{ section.settings.countdown_date }}T23:59:59').getTime();
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+      
+      if (distance < 0) {
+        countdownEl.style.display = 'none';
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      countdownEl.querySelector('[data-unit="days"]').textContent = String(days).padStart(2, '0');
+      countdownEl.querySelector('[data-unit="hours"]').textContent = String(hours).padStart(2, '0');
+      countdownEl.querySelector('[data-unit="minutes"]').textContent = String(minutes).padStart(2, '0');
+      countdownEl.querySelector('[data-unit="seconds"]').textContent = String(seconds).padStart(2, '0');
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+  {% endif %}
+})();
+
+// Dismiss functionality
+function glamhiveDismissAnnouncement(sectionId) {
+  const announceBar = document.getElementById('glamhive-announce-' + sectionId);
+  if (announceBar) {
+    announceBar.classList.add('hidden');
+    localStorage.setItem('glamhive-announce-dismissed-' + sectionId, 'true');
+  }
+}
+</script>
+{% endif %}
