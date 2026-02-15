@@ -1,10 +1,10 @@
 {% schema %}
 {
-  "name": "GLAMHIVE Elite Announcement Bar",
+  "name": "GLAMHI Premium Bar",
   "settings": [
     {
       "type": "header",
-      "content": "🎯 Bar Visibility & Behavior"
+      "content": "🎯 Bar Settings"
     },
     {
       "type": "checkbox",
@@ -15,71 +15,32 @@
     {
       "type": "checkbox",
       "id": "sticky_position",
-      "label": "Sticky Position (Stays on Top)",
+      "label": "Sticky Position",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "dismissible",
-      "label": "Allow Users to Dismiss",
-      "default": true,
-      "info": "Users can close the bar (saved in browser)"
+      "label": "Dismissible",
+      "default": true
     },
     {
       "type": "header",
-      "content": "🎨 Design & Style"
+      "content": "🎨 Design"
     },
     {
       "type": "select",
       "id": "color_scheme",
       "label": "Color Scheme",
       "options": [
-        {
-          "value": "luxury-gold",
-          "label": "Luxury Gold (Classic Premium)"
-        },
-        {
-          "value": "noir-black",
-          "label": "Noir Black (Bold Sophistication)"
-        },
-        {
-          "value": "champagne",
-          "label": "Champagne (Soft Elegance)"
-        },
-        {
-          "value": "rose-gold",
-          "label": "Rose Gold (Modern Feminine)"
-        },
-        {
-          "value": "platinum",
-          "label": "Platinum Silver (Ultra Modern)"
-        },
-        {
-          "value": "emerald",
-          "label": "Emerald (Rich Luxury)"
-        }
+        {"value": "luxury-gold", "label": "Luxury Gold"},
+        {"value": "noir-black", "label": "Noir Black"},
+        {"value": "champagne", "label": "Champagne"},
+        {"value": "rose-gold", "label": "Rose Gold"},
+        {"value": "platinum", "label": "Platinum Silver"},
+        {"value": "emerald", "label": "Emerald Green"}
       ],
       "default": "luxury-gold"
-    },
-    {
-      "type": "select",
-      "id": "text_style",
-      "label": "Text Style",
-      "options": [
-        {
-          "value": "elegant",
-          "label": "Elegant (Refined & Subtle)"
-        },
-        {
-          "value": "bold",
-          "label": "Bold (High Impact)"
-        },
-        {
-          "value": "minimal",
-          "label": "Minimal (Ultra Clean)"
-        }
-      ],
-      "default": "elegant"
     },
     {
       "type": "header",
@@ -88,9 +49,8 @@
     {
       "type": "checkbox",
       "id": "enable_carousel",
-      "label": "Enable Message Rotation",
-      "default": true,
-      "info": "Automatically cycle through messages"
+      "label": "Enable Auto-Rotation",
+      "default": true
     },
     {
       "type": "range",
@@ -100,27 +60,7 @@
       "step": 1,
       "default": 5,
       "unit": "s",
-      "label": "Seconds Between Messages"
-    },
-    {
-      "type": "select",
-      "id": "transition_effect",
-      "label": "Transition Effect",
-      "options": [
-        {
-          "value": "fade",
-          "label": "Fade (Smooth)"
-        },
-        {
-          "value": "slide",
-          "label": "Slide (Dynamic)"
-        },
-        {
-          "value": "scale",
-          "label": "Scale (Elegant)"
-        }
-      ],
-      "default": "fade"
+      "label": "Rotation Speed"
     },
     {
       "type": "header",
@@ -129,13 +69,13 @@
     {
       "type": "checkbox",
       "id": "show_timer",
-      "label": "Show Countdown Timer",
+      "label": "Show Timer",
       "default": true
     },
     {
       "type": "text",
       "id": "timer_end_date",
-      "label": "Sale End Date & Time",
+      "label": "End Date & Time",
       "default": "2026-12-31T23:59:59",
       "info": "Format: YYYY-MM-DDThh:mm:ss"
     },
@@ -146,144 +86,43 @@
       "default": "Ends in"
     },
     {
-      "type": "checkbox",
-      "id": "hide_timer_on_mobile",
-      "label": "Hide Timer on Mobile",
-      "default": false
-    },
-    {
       "type": "header",
-      "content": "🏷️ Urgency Badge"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badge",
-      "label": "Show Urgency Badge",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "badge_text",
-      "label": "Badge Text",
-      "default": "Limited Time"
-    },
-    {
-      "type": "checkbox",
-      "id": "hide_badge_on_mobile",
-      "label": "Hide Badge on Mobile",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "🎯 Call-to-Action Button"
+      "content": "🎯 CTA Button"
     },
     {
       "type": "checkbox",
       "id": "show_cta",
-      "label": "Show CTA Button",
+      "label": "Show CTA",
       "default": true
     },
     {
       "type": "text",
       "id": "cta_text",
-      "label": "CTA Button Text",
+      "label": "CTA Text",
       "default": "Shop Now"
     },
     {
       "type": "url",
       "id": "cta_link",
-      "label": "CTA Button Link",
+      "label": "CTA Link",
       "default": "/collections/all"
-    },
-    {
-      "type": "header",
-      "content": "✨ Premium Effects"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_shimmer",
-      "label": "Enable Shimmer Effect",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_glow",
-      "label": "Enable Glow Effects",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "animation_intensity",
-      "min": 0,
-      "max": 100,
-      "step": 10,
-      "default": 70,
-      "unit": "%",
-      "label": "Animation Intensity"
     }
   ],
   "blocks": [
     {
       "type": "message",
-      "name": "Announcement Message",
+      "name": "Message",
       "settings": [
         {
           "type": "textarea",
           "id": "message_text",
-          "label": "Message Text",
-          "default": "🚚 FREE DELIVERY on All Orders"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_icon",
-          "label": "Show Icon",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "icon_type",
-          "label": "Icon",
-          "options": [
-            {
-              "value": "truck",
-              "label": "🚚 Delivery Truck"
-            },
-            {
-              "value": "tag",
-              "label": "🏷️ Price Tag"
-            },
-            {
-              "value": "fire",
-              "label": "🔥 Fire"
-            },
-            {
-              "value": "star",
-              "label": "⭐ Star"
-            },
-            {
-              "value": "sparkles",
-              "label": "✨ Sparkles"
-            },
-            {
-              "value": "crown",
-              "label": "👑 Crown"
-            },
-            {
-              "value": "gift",
-              "label": "🎁 Gift"
-            },
-            {
-              "value": "zap",
-              "label": "⚡ Lightning"
-            }
-          ],
-          "default": "truck"
+          "label": "Message",
+          "default": "FREE DELIVERY on All Orders"
         },
         {
           "type": "url",
           "id": "message_link",
-          "label": "Link (Optional)",
-          "info": "Make entire message clickable"
+          "label": "Link (Optional)"
         }
       ]
     }
@@ -291,31 +130,19 @@
   "max_blocks": 5,
   "presets": [
     {
-      "name": "GLAMHIVE Elite Bar",
+      "name": "GLAMHIVE Premium Bar",
       "blocks": [
         {
           "type": "message",
-          "settings": {
-            "message_text": "🚚 FREE DELIVERY on All Orders",
-            "icon_type": "truck",
-            "show_icon": true
-          }
+          "settings": {"message_text": "FREE SHIPPING ON ALL ORDERS"}
         },
         {
           "type": "message",
-          "settings": {
-            "message_text": "50% OFF Everything - Limited Time Only",
-            "icon_type": "fire",
-            "show_icon": true
-          }
+          "settings": {"message_text": "50% OFF SITEWIDE - LIMITED TIME"}
         },
         {
           "type": "message",
-          "settings": {
-            "message_text": "⭐ Shop Premium Collection - Exclusive Offer",
-            "icon_type": "star",
-            "show_icon": true
-          }
+          "settings": {"message_text": "PREMIUM COLLECTION NOW AVAILABLE"}
         }
       ]
     }
@@ -325,85 +152,77 @@
 
 {% style %}
 /* ═══════════════════════════════════════════════════════════════
-   GLAMHIVE ELITE ANNOUNCEMENT BAR - 10/10 PREMIUM
-   World-Class | Ultra-Luxury | CRO-Optimized | Fully Customizable
+   GLAMHIVE PREMIUM BAR - LUXURY DESIGN
+   Ultra Professional | Sleek | High-End Branding
    ═══════════════════════════════════════════════════════════════ */
 
-/* ───────────────────────────────────────────────────────────────
-   COLOR SCHEMES - PREMIUM PALETTES
-   ─────────────────────────────────────────────────────────────── */
-
-:root {
-  /* Luxury Gold */
-  --elite-gold-bg: linear-gradient(135deg, #0a0603 0%, #1a0f08 50%, #0a0603 100%);
-  --elite-gold-text: #ffda85;
-  --elite-gold-accent: #f4c96b;
-  --elite-gold-cta: linear-gradient(135deg, #ffda85 0%, #f4c96b 50%, #d4a958 100%);
-  --elite-gold-cta-text: #1a0f08;
-  --elite-gold-border: rgba(244, 201, 107, 0.25);
-  --elite-gold-glow: 0 0 20px rgba(244, 201, 107, 0.4);
-  
-  /* Noir Black */
-  --elite-noir-bg: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
-  --elite-noir-text: #ffffff;
-  --elite-noir-accent: #f4c96b;
-  --elite-noir-cta: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
-  --elite-noir-cta-text: #000000;
-  --elite-noir-border: rgba(255, 255, 255, 0.15);
-  --elite-noir-glow: 0 0 20px rgba(255, 255, 255, 0.3);
-  
-  /* Champagne */
-  --elite-champagne-bg: linear-gradient(135deg, #f4f1ea 0%, #e8dcc8 50%, #f4f1ea 100%);
-  --elite-champagne-text: #2c2416;
-  --elite-champagne-accent: #8b6f47;
-  --elite-champagne-cta: linear-gradient(135deg, #2c2416 0%, #4a3828 100%);
-  --elite-champagne-cta-text: #f4f1ea;
-  --elite-champagne-border: rgba(139, 111, 71, 0.25);
-  --elite-champagne-glow: 0 0 20px rgba(139, 111, 71, 0.3);
-  
-  /* Rose Gold */
-  --elite-rose-bg: linear-gradient(135deg, #2d1b1b 0%, #4a2c2c 50%, #2d1b1b 100%);
-  --elite-rose-text: #f9d5c8;
-  --elite-rose-accent: #d4a574;
-  --elite-rose-cta: linear-gradient(135deg, #f9d5c8 0%, #d4a574 100%);
-  --elite-rose-cta-text: #2d1b1b;
-  --elite-rose-border: rgba(212, 165, 116, 0.25);
-  --elite-rose-glow: 0 0 20px rgba(212, 165, 116, 0.4);
-  
-  /* Platinum */
-  --elite-platinum-bg: linear-gradient(135deg, #e8e8e8 0%, #ffffff 50%, #e8e8e8 100%);
-  --elite-platinum-text: #2a2a2a;
-  --elite-platinum-accent: #666666;
-  --elite-platinum-cta: linear-gradient(135deg, #2a2a2a 0%, #4a4a4a 100%);
-  --elite-platinum-cta-text: #ffffff;
-  --elite-platinum-border: rgba(42, 42, 42, 0.15);
-  --elite-platinum-glow: 0 0 20px rgba(102, 102, 102, 0.3);
-  
-  /* Emerald */
-  --elite-emerald-bg: linear-gradient(135deg, #0d3d2f 0%, #1a5c47 50%, #0d3d2f 100%);
-  --elite-emerald-text: #d4f4dd;
-  --elite-emerald-accent: #7cc990;
-  --elite-emerald-cta: linear-gradient(135deg, #d4f4dd 0%, #7cc990 100%);
-  --elite-emerald-cta-text: #0d3d2f;
-  --elite-emerald-border: rgba(124, 201, 144, 0.25);
-  --elite-emerald-glow: 0 0 20px rgba(124, 201, 144, 0.4);
-  
-  /* Typography */
-  --elite-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  
-  /* Timing Functions */
-  --elite-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --elite-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-  
-  /* Animation Intensity */
-  --elite-intensity: calc({{ section.settings.animation_intensity }} / 100);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   MAIN CONTAINER
-   ─────────────────────────────────────────────────────────────── */
+:root {
+  /* Luxury Gold Theme */
+  --gold-bg: #1a1410;
+  --gold-text: #f5e6d3;
+  --gold-accent: #d4a574;
+  --gold-cta-bg: #d4a574;
+  --gold-cta-text: #1a1410;
+  --gold-timer-bg: rgba(212, 165, 116, 0.15);
+  --gold-timer-border: rgba(212, 165, 116, 0.3);
+  
+  /* Noir Black Theme */
+  --noir-bg: #0a0a0a;
+  --noir-text: #ffffff;
+  --noir-accent: #cccccc;
+  --noir-cta-bg: #ffffff;
+  --noir-cta-text: #0a0a0a;
+  --noir-timer-bg: rgba(255, 255, 255, 0.12);
+  --noir-timer-border: rgba(255, 255, 255, 0.25);
+  
+  /* Champagne Theme */
+  --champagne-bg: #f7f4ed;
+  --champagne-text: #3d3020;
+  --champagne-accent: #8b7355;
+  --champagne-cta-bg: #3d3020;
+  --champagne-cta-text: #f7f4ed;
+  --champagne-timer-bg: rgba(61, 48, 32, 0.1);
+  --champagne-timer-border: rgba(61, 48, 32, 0.2);
+  
+  /* Rose Gold Theme */
+  --rose-bg: #2d1b1b;
+  --rose-text: #f9ddd1;
+  --rose-accent: #d4a574;
+  --rose-cta-bg: #d4a574;
+  --rose-cta-text: #2d1b1b;
+  --rose-timer-bg: rgba(212, 165, 116, 0.15);
+  --rose-timer-border: rgba(212, 165, 116, 0.3);
+  
+  /* Platinum Theme */
+  --platinum-bg: #f5f5f5;
+  --platinum-text: #2a2a2a;
+  --platinum-accent: #666666;
+  --platinum-cta-bg: #2a2a2a;
+  --platinum-cta-text: #ffffff;
+  --platinum-timer-bg: rgba(42, 42, 42, 0.08);
+  --platinum-timer-border: rgba(42, 42, 42, 0.18);
+  
+  /* Emerald Theme */
+  --emerald-bg: #0d3d2f;
+  --emerald-text: #d4f4dd;
+  --emerald-accent: #7cc990;
+  --emerald-cta-bg: #7cc990;
+  --emerald-cta-text: #0d3d2f;
+  --emerald-timer-bg: rgba(124, 201, 144, 0.15);
+  --emerald-timer-border: rgba(124, 201, 144, 0.3);
+}
 
-.elite-announce {
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-bar {
   {% if section.settings.sticky_position %}
   position: sticky;
   top: 0;
@@ -412,748 +231,498 @@
   {% endif %}
   width: 100%;
   z-index: 9999;
-  font-family: var(--elite-font);
-  overflow: hidden;
   {% case section.settings.color_scheme %}
     {% when 'luxury-gold' %}
-      background: var(--elite-gold-bg);
-      color: var(--elite-gold-text);
-      border-bottom: 1px solid var(--elite-gold-border);
+      background: var(--gold-bg);
+      color: var(--gold-text);
     {% when 'noir-black' %}
-      background: var(--elite-noir-bg);
-      color: var(--elite-noir-text);
-      border-bottom: 1px solid var(--elite-noir-border);
+      background: var(--noir-bg);
+      color: var(--noir-text);
     {% when 'champagne' %}
-      background: var(--elite-champagne-bg);
-      color: var(--elite-champagne-text);
-      border-bottom: 1px solid var(--elite-champagne-border);
+      background: var(--champagne-bg);
+      color: var(--champagne-text);
     {% when 'rose-gold' %}
-      background: var(--elite-rose-bg);
-      color: var(--elite-rose-text);
-      border-bottom: 1px solid var(--elite-rose-border);
+      background: var(--rose-bg);
+      color: var(--rose-text);
     {% when 'platinum' %}
-      background: var(--elite-platinum-bg);
-      color: var(--elite-platinum-text);
-      border-bottom: 1px solid var(--elite-platinum-border);
+      background: var(--platinum-bg);
+      color: var(--platinum-text);
     {% when 'emerald' %}
-      background: var(--elite-emerald-bg);
-      color: var(--elite-emerald-text);
-      border-bottom: 1px solid var(--elite-emerald-border);
+      background: var(--emerald-bg);
+      color: var(--emerald-text);
   {% endcase %}
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.4s var(--elite-ease);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
 }
 
-/* Shimmer Effect */
-{% if section.settings.enable_shimmer %}
-.elite-announce::before {
+.glamhi-bar.dismissed {
+  transform: translateY(-100%);
+}
+
+/* Subtle shimmer effect */
+.glamhi-bar::before {
   content: '';
   position: absolute;
   top: 0;
   left: -100%;
-  width: 100%;
+  width: 40%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, calc(0.15 * var(--elite-intensity))) 50%,
-    transparent 100%
-  );
-  animation: elite-shimmer calc(8s / var(--elite-intensity)) ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  animation: shimmer 10s infinite ease-in-out;
   pointer-events: none;
 }
 
-@keyframes elite-shimmer {
-  0%, 100% { left: -100%; }
-  50% { left: 100%; }
-}
-{% endif %}
-
-/* Top accent line */
-.elite-announce::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  {% case section.settings.color_scheme %}
-    {% when 'luxury-gold' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-gold-accent) 50%, transparent 100%);
-    {% when 'noir-black' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-noir-accent) 50%, transparent 100%);
-    {% when 'champagne' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-champagne-accent) 50%, transparent 100%);
-    {% when 'rose-gold' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-rose-accent) 50%, transparent 100%);
-    {% when 'platinum' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-platinum-accent) 50%, transparent 100%);
-    {% when 'emerald' %}
-      background: linear-gradient(90deg, transparent 0%, var(--elite-emerald-accent) 50%, transparent 100%);
-  {% endcase %}
-  opacity: 0.6;
+@keyframes shimmer {
+  0%, 100% { left: -100%; opacity: 0; }
+  25%, 75% { opacity: 1; }
+  50% { left: 150%; }
 }
 
-.elite-announce.hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ───────────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════
    INNER WRAPPER
-   ─────────────────────────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════════ */
 
-.elite-announce-inner {
+.glamhi-bar-inner {
   max-width: 1600px;
   margin: 0 auto;
-  padding: clamp(10px, 2.5vw, 13px) clamp(16px, 4vw, 28px);
-  padding-right: clamp(50px, 10vw, 72px);
+  padding: 8px 50px 8px 16px;
   position: relative;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   CONTENT FLEX CONTAINER
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-announce-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(10px, 2.5vw, 18px);
-  flex-wrap: nowrap;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   URGENCY BADGE
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-badge {
-  {% if section.settings.hide_badge_on_mobile %}
-  display: none;
-  {% else %}
-  display: inline-flex;
-  {% endif %}
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #e63946 0%, #d62839 100%);
-  color: #ffffff;
-  font-size: clamp(9px, 1.8vw, 10.5px);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 5px clamp(10px, 2.2vw, 13px);
-  border-radius: 100px;
-  white-space: nowrap;
-  {% if section.settings.enable_glow %}
-  box-shadow: 0 0 16px rgba(230, 57, 70, calc(0.45 * var(--elite-intensity)));
-  {% endif %}
-  {% if section.settings.animation_intensity > 0 %}
-  animation: elite-badge-pulse calc(3.5s / var(--elite-intensity)) ease-in-out infinite;
-  {% endif %}
-  position: relative;
-  overflow: hidden;
-}
-
-.elite-badge::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  {% if section.settings.animation_intensity > 0 %}
-  animation: elite-badge-shine calc(4s / var(--elite-intensity)) infinite;
-  {% endif %}
-}
-
-@keyframes elite-badge-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes elite-badge-shine {
-  0% { left: -100%; }
-  50%, 100% { left: 200%; }
 }
 
 @media (min-width: 768px) {
-  .elite-badge {
-    display: inline-flex;
+  .glamhi-bar-inner {
+    padding: 10px 60px 10px 24px;
   }
 }
 
-/* ───────────────────────────────────────────────────────────────
-   MESSAGE CAROUSEL
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-carousel {
-  flex: 1;
-  max-width: 900px;
-  position: relative;
-  overflow: hidden;
-  min-height: 1.5rem;
+@media (min-width: 1200px) {
+  .glamhi-bar-inner {
+    padding: 11px 70px 11px 32px;
+  }
 }
 
-.elite-messages {
+/* ═══════════════════════════════════════════════════════════════
+   CONTENT LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 32px;
+}
+
+@media (min-width: 768px) {
+  .glamhi-bar-content {
+    gap: 16px;
+    min-height: 36px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-bar-content {
+    gap: 20px;
+    min-height: 38px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MESSAGE CAROUSEL
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-carousel {
+  flex: 1 1 auto;
+  max-width: 650px;
+  min-height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .glamhi-carousel {
+    max-width: 750px;
+  }
+}
+
+.glamhi-messages {
   position: relative;
   width: 100%;
-  height: 100%;
 }
 
-.elite-message {
+.glamhi-message {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   text-align: center;
   opacity: 0;
-  pointer-events: none;
-  {% case section.settings.transition_effect %}
-    {% when 'fade' %}
-      transform: translateY(0);
-      transition: opacity 0.6s var(--elite-ease);
-    {% when 'slide' %}
-      transform: translateY(1.5rem);
-      transition: opacity 0.6s var(--elite-ease), transform 0.6s var(--elite-ease);
-    {% when 'scale' %}
-      transform: scale(0.9);
-      transition: opacity 0.6s var(--elite-ease), transform 0.6s var(--elite-ease);
-  {% endcase %}
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.elite-message.active {
+.glamhi-message.active {
   opacity: 1;
-  pointer-events: all;
-  {% case section.settings.transition_effect %}
-    {% when 'slide' %}
-      transform: translateY(0);
-    {% when 'scale' %}
-      transform: scale(1);
-  {% endcase %}
+  visibility: visible;
+  position: relative;
 }
 
-.elite-message a {
+.glamhi-message a {
   color: inherit;
   text-decoration: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
-.elite-message a:hover {
+.glamhi-message a:hover {
   opacity: 0.8;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   MESSAGE TEXT STYLING
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-text {
-  font-size: clamp(12px, 2.6vw, 14.5px);
+.glamhi-message-text {
+  font-size: 12px;
+  font-weight: 600;
   line-height: 1.4;
-  margin: 0;
-  {% case section.settings.text_style %}
-    {% when 'elegant' %}
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    {% when 'bold' %}
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    {% when 'minimal' %}
-      font-weight: 500;
-      letter-spacing: 0.01em;
-  {% endcase %}
-  {% case section.settings.color_scheme %}
-    {% when 'luxury-gold' %}
-      background: linear-gradient(135deg, var(--elite-gold-text) 0%, var(--elite-gold-accent) 100%);
-    {% when 'noir-black' %}
-      background: linear-gradient(135deg, var(--elite-noir-text) 0%, var(--elite-noir-accent) 100%);
-    {% when 'champagne' %}
-      background: linear-gradient(135deg, var(--elite-champagne-text) 0%, var(--elite-champagne-accent) 100%);
-    {% when 'rose-gold' %}
-      background: linear-gradient(135deg, var(--elite-rose-text) 0%, var(--elite-rose-accent) 100%);
-    {% when 'platinum' %}
-      background: linear-gradient(135deg, var(--elite-platinum-text) 0%, var(--elite-platinum-accent) 100%);
-    {% when 'emerald' %}
-      background: linear-gradient(135deg, var(--elite-emerald-text) 0%, var(--elite-emerald-accent) 100%);
-  {% endcase %}
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   COUNTDOWN TIMER
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-timer-wrapper {
-  {% if section.settings.hide_timer_on_mobile %}
-  display: none;
-  {% else %}
-  display: flex;
-  {% endif %}
-  align-items: center;
-  gap: clamp(6px, 1.5vw, 9px);
-  flex-shrink: 0;
-}
-
-@media (min-width: 640px) {
-  .elite-timer-wrapper {
-    display: flex;
+@media (min-width: 768px) {
+  .glamhi-message-text {
+    font-size: 13px;
+    letter-spacing: 1px;
   }
 }
 
-.elite-timer-label {
-  font-size: clamp(10px, 2vw, 11.5px);
-  font-weight: 600;
-  opacity: 0.9;
-  white-space: nowrap;
-  letter-spacing: 0.02em;
+@media (min-width: 1200px) {
+  .glamhi-message-text {
+    font-size: 14px;
+    letter-spacing: 1.2px;
+  }
 }
 
-.elite-timer {
+/* ═══════════════════════════════════════════════════════════════
+   TIMER SECTION
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-timer-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.glamhi-timer-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .glamhi-timer-label {
+    font-size: 12px;
+    letter-spacing: 0.6px;
+  }
+}
+
+.glamhi-timer {
   {% case section.settings.color_scheme %}
     {% when 'luxury-gold' %}
-      background: var(--elite-gold-cta);
-      color: var(--elite-gold-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-gold-glow);
-      {% endif %}
+      background: var(--gold-timer-bg);
+      border: 1px solid var(--gold-timer-border);
+      color: var(--gold-text);
     {% when 'noir-black' %}
-      background: var(--elite-noir-cta);
-      color: var(--elite-noir-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-noir-glow);
-      {% endif %}
+      background: var(--noir-timer-bg);
+      border: 1px solid var(--noir-timer-border);
+      color: var(--noir-text);
     {% when 'champagne' %}
-      background: var(--elite-champagne-cta);
-      color: var(--elite-champagne-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-champagne-glow);
-      {% endif %}
+      background: var(--champagne-timer-bg);
+      border: 1px solid var(--champagne-timer-border);
+      color: var(--champagne-text);
     {% when 'rose-gold' %}
-      background: var(--elite-rose-cta);
-      color: var(--elite-rose-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-rose-glow);
-      {% endif %}
+      background: var(--rose-timer-bg);
+      border: 1px solid var(--rose-timer-border);
+      color: var(--rose-text);
     {% when 'platinum' %}
-      background: var(--elite-platinum-cta);
-      color: var(--elite-platinum-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-platinum-glow);
-      {% endif %}
+      background: var(--platinum-timer-bg);
+      border: 1px solid var(--platinum-timer-border);
+      color: var(--platinum-text);
     {% when 'emerald' %}
-      background: var(--elite-emerald-cta);
-      color: var(--elite-emerald-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-emerald-glow);
-      {% endif %}
+      background: var(--emerald-timer-bg);
+      border: 1px solid var(--emerald-timer-border);
+      color: var(--emerald-text);
   {% endcase %}
-  font-size: clamp(11.5px, 2.4vw, 13.5px);
-  font-weight: 800;
-  padding: 6px clamp(12px, 2.8vw, 16px);
-  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 6px 14px;
+  border-radius: 40px;
   white-space: nowrap;
-  letter-spacing: 0.06em;
-  {% if section.settings.animation_intensity > 0 %}
-  animation: elite-timer-pulse calc(2.8s / var(--elite-intensity)) ease-in-out infinite;
-  {% endif %}
-  transition: all 0.5s var(--elite-ease);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
 }
 
-@keyframes elite-timer-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+@media (min-width: 768px) {
+  .glamhi-timer {
+    font-size: 12px;
+    padding: 7px 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-timer {
+    font-size: 13px;
+    padding: 8px 18px;
+  }
+}
+
+.glamhi-timer:hover {
+  transform: scale(1.05);
 }
 
 /* Urgency states */
-.elite-timer.urgent {
-  background: linear-gradient(135deg, #ff4d4d 0%, #e63946 100%) !important;
-  color: #ffffff !important;
-  {% if section.settings.enable_glow %}
-  box-shadow: 0 0 20px rgba(230, 57, 70, 0.6) !important;
-  {% endif %}
-  {% if section.settings.animation_intensity > 0 %}
-  animation: elite-timer-urgent calc(1.8s / var(--elite-intensity)) ease-in-out infinite !important;
-  {% endif %}
+.glamhi-timer.urgent {
+  background: rgba(255, 77, 77, 0.18) !important;
+  border-color: rgba(255, 77, 77, 0.35) !important;
+  color: #ff4d4d !important;
+  animation: urgent-pulse 2s ease-in-out infinite;
 }
 
-@keyframes elite-timer-urgent {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+@keyframes urgent-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(255, 77, 77, 0);
+  }
 }
 
-.elite-timer.medium-urgent {
-  background: linear-gradient(135deg, #ff6b35 0%, #f4a261 100%) !important;
-  color: #ffffff !important;
-  {% if section.settings.enable_glow %}
-  box-shadow: 0 0 18px rgba(255, 107, 53, 0.5) !important;
-  {% endif %}
-  {% if section.settings.animation_intensity > 0 %}
-  animation: elite-timer-medium calc(2.2s / var(--elite-intensity)) ease-in-out infinite !important;
-  {% endif %}
+.glamhi-timer.medium-urgent {
+  background: rgba(255, 140, 0, 0.15) !important;
+  border-color: rgba(255, 140, 0, 0.3) !important;
+  color: #ff8c00 !important;
 }
 
-@keyframes elite-timer-medium {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-
-/* ───────────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════
    CTA BUTTON
-   ─────────────────────────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════════ */
 
-.elite-cta {
+.glamhi-cta {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   {% case section.settings.color_scheme %}
     {% when 'luxury-gold' %}
-      background: var(--elite-gold-cta);
-      color: var(--elite-gold-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-gold-glow);
-      {% endif %}
+      background: var(--gold-cta-bg);
+      color: var(--gold-cta-text);
     {% when 'noir-black' %}
-      background: var(--elite-noir-cta);
-      color: var(--elite-noir-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-noir-glow);
-      {% endif %}
+      background: var(--noir-cta-bg);
+      color: var(--noir-cta-text);
     {% when 'champagne' %}
-      background: var(--elite-champagne-cta);
-      color: var(--elite-champagne-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-champagne-glow);
-      {% endif %}
+      background: var(--champagne-cta-bg);
+      color: var(--champagne-cta-text);
     {% when 'rose-gold' %}
-      background: var(--elite-rose-cta);
-      color: var(--elite-rose-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-rose-glow);
-      {% endif %}
+      background: var(--rose-cta-bg);
+      color: var(--rose-cta-text);
     {% when 'platinum' %}
-      background: var(--elite-platinum-cta);
-      color: var(--elite-platinum-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-platinum-glow);
-      {% endif %}
+      background: var(--platinum-cta-bg);
+      color: var(--platinum-cta-text);
     {% when 'emerald' %}
-      background: var(--elite-emerald-cta);
-      color: var(--elite-emerald-cta-text);
-      {% if section.settings.enable_glow %}
-      box-shadow: var(--elite-emerald-glow);
-      {% endif %}
+      background: var(--emerald-cta-bg);
+      color: var(--emerald-cta-text);
   {% endcase %}
-  font-size: clamp(11.5px, 2.4vw, 13.5px);
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 8px clamp(16px, 3.6vw, 24px);
-  border-radius: 100px;
+  padding: 7px 18px;
+  border-radius: 40px;
   white-space: nowrap;
-  transition: all 0.3s var(--elite-ease);
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  min-height: 38px;
 }
 
-.elite-cta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.5s ease;
+@media (min-width: 768px) {
+  .glamhi-cta {
+    font-size: 12px;
+    padding: 8px 22px;
+  }
 }
 
-.elite-cta:hover::before {
-  left: 100%;
+@media (min-width: 1200px) {
+  .glamhi-cta {
+    font-size: 12px;
+    padding: 9px 26px;
+  }
 }
 
-.elite-cta:hover,
-.elite-cta:focus {
-  transform: translateY(-2px) scale(1.05);
-  {% case section.settings.color_scheme %}
-    {% when 'luxury-gold' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(244, 201, 107, 0.6);
-      {% endif %}
-    {% when 'noir-black' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(255, 255, 255, 0.4);
-      {% endif %}
-    {% when 'champagne' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(139, 111, 71, 0.4);
-      {% endif %}
-    {% when 'rose-gold' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(212, 165, 116, 0.5);
-      {% endif %}
-    {% when 'platinum' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(102, 102, 102, 0.4);
-      {% endif %}
-    {% when 'emerald' %}
-      {% if section.settings.enable_glow %}
-      box-shadow: 0 0 28px rgba(124, 201, 144, 0.5);
-      {% endif %}
-  {% endcase %}
+.glamhi-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.elite-cta:active {
-  transform: translateY(0) scale(1.02);
+.glamhi-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* ───────────────────────────────────────────────────────────────
+/* ═══════════════════════════════════════════════════════════════
    DISMISS BUTTON
-   ─────────────────────────────────────────────────────────────── */
+   ═══════════════════════════════════════════════════════════════ */
 
-.elite-dismiss {
+.glamhi-dismiss {
   position: absolute;
-  right: clamp(12px, 3vw, 20px);
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.3s var(--elite-ease);
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  min-height: 32px;
+  background: transparent;
+  border: none;
   border-radius: 50%;
-  z-index: 10;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  padding: 0;
 }
 
-.elite-dismiss:hover,
-.elite-dismiss:focus {
+@media (min-width: 768px) {
+  .glamhi-dismiss {
+    right: 14px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+.glamhi-dismiss:hover {
   opacity: 1;
-  transform: translateY(-50%) scale(1.15) rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
   background: rgba(255, 255, 255, 0.1);
 }
 
-.elite-dismiss:focus {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-}
-
-.elite-dismiss svg {
-  width: clamp(18px, 4vw, 22px);
-  height: clamp(18px, 4vw, 22px);
+.glamhi-dismiss svg {
+  width: 16px;
+  height: 16px;
   stroke: currentColor;
   stroke-width: 2.5;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   PROGRESS INDICATORS
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-dots {
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-  pointer-events: none;
-  z-index: 1;
+@media (min-width: 768px) {
+  .glamhi-dismiss svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
-.elite-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  {% case section.settings.color_scheme %}
-    {% when 'luxury-gold' %}
-      background: var(--elite-gold-accent);
-    {% when 'noir-black' %}
-      background: var(--elite-noir-accent);
-    {% when 'champagne' %}
-      background: var(--elite-champagne-accent);
-    {% when 'rose-gold' %}
-      background: var(--elite-rose-accent);
-    {% when 'platinum' %}
-      background: var(--elite-platinum-accent);
-    {% when 'emerald' %}
-      background: var(--elite-emerald-accent);
-  {% endcase %}
-  opacity: 0.3;
-  transition: all 0.3s var(--elite-ease);
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.elite-dot.active {
-  opacity: 1;
-  transform: scale(1.3);
+.glamhi-cta:focus-visible,
+.glamhi-dismiss:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
-/* ───────────────────────────────────────────────────────────────
-   RESPONSIVE BREAKPOINTS
-   ─────────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
 
-@media (max-width: 639px) {
-  .elite-announce-content {
+@media (max-width: 640px) {
+  .glamhi-message-text {
+    max-width: 220px;
+    font-size: 11px;
+  }
+  
+  .glamhi-timer-label {
+    font-size: 10px;
+  }
+  
+  .glamhi-cta {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glamhi-bar-content {
     gap: 8px;
   }
   
-  .elite-announce-inner {
-    padding-right: 48px;
+  .glamhi-message-text {
+    max-width: 160px;
   }
-}
-
-@media (min-width: 640px) and (max-width: 1023px) {
-  .elite-announce-content {
-    gap: 12px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .elite-announce-content {
-    gap: 18px;
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   ACCESSIBILITY
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-cta:focus-visible,
-.elite-dismiss:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .elite-announce,
-  .elite-announce::before,
-  .elite-badge,
-  .elite-timer,
-  .elite-cta,
-  .elite-dismiss,
-  .elite-message {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-@media (prefers-contrast: high) {
-  .elite-text {
-    filter: none;
-    -webkit-text-fill-color: currentColor;
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   PERFORMANCE OPTIMIZATIONS
-   ─────────────────────────────────────────────────────────────── */
-
-.elite-announce,
-.elite-badge,
-.elite-timer,
-.elite-cta {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 {% endstyle %}
 
 {% if section.settings.enable_bar %}
-<div class="elite-announce" 
-     id="elite-announce-{{ section.id }}"
-     role="banner"
-     aria-label="Store announcement">
-  
-  <div class="elite-announce-inner">
-    <div class="elite-announce-content">
+<div class="glamhi-bar" id="glamhi-bar-{{ section.id }}" role="banner" aria-label="Announcement">
+  <div class="glamhi-bar-inner">
+    <div class="glamhi-bar-content">
       
-      {%- if section.settings.show_badge -%}
-        <div class="elite-badge" aria-hidden="true">
-          {{ section.settings.badge_text }}
-        </div>
-      {%- endif -%}
-      
-      <div class="elite-carousel">
-        <div class="elite-messages">
+      <!-- MESSAGE CAROUSEL -->
+      <div class="glamhi-carousel">
+        <div class="glamhi-messages">
           {%- for block in section.blocks -%}
-            <div class="elite-message {% if forloop.first %}active{% endif %}" 
-                 data-index="{{ forloop.index0 }}">
+            <div class="glamhi-message {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
               {%- if block.settings.message_link != blank -%}
                 <a href="{{ block.settings.message_link }}">
               {%- endif -%}
-              <p class="elite-text">
-                {%- if block.settings.show_icon -%}
-                  {%- case block.settings.icon_type -%}
-                    {%- when 'truck' -%}🚚
-                    {%- when 'tag' -%}🏷️
-                    {%- when 'fire' -%}🔥
-                    {%- when 'star' -%}⭐
-                    {%- when 'sparkles' -%}✨
-                    {%- when 'crown' -%}👑
-                    {%- when 'gift' -%}🎁
-                    {%- when 'zap' -%}⚡
-                  {%- endcase -%}
-                {%- endif -%}
-                {{ block.settings.message_text }}
-              </p>
+              <p class="glamhi-message-text">{{ block.settings.message_text }}</p>
               {%- if block.settings.message_link != blank -%}
                 </a>
               {%- endif -%}
             </div>
           {%- endfor -%}
         </div>
-        
-        {%- if section.blocks.size > 1 and section.settings.enable_carousel -%}
-          <div class="elite-dots" aria-hidden="true">
-            {%- for block in section.blocks -%}
-              <div class="elite-dot {% if forloop.first %}active{% endif %}"></div>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
       </div>
       
+      <!-- TIMER -->
       {%- if section.settings.show_timer -%}
-        <div class="elite-timer-wrapper">
-          <span class="elite-timer-label">{{ section.settings.timer_label }}</span>
-          <time class="elite-timer" 
-                id="elite-timer-{{ section.id }}" 
-                datetime="">
-            --h --m --s
-          </time>
+        <div class="glamhi-timer-container">
+          <span class="glamhi-timer-label">{{ section.settings.timer_label }}</span>
+          <time class="glamhi-timer" id="glamhi-timer-{{ section.id }}" datetime="">00h 00m</time>
         </div>
       {%- endif -%}
       
+      <!-- CTA BUTTON -->
       {%- if section.settings.show_cta and section.settings.cta_link != blank -%}
-        <a href="{{ section.settings.cta_link }}" 
-           class="elite-cta"
-           aria-label="{{ section.settings.cta_text }}">
+        <a href="{{ section.settings.cta_link }}" class="glamhi-cta" aria-label="{{ section.settings.cta_text }}">
           {{ section.settings.cta_text }}
         </a>
       {%- endif -%}
       
     </div>
     
+    <!-- DISMISS BUTTON -->
     {%- if section.settings.dismissible -%}
-      <button class="elite-dismiss" 
-              onclick="eliteDismiss('{{ section.id }}')"
-              aria-label="Dismiss announcement">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <button class="glamhi-dismiss" onclick="glamhiDismiss('{{ section.id }}')" aria-label="Close announcement">
+        <svg viewBox="0 0 24 24" fill="none">
           <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
@@ -1166,30 +735,30 @@
 (function() {
   'use strict';
   
-  const sectionId = '{{ section.id }}';
-  const bar = document.getElementById('elite-announce-' + sectionId);
+  var sectionId = '{{ section.id }}';
+  var bar = document.getElementById('glamhi-bar-' + sectionId);
   
   if (!bar) return;
   
-  // Check dismissal
-  const dismissKey = 'elite-announce-dismissed-' + sectionId;
+  // Check if dismissed
+  var dismissKey = 'glamhi-bar-dismissed-' + sectionId;
   if (localStorage.getItem(dismissKey) === 'true') {
     bar.style.display = 'none';
     return;
   }
   
   {% if section.settings.enable_carousel and section.blocks.size > 1 %}
-  // Carousel
-  const messages = bar.querySelectorAll('.elite-message');
-  const dots = bar.querySelectorAll('.elite-dot');
-  let currentIndex = 0;
+  // Carousel functionality
+  var messages = bar.querySelectorAll('.glamhi-message');
+  var currentIndex = 0;
   
   function showMessage(index) {
-    messages.forEach((msg, i) => {
-      msg.classList.toggle('active', i === index);
-    });
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
+    messages.forEach(function(msg, i) {
+      if (i === index) {
+        msg.classList.add('active');
+      } else {
+        msg.classList.remove('active');
+      }
     });
   }
   
@@ -1202,33 +771,33 @@
   {% endif %}
   
   {% if section.settings.show_timer and section.settings.timer_end_date != blank %}
-  // Timer
-  const timer = document.getElementById('elite-timer-' + sectionId);
+  // Timer functionality
+  var timer = document.getElementById('glamhi-timer-' + sectionId);
   if (timer) {
-    const endDate = new Date('{{ section.settings.timer_end_date }}').getTime();
+    var endDate = new Date('{{ section.settings.timer_end_date }}').getTime();
     
     function updateTimer() {
-      const now = Date.now();
-      const remaining = endDate - now;
+      var now = Date.now();
+      var remaining = endDate - now;
       
       if (remaining <= 0) {
         timer.textContent = 'Ended';
-        timer.style.animation = 'none';
+        timer.classList.remove('urgent', 'medium-urgent');
         return;
       }
       
-      const hours = Math.floor(remaining / 3600000);
-      const minutes = Math.floor((remaining % 3600000) / 60000);
-      const seconds = Math.floor((remaining % 60000) / 1000);
+      var hours = Math.floor(remaining / 3600000);
+      var minutes = Math.floor((remaining % 3600000) / 60000);
+      var seconds = Math.floor((remaining % 60000) / 1000);
       
-      timer.textContent = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
-      timer.setAttribute('datetime', `PT${hours}H${minutes}M${seconds}S`);
+      timer.textContent = pad(hours) + 'h ' + pad(minutes) + 'm';
+      timer.setAttribute('datetime', 'PT' + hours + 'H' + minutes + 'M' + seconds + 'S');
       
-      // Urgency states
-      if (remaining < 3600000) {
+      // Urgency styling
+      if (remaining < 3600000) { // Less than 1 hour
         timer.classList.add('urgent');
         timer.classList.remove('medium-urgent');
-      } else if (remaining < 10800000) {
+      } else if (remaining < 10800000) { // Less than 3 hours
         timer.classList.add('medium-urgent');
         timer.classList.remove('urgent');
       } else {
@@ -1237,7 +806,7 @@
     }
     
     function pad(num) {
-      return String(num).padStart(2, '0');
+      return (num < 10 ? '0' : '') + num;
     }
     
     updateTimer();
@@ -1246,12 +815,14 @@
   {% endif %}
 })();
 
-function eliteDismiss(sectionId) {
-  const bar = document.getElementById('elite-announce-' + sectionId);
+function glamhiDismiss(sectionId) {
+  var bar = document.getElementById('glamhi-bar-' + sectionId);
   if (bar) {
-    bar.classList.add('hidden');
-    localStorage.setItem('elite-announce-dismissed-' + sectionId, 'true');
-    setTimeout(() => bar.style.display = 'none', 400);
+    bar.classList.add('dismissed');
+    localStorage.setItem('glamhi-bar-dismissed-' + sectionId, 'true');
+    setTimeout(function() {
+      bar.style.display = 'none';
+    }, 400);
   }
 }
 </script>
