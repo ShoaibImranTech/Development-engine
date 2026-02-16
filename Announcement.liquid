@@ -1,1 +1,830 @@
+{% schema %}
+{
+  "name": "GLAMHI Premium Bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎯 Bar Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_bar",
+      "label": "Enable Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_position",
+      "label": "Sticky Position",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "Dismissible",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "🎨 Design"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "options": [
+        {"value": "luxury-gold", "label": "Luxury Gold"},
+        {"value": "noir-black", "label": "Noir Black"},
+        {"value": "champagne", "label": "Champagne"},
+        {"value": "rose-gold", "label": "Rose Gold"},
+        {"value": "platinum", "label": "Platinum Silver"},
+        {"value": "emerald", "label": "Emerald Green"}
+      ],
+      "default": "luxury-gold"
+    },
+    {
+      "type": "header",
+      "content": "⚡ Message Carousel"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel",
+      "label": "Enable Auto-Rotation",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "carousel_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "unit": "s",
+      "label": "Rotation Speed"
+    },
+    {
+      "type": "header",
+      "content": "⏱️ Countdown Timer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "label": "Show Timer",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "timer_end_date",
+      "label": "End Date & Time",
+      "default": "2026-12-31T23:59:59",
+      "info": "Format: YYYY-MM-DDThh:mm:ss"
+    },
+    {
+      "type": "text",
+      "id": "timer_label",
+      "label": "Timer Label",
+      "default": "Ends in"
+    },
+    {
+      "type": "header",
+      "content": "🎯 CTA Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Link",
+      "default": "/collections/all"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "message_text",
+          "label": "Message",
+          "default": "FREE DELIVERY on All Orders"
+        },
+        {
+          "type": "url",
+          "id": "message_link",
+          "label": "Link (Optional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "GLAMHIVE Premium Bar",
+      "blocks": [
+        {
+          "type": "message",
+          "settings": {"message_text": "FREE SHIPPING ON ALL ORDERS"}
+        },
+        {
+          "type": "message",
+          "settings": {"message_text": "50% OFF SITEWIDE - LIMITED TIME"}
+        },
+        {
+          "type": "message",
+          "settings": {"message_text": "PREMIUM COLLECTION NOW AVAILABLE"}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+/* ═══════════════════════════════════════════════════════════════
+   GLAMHIVE PREMIUM BAR - LUXURY DESIGN
+   Ultra Professional | Sleek | High-End Branding
+   ═══════════════════════════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Luxury Gold Theme */
+  --gold-bg: #1a1410;
+  --gold-text: #f5e6d3;
+  --gold-accent: #d4a574;
+  --gold-cta-bg: #d4a574;
+  --gold-cta-text: #1a1410;
+  --gold-timer-bg: rgba(212, 165, 116, 0.15);
+  --gold-timer-border: rgba(212, 165, 116, 0.3);
+  
+  /* Noir Black Theme */
+  --noir-bg: #0a0a0a;
+  --noir-text: #ffffff;
+  --noir-accent: #cccccc;
+  --noir-cta-bg: #ffffff;
+  --noir-cta-text: #0a0a0a;
+  --noir-timer-bg: rgba(255, 255, 255, 0.12);
+  --noir-timer-border: rgba(255, 255, 255, 0.25);
+  
+  /* Champagne Theme */
+  --champagne-bg: #f7f4ed;
+  --champagne-text: #3d3020;
+  --champagne-accent: #8b7355;
+  --champagne-cta-bg: #3d3020;
+  --champagne-cta-text: #f7f4ed;
+  --champagne-timer-bg: rgba(61, 48, 32, 0.1);
+  --champagne-timer-border: rgba(61, 48, 32, 0.2);
+  
+  /* Rose Gold Theme */
+  --rose-bg: #2d1b1b;
+  --rose-text: #f9ddd1;
+  --rose-accent: #d4a574;
+  --rose-cta-bg: #d4a574;
+  --rose-cta-text: #2d1b1b;
+  --rose-timer-bg: rgba(212, 165, 116, 0.15);
+  --rose-timer-border: rgba(212, 165, 116, 0.3);
+  
+  /* Platinum Theme */
+  --platinum-bg: #f5f5f5;
+  --platinum-text: #2a2a2a;
+  --platinum-accent: #666666;
+  --platinum-cta-bg: #2a2a2a;
+  --platinum-cta-text: #ffffff;
+  --platinum-timer-bg: rgba(42, 42, 42, 0.08);
+  --platinum-timer-border: rgba(42, 42, 42, 0.18);
+  
+  /* Emerald Theme */
+  --emerald-bg: #0d3d2f;
+  --emerald-text: #d4f4dd;
+  --emerald-accent: #7cc990;
+  --emerald-cta-bg: #7cc990;
+  --emerald-cta-text: #0d3d2f;
+  --emerald-timer-bg: rgba(124, 201, 144, 0.15);
+  --emerald-timer-border: rgba(124, 201, 144, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-bar {
+  {% if section.settings.sticky_position %}
+  position: sticky;
+  top: 0;
+  {% else %}
+  position: relative;
+  {% endif %}
+  width: 100%;
+  z-index: 9999;
+  {% case section.settings.color_scheme %}
+    {% when 'luxury-gold' %}
+      background: var(--gold-bg);
+      color: var(--gold-text);
+    {% when 'noir-black' %}
+      background: var(--noir-bg);
+      color: var(--noir-text);
+    {% when 'champagne' %}
+      background: var(--champagne-bg);
+      color: var(--champagne-text);
+    {% when 'rose-gold' %}
+      background: var(--rose-bg);
+      color: var(--rose-text);
+    {% when 'platinum' %}
+      background: var(--platinum-bg);
+      color: var(--platinum-text);
+    {% when 'emerald' %}
+      background: var(--emerald-bg);
+      color: var(--emerald-text);
+  {% endcase %}
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.glamhi-bar.dismissed {
+  transform: translateY(-100%);
+}
+
+/* Subtle shimmer effect */
+.glamhi-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+  animation: shimmer 10s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0%, 100% { left: -100%; opacity: 0; }
+  25%, 75% { opacity: 1; }
+  50% { left: 150%; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INNER WRAPPER
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-bar-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 8px 50px 8px 16px;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .glamhi-bar-inner {
+    padding: 10px 60px 10px 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-bar-inner {
+    padding: 11px 70px 11px 32px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CONTENT LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 32px;
+}
+
+@media (min-width: 768px) {
+  .glamhi-bar-content {
+    gap: 16px;
+    min-height: 36px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-bar-content {
+    gap: 20px;
+    min-height: 38px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MESSAGE CAROUSEL
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-carousel {
+  flex: 1 1 auto;
+  max-width: 650px;
+  min-height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .glamhi-carousel {
+    max-width: 750px;
+  }
+}
+
+.glamhi-messages {
+  position: relative;
+  width: 100%;
+}
+
+.glamhi-message {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.glamhi-message.active {
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+}
+
+.glamhi-message a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.glamhi-message a:hover {
+  opacity: 0.8;
+}
+
+.glamhi-message-text {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 768px) {
+  .glamhi-message-text {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-message-text {
+    font-size: 14px;
+    letter-spacing: 1.2px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMER SECTION
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-timer-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.glamhi-timer-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .glamhi-timer-label {
+    font-size: 12px;
+    letter-spacing: 0.6px;
+  }
+}
+
+.glamhi-timer {
+  {% case section.settings.color_scheme %}
+    {% when 'luxury-gold' %}
+      background: var(--gold-timer-bg);
+      border: 1px solid var(--gold-timer-border);
+      color: var(--gold-text);
+    {% when 'noir-black' %}
+      background: var(--noir-timer-bg);
+      border: 1px solid var(--noir-timer-border);
+      color: var(--noir-text);
+    {% when 'champagne' %}
+      background: var(--champagne-timer-bg);
+      border: 1px solid var(--champagne-timer-border);
+      color: var(--champagne-text);
+    {% when 'rose-gold' %}
+      background: var(--rose-timer-bg);
+      border: 1px solid var(--rose-timer-border);
+      color: var(--rose-text);
+    {% when 'platinum' %}
+      background: var(--platinum-timer-bg);
+      border: 1px solid var(--platinum-timer-border);
+      color: var(--platinum-text);
+    {% when 'emerald' %}
+      background: var(--emerald-timer-bg);
+      border: 1px solid var(--emerald-timer-border);
+      color: var(--emerald-text);
+  {% endcase %}
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  padding: 6px 14px;
+  border-radius: 40px;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .glamhi-timer {
+    font-size: 12px;
+    padding: 7px 16px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-timer {
+    font-size: 13px;
+    padding: 8px 18px;
+  }
+}
+
+.glamhi-timer:hover {
+  transform: scale(1.05);
+}
+
+/* Urgency states */
+.glamhi-timer.urgent {
+  background: rgba(255, 77, 77, 0.18) !important;
+  border-color: rgba(255, 77, 77, 0.35) !important;
+  color: #ff4d4d !important;
+  animation: urgent-pulse 2s ease-in-out infinite;
+}
+
+@keyframes urgent-pulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4);
+  }
+  50% { 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(255, 77, 77, 0);
+  }
+}
+
+.glamhi-timer.medium-urgent {
+  background: rgba(255, 140, 0, 0.15) !important;
+  border-color: rgba(255, 140, 0, 0.3) !important;
+  color: #ff8c00 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CTA BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  {% case section.settings.color_scheme %}
+    {% when 'luxury-gold' %}
+      background: var(--gold-cta-bg);
+      color: var(--gold-cta-text);
+    {% when 'noir-black' %}
+      background: var(--noir-cta-bg);
+      color: var(--noir-cta-text);
+    {% when 'champagne' %}
+      background: var(--champagne-cta-bg);
+      color: var(--champagne-cta-text);
+    {% when 'rose-gold' %}
+      background: var(--rose-cta-bg);
+      color: var(--rose-cta-text);
+    {% when 'platinum' %}
+      background: var(--platinum-cta-bg);
+      color: var(--platinum-cta-text);
+    {% when 'emerald' %}
+      background: var(--emerald-cta-bg);
+      color: var(--emerald-cta-text);
+  {% endcase %}
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 7px 18px;
+  border-radius: 40px;
+  white-space: nowrap;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .glamhi-cta {
+    font-size: 12px;
+    padding: 8px 22px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .glamhi-cta {
+    font-size: 12px;
+    padding: 9px 26px;
+  }
+}
+
+.glamhi-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.glamhi-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DISMISS BUTTON
+   ═══════════════════════════════════════════════════════════════ */
+
+.glamhi-dismiss {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .glamhi-dismiss {
+    right: 14px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+.glamhi-dismiss:hover {
+  opacity: 1;
+  transform: translateY(-50%) rotate(90deg);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.glamhi-dismiss svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+}
+
+@media (min-width: 768px) {
+  .glamhi-dismiss svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.glamhi-cta:focus-visible,
+.glamhi-dismiss:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .glamhi-message-text {
+    max-width: 220px;
+    font-size: 11px;
+  }
+  
+  .glamhi-timer-label {
+    font-size: 10px;
+  }
+  
+  .glamhi-cta {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .glamhi-bar-content {
+    gap: 8px;
+  }
+  
+  .glamhi-message-text {
+    max-width: 160px;
+  }
+}
+
+{% endstyle %}
+
+{% if section.settings.enable_bar %}
+<div class="glamhi-bar" id="glamhi-bar-{{ section.id }}" role="banner" aria-label="Announcement">
+  <div class="glamhi-bar-inner">
+    <div class="glamhi-bar-content">
+      
+      <!-- MESSAGE CAROUSEL -->
+      <div class="glamhi-carousel">
+        <div class="glamhi-messages">
+          {%- for block in section.blocks -%}
+            <div class="glamhi-message {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+              {%- if block.settings.message_link != blank -%}
+                <a href="{{ block.settings.message_link }}">
+              {%- endif -%}
+              <p class="glamhi-message-text">{{ block.settings.message_text }}</p>
+              {%- if block.settings.message_link != blank -%}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+      
+      <!-- TIMER -->
+      {%- if section.settings.show_timer -%}
+        <div class="glamhi-timer-container">
+          <span class="glamhi-timer-label">{{ section.settings.timer_label }}</span>
+          <time class="glamhi-timer" id="glamhi-timer-{{ section.id }}" datetime="">00h 00m</time>
+        </div>
+      {%- endif -%}
+      
+      <!-- CTA BUTTON -->
+      {%- if section.settings.show_cta and section.settings.cta_link != blank -%}
+        <a href="{{ section.settings.cta_link }}" class="glamhi-cta" aria-label="{{ section.settings.cta_text }}">
+          {{ section.settings.cta_text }}
+        </a>
+      {%- endif -%}
+      
+    </div>
+    
+    <!-- DISMISS BUTTON -->
+    {%- if section.settings.dismissible -%}
+      <button class="glamhi-dismiss" onclick="glamhiDismiss('{{ section.id }}')" aria-label="Close announcement">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    {%- endif -%}
+    
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  
+  var sectionId = '{{ section.id }}';
+  var bar = document.getElementById('glamhi-bar-' + sectionId);
+  
+  if (!bar) return;
+  
+  // Check if dismissed
+  var dismissKey = 'glamhi-bar-dismissed-' + sectionId;
+  if (localStorage.getItem(dismissKey) === 'true') {
+    bar.style.display = 'none';
+    return;
+  }
+  
+  {% if section.settings.enable_carousel and section.blocks.size > 1 %}
+  // Carousel functionality
+  var messages = bar.querySelectorAll('.glamhi-message');
+  var currentIndex = 0;
+  
+  function showMessage(index) {
+    messages.forEach(function(msg, i) {
+      if (i === index) {
+        msg.classList.add('active');
+      } else {
+        msg.classList.remove('active');
+      }
+    });
+  }
+  
+  function nextMessage() {
+    currentIndex = (currentIndex + 1) % messages.length;
+    showMessage(currentIndex);
+  }
+  
+  setInterval(nextMessage, {{ section.settings.carousel_speed | times: 1000 }});
+  {% endif %}
+  
+  {% if section.settings.show_timer and section.settings.timer_end_date != blank %}
+  // Timer functionality
+  var timer = document.getElementById('glamhi-timer-' + sectionId);
+  if (timer) {
+    var endDate = new Date('{{ section.settings.timer_end_date }}').getTime();
+    
+    function updateTimer() {
+      var now = Date.now();
+      var remaining = endDate - now;
+      
+      if (remaining <= 0) {
+        timer.textContent = 'Ended';
+        timer.classList.remove('urgent', 'medium-urgent');
+        return;
+      }
+      
+      var hours = Math.floor(remaining / 3600000);
+      var minutes = Math.floor((remaining % 3600000) / 60000);
+      var seconds = Math.floor((remaining % 60000) / 1000);
+      
+      timer.textContent = pad(hours) + 'h ' + pad(minutes) + 'm';
+      timer.setAttribute('datetime', 'PT' + hours + 'H' + minutes + 'M' + seconds + 'S');
+      
+      // Urgency styling
+      if (remaining < 3600000) { // Less than 1 hour
+        timer.classList.add('urgent');
+        timer.classList.remove('medium-urgent');
+      } else if (remaining < 10800000) { // Less than 3 hours
+        timer.classList.add('medium-urgent');
+        timer.classList.remove('urgent');
+      } else {
+        timer.classList.remove('urgent', 'medium-urgent');
+      }
+    }
+    
+    function pad(num) {
+      return (num < 10 ? '0' : '') + num;
+    }
+    
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  }
+  {% endif %}
+})();
+
+function glamhiDismiss(sectionId) {
+  var bar = document.getElementById('glamhi-bar-' + sectionId);
+  if (bar) {
+    bar.classList.add('dismissed');
+    localStorage.setItem('glamhi-bar-dismissed-' + sectionId, 'true');
+    setTimeout(function() {
+      bar.style.display = 'none';
+    }, 400);
+  }
+}
+</script>
+{% endif %}
 
