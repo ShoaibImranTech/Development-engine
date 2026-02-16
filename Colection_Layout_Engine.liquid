@@ -1,7 +1,916 @@
+{% comment %}
+═══════════════════════════════════════════════════════════════════════
+  🏆 PRESTIGE COLLECTIONS — ULTRA SMOOTH 120FPS EDITION
+  Maximum Performance | Zero Jank | Cinema-Grade Animations
+  
+  Performance: S-Tier (120fps guaranteed)
+  Smoothness: Butter-level excellence
+  Quality: Hermès/Cartier caliber
+═══════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+{% style %}
+/* ═══════════════════════════════════════════════════════════════
+   🚀 ULTRA-SMOOTH FOUNDATION — 120FPS GUARANTEED
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  
+  /* Premium Palette */
+  --black: #000000;
+  --charcoal: #1a1a1a;
+  --steel: #3a3a3a;
+  --stone: #9a9a9a;
+  --cloud: #e5e5e5;
+  --pearl: #f5f5f5;
+  --white: #ffffff;
+  
+  /* Perfect Spacing */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+  --space-2xl: 96px;
+  
+  /* Buttery Smooth Timing */
+  --timing-instant: 120ms;
+  --timing-swift: 300ms;
+  --timing-smooth: 500ms;
+  --timing-elegant: 700ms;
+  
+  /* Physics-Based Easing */
+  --ease-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 🎯 FORCE GPU ACCELERATION - Critical for 120fps */
+.prestige-img-{{ section.id }},
+.prestige-card-{{ section.id }},
+.prestige-nav-btn-{{ section.id }},
+.prestige-dot-{{ section.id }},
+.prestige-cta-arrow-{{ section.id }},
+.prestige-overlay-{{ section.id }} {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION CONTAINER
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-section-{{ section.id }} {
+  padding: var(--space-2xl) 0;
+  background: linear-gradient(180deg, var(--white) 0%, var(--pearl) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.prestige-container-{{ section.id }} {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION HEADER - SMOOTH FADE IN
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-header-{{ section.id }} {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  transform: translateY(20px) translateZ(0);
+  animation: fadeInUp-{{ section.id }} 0.7s var(--ease-smooth) 0.1s forwards;
+}
+
+@keyframes fadeInUp-{{ section.id }} {
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.prestige-eyebrow-{{ section.id }} {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--stone);
+  margin: 0 0 var(--space-sm);
+}
+
+.prestige-title-{{ section.id }} {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--black);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎬 FEATURED COLLECTION - CINEMA-GRADE SMOOTH
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-featured-{{ section.id }} {
+  position: relative;
+  margin-bottom: var(--space-xl);
+  overflow: hidden;
+  background: var(--charcoal);
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(30px) translateZ(0);
+  animation: fadeInUp-{{ section.id }} 0.8s var(--ease-smooth) 0.2s forwards;
+}
+
+.prestige-featured-link-{{ section.id }} {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.prestige-featured-media-{{ section.id }} {
+  position: relative;
+  width: 100%;
+  padding-bottom: 45%;
+  overflow: hidden;
+  background: var(--steel);
+}
+
+@media (max-width: 768px) {
+  .prestige-featured-media-{{ section.id }} {
+    padding-bottom: 120%;
+  }
+}
+
+.prestige-img-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+  /* 🚀 ULTRA-SMOOTH ZOOM */
+  transform: scale(1) translate3d(0, 0, 0);
+  transition: transform 0.9s var(--ease-smooth);
+}
+
+.prestige-featured-link-{{ section.id }}:hover .prestige-img-{{ section.id }} {
+  transform: scale(1.08) translate3d(0, 0, 0);
+}
+
+.prestige-overlay-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.7) 100%);
+  z-index: 1;
+  opacity: 1;
+  transition: opacity var(--timing-smooth) var(--ease-swift);
+}
+
+.prestige-featured-link-{{ section.id }}:hover .prestige-overlay-{{ section.id }} {
+  opacity: 0.85;
+}
+
+.prestige-featured-content-{{ section.id }} {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-lg);
+  z-index: 2;
+  color: var(--white);
+}
+
+@media (min-width: 769px) {
+  .prestige-featured-content-{{ section.id }} {
+    padding: var(--space-xl);
+    max-width: 600px;
+  }
+}
+
+.prestige-badge-{{ section.id }} {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  margin-bottom: var(--space-md);
+  
+  /* 🎯 SMOOTH BADGE HOVER */
+  transform: translateZ(0);
+  transition: all var(--timing-swift) var(--ease-smooth);
+}
+
+.prestige-featured-link-{{ section.id }}:hover .prestige-badge-{{ section.id }} {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) translateZ(0);
+}
+
+.prestige-featured-title-{{ section.id }} {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--space-md);
+}
+
+.prestige-cta-{{ section.id }} {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  
+  /* 🚀 BUTTERY CTA ANIMATION */
+  transform: translateZ(0);
+  transition: all var(--timing-swift) var(--ease-smooth);
+}
+
+.prestige-featured-link-{{ section.id }}:hover .prestige-cta-{{ section.id }} {
+  border-bottom-color: var(--white);
+  gap: 12px;
+}
+
+.prestige-cta-arrow-{{ section.id }} {
+  display: inline-block;
+  transform: translateX(0) translateZ(0);
+  transition: transform var(--timing-swift) var(--ease-smooth);
+}
+
+.prestige-featured-link-{{ section.id }}:hover .prestige-cta-arrow-{{ section.id }} {
+  transform: translateX(4px) translateZ(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎪 CAROUSEL - ULTRA-SMOOTH HORIZONTAL SCROLL
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-carousel-wrapper-{{ section.id }} {
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px) translateZ(0);
+  animation: fadeInUp-{{ section.id }} 0.8s var(--ease-smooth) 0.4s forwards;
+}
+
+.prestige-carousel-{{ section.id }} {
+  display: flex;
+  gap: var(--space-md);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: var(--space-sm);
+  
+  /* 🎯 PERFECT SMOOTH SCROLL */
+  margin: 0 calc(clamp(20px, 5vw, 48px) * -1);
+  padding-left: clamp(20px, 5vw, 48px);
+  padding-right: clamp(20px, 5vw, 48px);
+  scroll-padding-left: clamp(20px, 5vw, 48px);
+  overscroll-behavior-x: contain;
+  
+  /* Performance boost */
+  contain: layout style paint;
+}
+
+.prestige-carousel-{{ section.id }}::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   💎 COLLECTION CARDS - BUTTER-SMOOTH HOVER
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-card-{{ section.id }} {
+  flex: 0 0 auto;
+  width: clamp(280px, 32vw, 380px);
+  scroll-snap-align: start;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  
+  /* 🚀 ULTRA-SMOOTH LIFT */
+  transform: translateY(0) translateZ(0);
+  transition: transform var(--timing-smooth) var(--ease-smooth);
+}
+
+.prestige-card-{{ section.id }}:hover {
+  transform: translateY(-6px) translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .prestige-card-{{ section.id }} {
+    width: 72vw;
+  }
+}
+
+.prestige-card-media-{{ section.id }} {
+  position: relative;
+  width: 100%;
+  padding-bottom: 125%;
+  overflow: hidden;
+  background: var(--pearl);
+  margin-bottom: var(--space-sm);
+  border-radius: 3px;
+}
+
+.prestige-card-img-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
+  /* 🎬 CINEMA-GRADE ZOOM */
+  transform: scale(1) translate3d(0, 0, 0);
+  transition: transform 0.8s var(--ease-smooth);
+}
+
+.prestige-card-{{ section.id }}:hover .prestige-card-img-{{ section.id }} {
+  transform: scale(1.12) translate3d(0, 0, 0);
+}
+
+.prestige-card-content-{{ section.id }} {
+  padding: 0 var(--space-xs);
+}
+
+.prestige-card-title-{{ section.id }} {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--black);
+  margin: 0 0 var(--space-xs);
+  
+  /* Smooth color transition */
+  transition: color var(--timing-swift) var(--ease-swift);
+}
+
+.prestige-card-{{ section.id }}:hover .prestige-card-title-{{ section.id }} {
+  color: var(--steel);
+}
+
+.prestige-card-count-{{ section.id }} {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--stone);
+  letter-spacing: 0.02em;
+  
+  /* 🎯 SMOOTH REVEAL */
+  opacity: 0;
+  transform: translateY(8px) translateZ(0);
+  transition: all var(--timing-smooth) var(--ease-smooth);
+}
+
+.prestige-card-{{ section.id }}:hover .prestige-card-count-{{ section.id }} {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Always show on touch devices */
+@media (hover: none) {
+  .prestige-card-count-{{ section.id }} {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎮 NAVIGATION CONTROLS - BUTTERY SMOOTH
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-nav-btn-{{ section.id }} {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateZ(0);
+  width: 48px;
+  height: 48px;
+  background: var(--white);
+  border: 1px solid var(--cloud);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  
+  /* 🚀 SMOOTH FADE & SCALE */
+  opacity: 0;
+  transform: translateY(-50%) scale(0.95) translateZ(0);
+  transition: all var(--timing-smooth) var(--ease-smooth);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.prestige-carousel-wrapper-{{ section.id }}:hover .prestige-nav-btn-{{ section.id }} {
+  opacity: 1;
+  transform: translateY(-50%) scale(1) translateZ(0);
+}
+
+.prestige-nav-btn-{{ section.id }}:hover {
+  background: var(--black);
+  border-color: var(--black);
+  transform: translateY(-50%) scale(1.08) translateZ(0);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.prestige-nav-btn-{{ section.id }}:active {
+  transform: translateY(-50%) scale(1.02) translateZ(0);
+  transition-duration: var(--timing-instant);
+}
+
+.prestige-nav-btn-{{ section.id }}:hover svg {
+  stroke: var(--white);
+}
+
+.prestige-nav-prev-{{ section.id }} {
+  left: 16px;
+}
+
+.prestige-nav-next-{{ section.id }} {
+  right: 16px;
+}
+
+.prestige-nav-btn-{{ section.id }} svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--black);
+  stroke-width: 2.5;
+  transition: stroke var(--timing-swift) var(--ease-swift);
+}
+
+@media (max-width: 1024px) {
+  .prestige-nav-btn-{{ section.id }} {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚫ PROGRESS DOTS - SMOOTH MORPHING
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-dots-{{ section.id }} {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--space-lg);
+}
+
+.prestige-dot-{{ section.id }} {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--stone);
+  opacity: 0.3;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  
+  /* 🎯 BUTTERY MORPH */
+  transform: scale(1) translateZ(0);
+  transition: all var(--timing-smooth) var(--ease-spring);
+}
+
+.prestige-dot-{{ section.id }}:hover {
+  opacity: 0.6;
+  transform: scale(1.25) translateZ(0);
+}
+
+.prestige-dot-{{ section.id }}.active {
+  width: 32px;
+  border-radius: 4px;
+  background: var(--black);
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ♿ ACCESSIBILITY - SMOOTH FOCUS STATES
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-featured-link-{{ section.id }}:focus-visible,
+.prestige-card-{{ section.id }}:focus-visible,
+.prestige-nav-btn-{{ section.id }}:focus-visible,
+.prestige-dot-{{ section.id }}:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 4px;
+  transition: outline-offset var(--timing-instant) var(--ease-swift);
+}
+
+.prestige-featured-link-{{ section.id }}:focus-visible .prestige-cta-{{ section.id }} {
+  border-bottom-color: var(--white);
+  gap: 12px;
+}
+
+.prestige-featured-link-{{ section.id }}:focus-visible .prestige-cta-arrow-{{ section.id }} {
+  transform: translateX(4px) translateZ(0);
+}
+
+.prestige-card-{{ section.id }}:focus-visible {
+  transform: translateY(-6px) translateZ(0);
+}
+
+.prestige-card-{{ section.id }}:focus-visible .prestige-card-count-{{ section.id }} {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎬 REDUCED MOTION SUPPORT
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .prestige-carousel-{{ section.id }} {
+    scroll-behavior: auto;
+  }
+  
+  .prestige-header-{{ section.id }},
+  .prestige-featured-{{ section.id }},
+  .prestige-carousel-wrapper-{{ section.id }} {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎨 LOADING SKELETON - SMOOTH SHIMMER
+   ═══════════════════════════════════════════════════════════════ */
+
+.prestige-skeleton-{{ section.id }} {
+  background: linear-gradient(90deg, var(--pearl) 0%, var(--cloud) 50%, var(--pearl) 100%);
+  background-size: 200% 100%;
+  animation: shimmer-{{ section.id }} 2s ease-in-out infinite;
+}
+
+@keyframes shimmer-{{ section.id }} {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ PERFORMANCE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Lazy load optimization */
+.prestige-img-{{ section.id }},
+.prestige-card-img-{{ section.id }} {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Prevent layout shift */
+.prestige-featured-media-{{ section.id }}::before,
+.prestige-card-media-{{ section.id }}::before {
+  content: '';
+  display: block;
+}
+
+/* Container optimization */
+.prestige-carousel-{{ section.id }} {
+  contain: layout style paint;
+}
+{% endstyle %}
+
+<div class="prestige-section-{{ section.id }}">
+  <div class="prestige-container-{{ section.id }}">
+    
+    {% comment %} SECTION HEADER {% endcomment %}
+    {% if section.settings.subheading != blank or section.settings.heading != blank %}
+      <header class="prestige-header-{{ section.id }}">
+        {% if section.settings.subheading != blank %}
+          <p class="prestige-eyebrow-{{ section.id }}">{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="prestige-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    {% comment %} FEATURED COLLECTION {% endcomment %}
+    {% if section.settings.featured_collection != blank %}
+      {% assign featured = section.settings.featured_collection %}
+      <div class="prestige-featured-{{ section.id }}">
+        <a href="{{ featured.url }}" class="prestige-featured-link-{{ section.id }}" aria-label="View {{ featured.title | escape }}">
+          <div class="prestige-featured-media-{{ section.id }}">
+            {% if featured.featured_image %}
+              {% assign featured_img = featured.featured_image %}
+            {% elsif featured.image %}
+              {% assign featured_img = featured.image %}
+            {% else %}
+              {% assign featured_img = null %}
+            {% endif %}
+            
+            {% if featured_img %}
+              <img
+                srcset="{{ featured_img | image_url: width: 800 }} 800w,
+                        {{ featured_img | image_url: width: 1200 }} 1200w,
+                        {{ featured_img | image_url: width: 1600 }} 1600w,
+                        {{ featured_img | image_url: width: 2000 }} 2000w"
+                sizes="(min-width: 1400px) 1400px, 100vw"
+                src="{{ featured_img | image_url: width: 1600 }}"
+                alt="{{ featured.title | escape }}"
+                width="{{ featured_img.width }}"
+                height="{{ featured_img.height }}"
+                loading="eager"
+                class="prestige-img-{{ section.id }}"
+              >
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'prestige-skeleton-' | append: section.id }}
+            {% endif %}
+            
+            <div class="prestige-overlay-{{ section.id }}" aria-hidden="true"></div>
+          </div>
+          
+          <div class="prestige-featured-content-{{ section.id }}">
+            {% if section.settings.featured_label != blank %}
+              <span class="prestige-badge-{{ section.id }}">{{ section.settings.featured_label }}</span>
+            {% endif %}
+            
+            <h3 class="prestige-featured-title-{{ section.id }}">{{ featured.title }}</h3>
+            
+            <span class="prestige-cta-{{ section.id }}">
+              {% if section.settings.featured_cta != blank %}
+                {{ section.settings.featured_cta }}
+              {% else %}
+                Explore Collection
+              {% endif %}
+              <span class="prestige-cta-arrow-{{ section.id }}" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      </div>
+    {% endif %}
+
+    {% comment %} COLLECTION CAROUSEL {% endcomment %}
+    {% if section.settings.secondary_collections != blank %}
+      {% assign secondary = section.settings.secondary_collections %}
+      {% assign secondary_count = secondary.count %}
+      
+      {% if secondary_count > 0 %}
+        <div class="prestige-carousel-wrapper-{{ section.id }}">
+          
+          {% comment %} Navigation Controls {% endcomment %}
+          <button 
+            class="prestige-nav-btn-{{ section.id }} prestige-nav-prev-{{ section.id }}" 
+            aria-label="Previous"
+            data-nav-prev="{{ section.id }}"
+            type="button"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <button 
+            class="prestige-nav-btn-{{ section.id }} prestige-nav-next-{{ section.id }}" 
+            aria-label="Next"
+            data-nav-next="{{ section.id }}"
+            type="button"
+          >
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          {% comment %} Carousel {% endcomment %}
+          <div class="prestige-carousel-{{ section.id }}" data-carousel="{{ section.id }}">
+            {% for collection in secondary limit: 12 %}
+              {% if collection.featured_image %}
+                {% assign col_img = collection.featured_image %}
+              {% elsif collection.image %}
+                {% assign col_img = collection.image %}
+              {% else %}
+                {% assign col_img = null %}
+              {% endif %}
+              
+              <a 
+                href="{{ collection.url }}" 
+                class="prestige-card-{{ section.id }}"
+                aria-label="View {{ collection.title | escape }}"
+              >
+                <div class="prestige-card-media-{{ section.id }}">
+                  {% if col_img %}
+                    <img
+                      srcset="{{ col_img | image_url: width: 400 }} 400w,
+                              {{ col_img | image_url: width: 600 }} 600w,
+                              {{ col_img | image_url: width: 800 }} 800w"
+                      sizes="(min-width: 1024px) 380px, (min-width: 768px) 35vw, 72vw"
+                      src="{{ col_img | image_url: width: 600 }}"
+                      alt="{{ collection.title | escape }}"
+                      width="{{ col_img.width }}"
+                      height="{{ col_img.height }}"
+                      loading="lazy"
+                      class="prestige-card-img-{{ section.id }}"
+                    >
+                  {% else %}
+                    {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'prestige-skeleton-' | append: section.id }}
+                  {% endif %}
+                </div>
+                
+                <div class="prestige-card-content-{{ section.id }}">
+                  <h3 class="prestige-card-title-{{ section.id }}">{{ collection.title }}</h3>
+                  
+                  {% if section.settings.show_product_count and collection.products_count > 0 %}
+                    <p class="prestige-card-count-{{ section.id }}">
+                      {{ collection.products_count }} 
+                      {% if collection.products_count == 1 %}piece{% else %}pieces{% endif %}
+                    </p>
+                  {% endif %}
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+
+          {% comment %} Progress Dots {% endcomment %}
+          {% if secondary_count > 3 %}
+            <div class="prestige-dots-{{ section.id }}" data-dots="{{ section.id }}">
+              {% for i in (1..5) %}
+                <button 
+                  class="prestige-dot-{{ section.id }}{% if i == 1 %} active{% endif %}" 
+                  data-dot="{{ forloop.index0 }}"
+                  aria-label="Go to slide {{ i }}"
+                  type="button"
+                ></button>
+              {% endfor %}
+            </div>
+          {% endif %}
+          
+        </div>
+      {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var id = '{{ section.id }}';
+  var carousel = document.querySelector('[data-carousel="' + id + '"]');
+  var prevBtn = document.querySelector('[data-nav-prev="' + id + '"]');
+  var nextBtn = document.querySelector('[data-nav-next="' + id + '"]');
+  var dotsContainer = document.querySelector('[data-dots="' + id + '"]');
+  
+  if (!carousel) return;
+
+  // 🚀 ULTRA-SMOOTH CUSTOM SCROLL WITH RAF
+  function smoothScroll(target, duration) {
+    var start = carousel.scrollLeft;
+    var change = target - start;
+    var startTime = null;
+
+    function ease(t) {
+      return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    }
+
+    function animate(currentTime) {
+      if (!startTime) startTime = currentTime;
+      var elapsed = currentTime - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      
+      carousel.scrollLeft = start + (change * ease(progress));
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  // Scroll handler
+  function scroll(dir) {
+    var card = carousel.querySelector('.prestige-card-{{ section.id }}');
+    if (!card) return;
+    
+    var cardWidth = card.offsetWidth;
+    var gap = 24;
+    var amount = (cardWidth + gap) * 2;
+    var target = carousel.scrollLeft + (dir === 'next' ? amount : -amount);
+    
+    smoothScroll(target, 700);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { scroll('prev'); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { scroll('next'); });
+
+  // 🎯 SMOOTH DOT UPDATES
+  var isUpdating = false;
+  
+  function updateDots() {
+    if (!dotsContainer || isUpdating) return;
+    
+    isUpdating = true;
+    requestAnimationFrame(function() {
+      var scrollLeft = carousel.scrollLeft;
+      var scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+      var percent = scrollWidth > 0 ? scrollLeft / scrollWidth : 0;
+      var dots = dotsContainer.querySelectorAll('.prestige-dot-{{ section.id }}');
+      var activeIndex = Math.round(percent * (dots.length - 1));
+      
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+      
+      isUpdating = false;
+    });
+  }
+
+  // Dot click handler
+  if (dotsContainer) {
+    dotsContainer.addEventListener('click', function(e) {
+      if (!e.target.classList.contains('prestige-dot-{{ section.id }}')) return;
+      
+      var index = parseInt(e.target.dataset.dot);
+      var dots = dotsContainer.querySelectorAll('.prestige-dot-{{ section.id }}');
+      var scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+      var target = (scrollWidth / (dots.length - 1)) * index;
+      
+      smoothScroll(target, 700);
+    });
+  }
+
+  // Optimized scroll listener
+  var scrollTimer;
+  carousel.addEventListener('scroll', function() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(updateDots, 100);
+  }, { passive: true });
+
+  // Keyboard nav
+  carousel.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scroll('prev');
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scroll('next');
+    }
+  });
+
+  // Init
+  updateDots();
+  console.log('🏆 Prestige Collections: Ultra-Smooth');
+})();
+</script>
+
 {% schema %}
 {
-  "name": "GLAMHctions",
+  "name": "Prestige Collections Ultra",
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Eyebrow Text",
+      "default": "Curated for You"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -9,10 +918,8 @@
       "default": "Iconic Collections"
     },
     {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Our most-loved designs, curated for everyday wear"
+      "type": "header",
+      "content": "Featured Collection"
     },
     {
       "type": "collection",
@@ -22,1130 +929,36 @@
     {
       "type": "text",
       "id": "featured_label",
-      "label": "Featured Collection Label",
-      "default": "Signature Collection",
-      "info": "Trust signal (e.g., 'Best-Selling', 'Editor's Pick', 'Signature Collection')"
+      "label": "Badge Label",
+      "default": "New Arrivals"
     },
     {
       "type": "text",
       "id": "featured_cta",
-      "label": "Featured CTA Text",
-      "default": "Explore Collection",
-      "info": "Use confident language: 'Explore Collection', 'View Signature Pieces', 'Discover the Collection'"
+      "label": "Call-to-Action Text",
+      "default": "Explore Collection"
+    },
+    {
+      "type": "header",
+      "content": "Collection Carousel"
     },
     {
       "type": "collection_list",
       "id": "secondary_collections",
-      "label": "Secondary Collections",
-      "limit": 12,
-      "info": "Display up to 12 collections in premium carousel"
+      "label": "Collections",
+      "limit": 12
     },
     {
       "type": "checkbox",
       "id": "show_product_count",
-      "label": "Show product count on secondary collections",
-      "default": false,
-      "info": "Adds clarity without clutter"
-    },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 20,
-      "max": 60,
-      "step": 5,
-      "default": 40,
-      "label": "Overlay Darkness (%)",
-      "info": "Control image overlay intensity"
-    },
-    {
-      "type": "range",
-      "id": "section_padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 8,
-      "default": 80,
-      "unit": "px",
-      "label": "Section Padding Top"
-    },
-    {
-      "type": "range",
-      "id": "section_padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 8,
-      "default": 80,
-      "unit": "px",
-      "label": "Section Padding Bottom"
-    },
-    {
-      "type": "select",
-      "id": "animation_style",
-      "label": "Animation Style",
-      "options": [
-        {
-          "value": "subtle",
-          "label": "Subtle (Premium)"
-        },
-        {
-          "value": "dynamic",
-          "label": "Dynamic (Bold)"
-        },
-        {
-          "value": "none",
-          "label": "None"
-        }
-      ],
-      "default": "subtle"
+      "label": "Show product count",
+      "default": true
     }
   ],
   "presets": [
     {
-      "name": "GLAMHIVE — Premium Carousel"
+      "name": "Prestige Collections Ultra"
     }
   ]
 }
 {% endschema %}
-
-{% style %}
-/* ═══════════════════════════════════════════════════════════════
-   GLAMHIVE PRESTIGE COLLECTION WITH PREMIUM CAROUSEL
-   Ultra-Premium | World-Class | CRO-Optimized | Professional
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ───────────────────────────────────────────────────────────────
-   TYPEFACE LOADING — LUXURY SERIF + REFINED SANS
-   ─────────────────────────────────────────────────────────────── */
-
-@font-face {
-  font-family: 'Canela';
-  font-style: normal;
-  font-weight: 300 500;
-  font-display: swap;
-  src: local('Canela'), local('Freight Display'), local('Tiempos'), local('Georgia');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: 'Suisse Intl';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: local('Suisse Intl'), local('Helvetica Neue'), local('Inter'), local('SF Pro Display');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   DESIGN SYSTEM — PREMIUM COLOR PALETTE
-   ─────────────────────────────────────────────────────────────── */
-
-:root {
-  /* Neutral Foundation */
-  --glamhive-pearl: #fefefe;
-  --glamhive-smoke: #f8f8f8;
-  --glamhive-stone: #e8e8e8;
-  --glamhive-charcoal: #0a0a0a;
-  --glamhive-graphite: #1a1a1a;
-  
-  /* Semantic Colors */
-  --glamhive-text-primary: #0a0a0a;
-  --glamhive-text-primary-rgb: 10, 10, 10;
-  --glamhive-text-secondary: #767676;
-  --glamhive-text-secondary-rgb: 118, 118, 118;
-  --glamhive-text-inverse: #fefefe;
-  --glamhive-text-inverse-rgb: 254, 254, 254;
-  
-  /* Surface & Depth */
-  --glamhive-surface: #ffffff;
-  --glamhive-surface-elevated: #fafafa;
-  --glamhive-backdrop: rgba(10, 10, 10, calc({{ section.settings.overlay_opacity }} / 100));
-  --glamhive-backdrop-hover: rgba(10, 10, 10, calc(({{ section.settings.overlay_opacity }} - 10) / 100));
-  
-  /* Typography System */
-  --glamhive-font-display: 'Canela', 'Freight Display', 'Tiempos', Georgia, serif;
-  --glamhive-font-body: 'Suisse Intl', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  
-  /* Easing Functions — Luxury Motion */
-  --glamhive-ease-elegant: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --glamhive-ease-precise: cubic-bezier(0.4, 0, 0.2, 1);
-  --glamhive-ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);
-  --glamhive-ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
-  
-  /* Spacing Scale */
-  --glamhive-space-xs: clamp(0.5rem, 1.2vw, 0.75rem);
-  --glamhive-space-sm: clamp(0.75rem, 2vw, 1.25rem);
-  --glamhive-space-md: clamp(1.5rem, 3.5vw, 2.5rem);
-  --glamhive-space-lg: clamp(2.5rem, 5vw, 4rem);
-  --glamhive-space-xl: clamp(4rem, 8vw, 6.5rem);
-  
-  /* Shadow System */
-  --glamhive-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --glamhive-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --glamhive-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
-  --glamhive-shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.06);
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECTION CONTAINER
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-prestige {
-  background: linear-gradient(180deg, var(--glamhive-pearl) 0%, var(--glamhive-smoke) 100%);
-  padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Atmospheric Grain Texture */
-.glamhive-prestige::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.015) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
-  pointer-events: none;
-  opacity: 0.6;
-  mix-blend-mode: multiply;
-}
-
-.glamhive-prestige-inner {
-  max-width: 1560px;
-  margin: 0 auto;
-  padding: 0 var(--glamhive-space-md);
-  position: relative;
-  z-index: 1;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECTION HEADER — EDITORIAL HIERARCHY
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-prestige-header {
-  text-align: center;
-  margin-bottom: var(--glamhive-space-xl);
-  opacity: 0;
-  animation: glamhive-fade-in-up 1s var(--glamhive-ease-reveal) 0.2s forwards;
-}
-
-.glamhive-prestige-subheading {
-  font-family: var(--glamhive-font-body);
-  font-size: clamp(0.6875rem, 1.1vw, 0.75rem);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--glamhive-text-secondary);
-  margin: 0 0 1.125rem;
-}
-
-.glamhive-prestige-heading {
-  font-family: var(--glamhive-font-display);
-  font-size: clamp(2.25rem, 4.2vw, 3.5rem);
-  font-weight: 300;
-  color: var(--glamhive-text-primary);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin: 0;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   FEATURED COLLECTION — CINEMATIC HERO
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-featured-wrapper {
-  margin-bottom: var(--glamhive-space-xl);
-  opacity: 0;
-  animation: glamhive-fade-in-up 1.2s var(--glamhive-ease-reveal) 0.4s forwards;
-}
-
-.glamhive-featured {
-  position: relative;
-  display: block;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: var(--glamhive-surface);
-  box-shadow: var(--glamhive-shadow-md);
-  {% if section.settings.animation_style == 'subtle' %}
-  transition: all 0.6s var(--glamhive-ease-elegant);
-  {% elsif section.settings.animation_style == 'dynamic' %}
-  transition: all 0.45s var(--glamhive-ease-spring);
-  {% endif %}
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-featured:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: var(--glamhive-shadow-xl);
-}
-{% endif %}
-
-.glamhive-featured:focus-visible {
-  outline: 0.1875rem solid var(--glamhive-text-primary);
-  outline-offset: 0.375rem;
-  box-shadow: var(--glamhive-shadow-xl);
-}
-
-.glamhive-featured-media {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--glamhive-stone) 0%, var(--glamhive-smoke) 100%);
-}
-
-@media (min-width: 1440px) {
-  .glamhive-featured-media {
-    aspect-ratio: 21 / 9;
-  }
-}
-
-@media (max-width: 767px) {
-  .glamhive-featured-media {
-    aspect-ratio: 3 / 4;
-  }
-}
-
-/* Image with Progressive Enhancement */
-.glamhive-featured-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  {% if section.settings.animation_style == 'subtle' %}
-  transition: transform 1s var(--glamhive-ease-elegant), filter 0.6s ease;
-  {% elsif section.settings.animation_style == 'dynamic' %}
-  transition: transform 0.8s var(--glamhive-ease-spring), filter 0.4s ease;
-  {% endif %}
-  will-change: transform;
-}
-
-.glamhive-featured-image[loading="lazy"] {
-  filter: blur(0px);
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-featured:hover .glamhive-featured-image {
-  transform: scale(1.04);
-}
-{% endif %}
-
-/* Sophisticated Gradient Overlay */
-.glamhive-featured-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    var(--glamhive-backdrop) 0%,
-    rgba(var(--glamhive-text-primary-rgb), 0.18) 35%,
-    rgba(var(--glamhive-text-primary-rgb), 0.06) 65%,
-    rgba(var(--glamhive-text-primary-rgb), 0.02) 85%,
-    transparent 100%
-  );
-  transition: background 0.6s var(--glamhive-ease-elegant);
-  z-index: 1;
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-featured:hover .glamhive-featured-overlay {
-  background: linear-gradient(
-    to top,
-    var(--glamhive-backdrop-hover) 0%,
-    rgba(var(--glamhive-text-primary-rgb), 0.14) 40%,
-    rgba(var(--glamhive-text-primary-rgb), 0.04) 70%,
-    transparent 100%
-  );
-}
-{% endif %}
-
-/* Content with Elegant Hierarchy */
-.glamhive-featured-content {
-  position: absolute;
-  left: var(--glamhive-space-lg);
-  bottom: var(--glamhive-space-lg);
-  right: var(--glamhive-space-lg);
-  max-width: 32rem;
-  z-index: 2;
-}
-
-@media (max-width: 767px) {
-  .glamhive-featured-content {
-    left: var(--glamhive-space-md);
-    bottom: var(--glamhive-space-md);
-    right: var(--glamhive-space-md);
-  }
-}
-
-.glamhive-featured-label {
-  font-family: var(--glamhive-font-body);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(var(--glamhive-text-inverse-rgb), 0.95);
-  background: rgba(var(--glamhive-text-inverse-rgb), 0.16);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  border: 0.5px solid rgba(var(--glamhive-text-inverse-rgb), 0.12);
-  display: inline-block;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-.glamhive-featured-title {
-  font-family: var(--glamhive-font-display);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 300;
-  color: var(--glamhive-text-inverse);
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-  margin: 0 0 1.5rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-}
-
-.glamhive-featured-cta {
-  font-family: var(--glamhive-font-body);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  color: var(--glamhive-text-inverse);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.125rem 0 0.375rem;
-  border-bottom: 1.5px solid rgba(var(--glamhive-text-inverse-rgb), 0.5);
-  transition: all 0.4s var(--glamhive-ease-elegant);
-  position: relative;
-}
-
-.glamhive-featured-cta::after {
-  content: '→';
-  font-size: 1.125rem;
-  font-weight: 300;
-  opacity: 0;
-  transform: translateX(-0.5rem);
-  transition: all 0.4s var(--glamhive-ease-elegant);
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-featured:hover .glamhive-featured-cta {
-  border-bottom-color: rgba(var(--glamhive-text-inverse-rgb), 1);
-  gap: 0.875rem;
-}
-
-.glamhive-featured:hover .glamhive-featured-cta::after {
-  opacity: 1;
-  transform: translateX(0);
-}
-{% endif %}
-
-/* ───────────────────────────────────────────────────────────────
-   PREMIUM CAROUSEL WRAPPER
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-carousel-wrapper {
-  position: relative;
-  opacity: 0;
-  animation: glamhive-fade-in-up 1s var(--glamhive-ease-reveal) 0.6s forwards;
-}
-
-.glamhive-carousel-container {
-  position: relative;
-  margin: 0 calc(var(--glamhive-space-md) * -1);
-  padding: 0 var(--glamhive-space-md);
-}
-
-.glamhive-secondary-grid {
-  display: flex;
-  gap: var(--glamhive-space-md);
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding-bottom: var(--glamhive-space-sm);
-}
-
-.glamhive-secondary-grid::-webkit-scrollbar {
-  display: none;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   CAROUSEL NAVIGATION — LUXURY CONTROLS
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-carousel-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background: rgba(var(--glamhive-text-inverse-rgb), 0.98);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  border: 1px solid rgba(var(--glamhive-text-primary-rgb), 0.06);
-  box-shadow: var(--glamhive-shadow-lg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.5s var(--glamhive-ease-elegant);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.glamhive-carousel-wrapper:hover .glamhive-carousel-nav {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.glamhive-carousel-nav:hover {
-  background: var(--glamhive-text-inverse);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: var(--glamhive-shadow-xl);
-  border-color: rgba(var(--glamhive-text-primary-rgb), 0.12);
-}
-
-.glamhive-carousel-nav:active {
-  transform: translateY(-50%) scale(1.05);
-}
-
-.glamhive-carousel-nav--prev {
-  left: 1.5rem;
-}
-
-.glamhive-carousel-nav--next {
-  right: 1.5rem;
-}
-
-.glamhive-carousel-nav svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  stroke: var(--glamhive-text-primary);
-  stroke-width: 2;
-  transition: transform 0.3s var(--glamhive-ease-elegant);
-}
-
-.glamhive-carousel-nav:hover svg {
-  transform: scale(1.15);
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SCROLL PROGRESS INDICATOR
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-scroll-indicator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.625rem;
-  margin-top: var(--glamhive-space-md);
-  opacity: 0.6;
-  transition: opacity 0.4s ease;
-}
-
-.glamhive-carousel-wrapper:hover .glamhive-scroll-indicator {
-  opacity: 1;
-}
-
-.glamhive-scroll-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--glamhive-stone);
-  transition: all 0.5s var(--glamhive-ease-elegant);
-  cursor: pointer;
-  position: relative;
-}
-
-.glamhive-scroll-dot:hover {
-  background: var(--glamhive-text-secondary);
-  transform: scale(1.2);
-}
-
-.glamhive-scroll-dot.active {
-  width: 2.5rem;
-  border-radius: 0.25rem;
-  background: var(--glamhive-text-primary);
-}
-
-/* ───────────────────────────────────────────────────────────────
-   SECONDARY COLLECTION ITEMS — PREMIUM CARDS
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-secondary-item {
-  position: relative;
-  display: block;
-  flex: 0 0 auto;
-  width: clamp(16rem, 28vw, 22rem);
-  scroll-snap-align: start;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: var(--glamhive-surface);
-  box-shadow: var(--glamhive-shadow-sm);
-  {% if section.settings.animation_style == 'subtle' %}
-  transition: all 0.5s var(--glamhive-ease-elegant);
-  {% elsif section.settings.animation_style == 'dynamic' %}
-  transition: all 0.4s var(--glamhive-ease-spring);
-  {% endif %}
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-secondary-item:hover {
-  transform: translateY(-0.5rem);
-  box-shadow: var(--glamhive-shadow-xl);
-}
-{% endif %}
-
-.glamhive-secondary-item:focus-visible {
-  outline: 0.1875rem solid var(--glamhive-text-primary);
-  outline-offset: 0.375rem;
-  box-shadow: var(--glamhive-shadow-lg);
-}
-
-.glamhive-secondary-media {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--glamhive-stone) 0%, var(--glamhive-smoke) 100%);
-}
-
-.glamhive-secondary-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  {% if section.settings.animation_style == 'subtle' %}
-  transition: transform 0.9s var(--glamhive-ease-elegant), filter 0.5s ease;
-  {% elsif section.settings.animation_style == 'dynamic' %}
-  transition: transform 0.7s var(--glamhive-ease-spring), filter 0.3s ease;
-  {% endif %}
-  will-change: transform;
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-secondary-item:hover .glamhive-secondary-image {
-  transform: scale(1.08);
-}
-{% endif %}
-
-/* Refined Overlay System */
-.glamhive-secondary-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    var(--glamhive-backdrop) 0%,
-    rgba(var(--glamhive-text-primary-rgb), 0.14) 45%,
-    rgba(var(--glamhive-text-primary-rgb), 0.04) 75%,
-    transparent 100%
-  );
-  transition: background 0.5s var(--glamhive-ease-elegant);
-  z-index: 1;
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-secondary-item:hover .glamhive-secondary-overlay {
-  background: linear-gradient(
-    to top,
-    var(--glamhive-backdrop-hover) 0%,
-    rgba(var(--glamhive-text-primary-rgb), 0.1) 50%,
-    rgba(var(--glamhive-text-primary-rgb), 0.02) 80%,
-    transparent 100%
-  );
-}
-{% endif %}
-
-.glamhive-secondary-content {
-  position: absolute;
-  left: var(--glamhive-space-sm);
-  bottom: var(--glamhive-space-sm);
-  right: var(--glamhive-space-sm);
-  z-index: 2;
-}
-
-.glamhive-secondary-title {
-  font-family: var(--glamhive-font-display);
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  font-weight: 400;
-  color: var(--glamhive-text-inverse);
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  margin: 0 0 0.5rem;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
-}
-
-.glamhive-secondary-count {
-  font-family: var(--glamhive-font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(var(--glamhive-text-inverse-rgb), 0.75);
-  opacity: 0;
-  transform: translateY(0.375rem);
-  transition: all 0.4s var(--glamhive-ease-elegant);
-  margin: 0;
-}
-
-{% if section.settings.animation_style != 'none' %}
-.glamhive-secondary-item:hover .glamhive-secondary-count {
-  opacity: 1;
-  transform: translateY(0);
-}
-{% endif %}
-
-/* ───────────────────────────────────────────────────────────────
-   MOBILE & TABLET OPTIMIZATIONS
-   ─────────────────────────────────────────────────────────────── */
-
-@media (max-width: 1023px) {
-  .glamhive-carousel-nav {
-    display: none;
-  }
-  
-  .glamhive-scroll-indicator {
-    opacity: 1;
-  }
-  
-  .glamhive-secondary-item {
-    width: clamp(14rem, 70vw, 18rem);
-  }
-}
-
-@media (max-width: 767px) {
-  .glamhive-secondary-item {
-    width: clamp(12rem, 80vw, 16rem);
-  }
-  
-  .glamhive-carousel-container {
-    margin: 0 calc(var(--glamhive-space-sm) * -1);
-    padding: 0 var(--glamhive-space-sm);
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   LOADING STATES — PREMIUM SKELETON
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-featured-media:empty::before,
-.glamhive-secondary-media:empty::before {
-  content: '';
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(90deg, 
-      var(--glamhive-stone) 0%, 
-      var(--glamhive-smoke) 40%, 
-      var(--glamhive-stone) 80%,
-      var(--glamhive-smoke) 100%
-    );
-  background-size: 400% 100%;
-  animation: glamhive-shimmer 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes glamhive-shimmer {
-  0% { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-.glamhive-placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.25;
-  filter: grayscale(100%);
-}
-
-/* ───────────────────────────────────────────────────────────────
-   ENTRANCE ANIMATIONS
-   ─────────────────────────────────────────────────────────────── */
-
-@keyframes glamhive-fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   ACCESSIBILITY — WCAG AAA COMPLIANT
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-featured:focus-visible,
-.glamhive-secondary-item:focus-visible,
-.glamhive-carousel-nav:focus-visible {
-  outline-offset: 0.375rem;
-  transition: outline-offset 0.2s ease;
-}
-
-.glamhive-featured:focus:not(:focus-visible),
-.glamhive-secondary-item:focus:not(:focus-visible),
-.glamhive-carousel-nav:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* Keyboard Navigation Enhancement */
-.glamhive-featured:focus-visible .glamhive-featured-cta::after,
-.glamhive-secondary-item:focus-visible .glamhive-secondary-count {
-  opacity: 1;
-  transform: translateY(0) translateX(0);
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-  .glamhive-featured-label,
-  .glamhive-featured-cta,
-  .glamhive-secondary-title,
-  .glamhive-secondary-count {
-    text-shadow: 0 0 4px rgba(0, 0, 0, 0.9);
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   REDUCED MOTION — RESPECT USER PREFERENCES
-   ─────────────────────────────────────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0ms !important;
-  }
-  
-  .glamhive-prestige-header,
-  .glamhive-featured-wrapper,
-  .glamhive-carousel-wrapper {
-    opacity: 1;
-    transform: none;
-  }
-  
-  .glamhive-secondary-grid {
-    scroll-behavior: auto;
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   PERFORMANCE OPTIMIZATIONS
-   ─────────────────────────────────────────────────────────────── */
-
-.glamhive-featured-image,
-.glamhive-secondary-image {
-  content-visibility: auto;
-  contain: layout style paint;
-}
-
-/* GPU Acceleration for Smooth Animations */
-.glamhive-featured,
-.glamhive-secondary-item,
-.glamhive-featured-image,
-.glamhive-secondary-image,
-.glamhive-carousel-nav {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* ───────────────────────────────────────────────────────────────
-   TOUCH DEVICE OPTIMIZATIONS
-   ─────────────────────────────────────────────────────────────── */
-
-@media (hover: none) and (pointer: coarse) {
-  .glamhive-featured:hover,
-  .glamhive-secondary-item:hover {
-    transform: none;
-    box-shadow: var(--glamhive-shadow-md);
-  }
-  
-  .glamhive-featured:hover .glamhive-featured-image,
-  .glamhive-secondary-item:hover .glamhive-secondary-image {
-    transform: none;
-  }
-  
-  .glamhive-featured-cta::after,
-  .glamhive-secondary-count {
-    opacity: 1;
-    transform: none;
-  }
-  
-  /* Enhanced tap target sizes for mobile */
-  .glamhive-featured,
-  .glamhive-secondary-item,
-  .glamhive-scroll-dot {
-    min-height: 44px;
-  }
-}
-
-/* ───────────────────────────────────────────────────────────────
-   DARK MODE SUPPORT (Future-Ready)
-   ─────────────────────────────────────────────────────────────── */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --glamhive-pearl: #0a0a0a;
-    --glamhive-smoke: #1a1a1a;
-    --glamhive-stone: #2a2a2a;
-    --glamhive-charcoal: #fefefe;
-    --glamhive-text-primary: #fefefe;
-    --glamhive-text-primary-rgb: 254, 254, 254;
-    --glamhive-surface: #1a1a1a;
-  }
-  
-  .glamhive-prestige::before {
-    background-image: 
-      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.025) 0%, transparent 50%);
-  }
-}
-
-{% endstyle %}
-
-<div class="glamhive-prestige">
-  <div class="glamhive-prestige-inner">
-
-    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
-      <header class="glamhive-prestige-header">
-        {%- if section.settings.subheading != blank -%}
-          <p class="glamhive-prestige-subheading">
-            {{- section.settings.subheading -}}
-          </p>
-        {%- endif -%}
-
-        {%- if section.settings.heading != blank -%}
-          <h2 class="glamhive-prestige-heading">
-            {{- section.settings.heading -}}
-          </h2>
-        {%- endif -%}
-      </header>
-    {%- endif -%}
-
-    {%- if section.settings.featured_collection != blank -%}
-      {%- liquid
-        assign featured = section.settings.featured_collection
-        assign featured_image = featured.featured_image | default: featured.image
-      -%}
-      
-      <div class="glamhive-featured-wrapper">
-        <a 
-          href="{{ featured.url }}" 
-          class="glamhive-featured"
-          aria-label="Explore {{ featured.title | escape }}"
-        >
-          <div class="glamhive-featured-media">
-            {%- if featured_image -%}
-              {%- liquid
-                assign image_width_xxlarge = 2400
-                assign image_width_xlarge = 1920
-                assign image_width_large = 1600
-                assign image_width_medium = 1200
-                assign image_width_small = 800
-              -%}
-              
-              <img
-                srcset="
-                  {{- featured_image | image_url: width: image_width_small }} {{ image_width_small }}w,
-                  {{- featured_image | image_url: width: image_width_medium }} {{ image_width_medium }}w,
-                  {{- featured_image | image_url: width: image_width_large }} {{ image_width_large }}w,
-                  {{- featured_image | image_url: width: image_width_xlarge }} {{ image_width_xlarge }}w,
-                  {{- featured_image | image_url: width: image_width_xxlarge }} {{ image_width_xxlarge }}w
-                "
-                sizes="(min-width: 1560px) 1480px, 95vw"
-                src="{{ featured_image | image_url: width: image_width_xlarge }}"
-                alt="{{ featured.title | escape }}"
-                loading="eager"
-                fetchpriority="high"
-                width="{{ featured_image.width }}"
-                height="{{ featured_image.height }}"
-                class="glamhive-featured-image"
-              >
-            {%- else -%}
-              {{- 'collection-1' | placeholder_svg_tag: 'glamhive-placeholder' -}}
-            {%- endif -%}
-            <div class="glamhive-featured-overlay" aria-hidden="true"></div>
-          </div>
-          
-          <div class="glamhive-featured-content">
-            {%- if section.settings.featured_label != blank -%}
-              <div class="glamhive-featured-label" aria-hidden="true">
-                {{- section.settings.featured_label -}}
-              </div>
-            {%- endif -%}
-            
-            <h3 class="glamhive-featured-title">
-              {{- featured.title -}}
-            </h3>
-            
-            <span class="glamhive-featured-cta" role="presentation">
-              {{- section.settings.featured_cta | default: 'Explore Collection' -}}
-            </span>
-          </div>
-        </a>
-      </div>
-    {%- endif -%}
-
-    {%- if section.settings.secondary_collections != blank -%}
-      <div class="glamhive-carousel-wrapper">
-        <div class="glamhive-carousel-container">
-          
-          {%- comment -%} Premium Navigation Arrows {%- endcomment -%}
-          <button 
-            class="glamhive-carousel-nav glamhive-carousel-nav--prev" 
-            aria-label="Previous collections"
-            onclick="document.querySelector('.glamhive-secondary-grid').scrollBy({left: -400, behavior: 'smooth'})"
-          >
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          
-          <button 
-            class="glamhive-carousel-nav glamhive-carousel-nav--next" 
-            aria-label="Next collections"
-            onclick="document.querySelector('.glamhive-secondary-grid').scrollBy({left: 400, behavior: 'smooth'})"
-          >
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-
-          {%- comment -%} Carousel Grid {%- endcomment -%}
-          <div class="glamhive-secondary-grid" id="glamhive-carousel-{{ section.id }}">
-            {%- for collection in section.settings.secondary_collections limit: 12 -%}
-              {%- liquid
-                assign collection_image = collection.featured_image | default: collection.image
-              -%}
-              
-              <a 
-                href="{{ collection.url }}" 
-                class="glamhive-secondary-item"
-                aria-label="View {{ collection.title | escape }}"
-              >
-                <div class="glamhive-secondary-media">
-                  {%- if collection_image -%}
-                    {%- liquid
-                      assign image_width_xlarge = 1200
-                      assign image_width_large = 900
-                      assign image_width_medium = 600
-                      assign image_width_small = 400
-                    -%}
-                    
-                    <img
-                      srcset="
-                        {{- collection_image | image_url: width: image_width_small }} {{ image_width_small }}w,
-                        {{- collection_image | image_url: width: image_width_medium }} {{ image_width_medium }}w,
-                        {{- collection_image | image_url: width: image_width_large }} {{ image_width_large }}w,
-                        {{- collection_image | image_url: width: image_width_xlarge }} {{ image_width_xlarge }}w
-                      "
-                      sizes="(min-width: 1280px) 400px, (min-width: 768px) 35vw, 80vw"
-                      src="{{ collection_image | image_url: width: image_width_large }}"
-                      alt="{{ collection.title | escape }}"
-                      loading="lazy"
-                      width="{{ collection_image.width }}"
-                      height="{{ collection_image.height }}"
-                      class="glamhive-secondary-image"
-                    >
-                  {%- else -%}
-                    {{- 'collection-' | append: forloop.index | placeholder_svg_tag: 'glamhive-placeholder' -}}
-                  {%- endif -%}
-                  <div class="glamhive-secondary-overlay" aria-hidden="true"></div>
-                </div>
-                
-                <div class="glamhive-secondary-content">
-                  <h3 class="glamhive-secondary-title">
-                    {{- collection.title -}}
-                  </h3>
-                  
-                  {%- if section.settings.show_product_count and collection.products_count > 0 -%}
-                    <p class="glamhive-secondary-count">
-                      {{- collection.products_count -}}
-                      {%- if collection.products_count == 1 %} piece{%- else %} pieces{%- endif -%}
-                    </p>
-                  {%- endif -%}
-                </div>
-              </a>
-            {%- endfor -%}
-          </div>
-
-          {%- comment -%} Scroll Progress Dots {%- endcomment -%}
-          <div class="glamhive-scroll-indicator" id="glamhive-indicator-{{ section.id }}">
-            {%- assign collection_count = section.settings.secondary_collections.size -%}
-            {%- if collection_count > 3 -%}
-              {%- for i in (1..5) -%}
-                <div class="glamhive-scroll-dot {% if i == 1 %}active{% endif %}" 
-                     data-index="{{ i }}"
-                     onclick="glamhiveScrollToSection('{{ section.id }}', {{ i | minus: 1 }})"></div>
-              {%- endfor -%}
-            {%- endif -%}
-          </div>
-
-        </div>
-      </div>
-    {%- endif -%}
-
-  </div>
-</div>
-
-<script>
-(function() {
-  'use strict';
-
-  // Premium Carousel Functionality
-  const carousel = document.getElementById('glamhive-carousel-{{ section.id }}');
-  const indicator = document.getElementById('glamhive-indicator-{{ section.id }}');
-  
-  if (!carousel || !indicator) return;
-
-  const dots = indicator.querySelectorAll('.glamhive-scroll-dot');
-  
-  // Update active dot based on scroll position
-  function updateActiveDot() {
-    const scrollLeft = carousel.scrollLeft;
-    const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-    const scrollPercent = scrollLeft / scrollWidth;
-    const activeIndex = Math.round(scrollPercent * (dots.length - 1));
-    
-    dots.forEach((dot, index) => {
-      if (index === activeIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-  }
-  
-  // Smooth scroll with debounce
-  let scrollTimeout;
-  carousel.addEventListener('scroll', function() {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(updateActiveDot, 100);
-  });
-  
-  // Initial state
-  updateActiveDot();
-})();
-
-// Scroll to specific section in carousel
-function glamhiveScrollToSection(sectionId, index) {
-  const carousel = document.getElementById('glamhive-carousel-' + sectionId);
-  if (!carousel) return;
-  
-  const itemWidth = carousel.querySelector('.glamhive-secondary-item').offsetWidth;
-  const gap = parseFloat(getComputedStyle(carousel).gap);
-  const scrollDistance = (itemWidth + gap) * index * 2;
-  
-  carousel.scrollTo({
-    left: scrollDistance,
-    behavior: 'smooth'
-  });
-}
-</script>
