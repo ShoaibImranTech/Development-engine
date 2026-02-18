@@ -1,0 +1,524 @@
+{% comment %}
+  VYRA — BOTTOM NAVIGATION
+  Scoped, zero-global-leak, CRO-optimised, WCAG 2.1 AA
+  Fonts: Cormorant Garamond (brand) + DM Sans (UI)
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  rel="preload" as="style"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+>
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+  rel="stylesheet"
+>
+
+{% style %}
+
+/* ─────────────────────────────────────────────
+   VYRA NAV — DESIGN TOKENS
+   All scoped under .vn-shell so zero global leak.
+   The ONE exception: body padding-bottom, handled
+   via a single scoped custom property set on :root
+   only for that one property.
+───────────────────────────────────────────────── */
+:root {
+  --vn-h: 68px;
+  --vn-safe: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  padding-bottom: calc(var(--vn-h) + 16px + var(--vn-safe));
+}
+
+/* ─────────────────────────────────────────────
+   SHELL — the fixed wrapper
+───────────────────────────────────────────────── */
+.vn-shell {
+  /* tokens scoped here */
+  --vn-serif:        'Cormorant Garamond', Georgia, serif;
+  --vn-sans:         'DM Sans', -apple-system, sans-serif;
+
+  /* palette */
+  --vn-bg:           rgba(253, 250, 245, 0.92);
+  --vn-bg-dark:      rgba(12, 8, 5, 0.92);
+  --vn-border:       rgba(180, 150, 110, 0.18);
+  --vn-ink:          #0e0a07;
+  --vn-ink-dark:     #f5f0e8;
+  --vn-muted:        #a89070;
+  --vn-gold:         #b8922a;
+  --vn-gold-pale:    #d4b05a;
+  --vn-active-bg:    rgba(184, 146, 42, 0.08);
+  --vn-pill-bg:      rgba(14, 10, 7, 0.06);
+
+  /* motion */
+  --vn-ease-silk:    cubic-bezier(0.16, 1, 0.3, 1);
+  --vn-ease-pop:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --vn-ease-steady:  cubic-bezier(0.4, 0, 0.2, 1);
+  --vn-t0:           80ms;
+  --vn-t1:           240ms;
+  --vn-t2:           420ms;
+
+  /* layout */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9000;
+  display: flex;
+  justify-content: center;
+  padding: 10px 16px calc(10px + var(--vn-safe));
+  pointer-events: none;
+
+  /* hide on desktop */
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PILL CONTAINER
+───────────────────────────────────────────────── */
+.vn-pill {
+  width: 100%;
+  max-width: 480px;
+  height: var(--vn-h);
+  background: var(--vn-bg);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 0.5px solid var(--vn-border);
+  border-radius: 34px;
+  pointer-events: auto;
+  overflow: hidden;
+
+  /* layered luxury shadow */
+  box-shadow:
+    0 0 0 0.5px rgba(184,146,42,0.06),
+    0 2px 6px  rgba(14,6,0,0.04),
+    0 8px 24px rgba(14,6,0,0.07),
+    0 24px 48px rgba(14,6,0,0.05);
+
+  /* entrance + hide/show */
+  transform: translateY(0) translateZ(0);
+  opacity: 1;
+  transition:
+    transform var(--vn-t2) var(--vn-ease-silk),
+    opacity   var(--vn-t1) var(--vn-ease-steady),
+    box-shadow var(--vn-t1) var(--vn-ease-steady);
+
+  will-change: transform, opacity;
+}
+
+.vn-shell[data-hidden="true"] .vn-pill {
+  transform: translateY(calc(100% + 24px)) translateZ(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   GRID
+───────────────────────────────────────────────── */
+.vn-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  height: 100%;
+  padding: 0 6px;
+}
+
+/* ─────────────────────────────────────────────
+   NAV ITEM
+───────────────────────────────────────────────── */
+.vn-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  text-decoration: none;
+  color: var(--vn-muted);
+  font-family: var(--vn-sans);
+  font-size: 9.5px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 26px;
+  margin: 8px 3px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+
+  transition:
+    color      var(--vn-t0) var(--vn-ease-steady),
+    background var(--vn-t0) var(--vn-ease-steady);
+}
+
+/* active press */
+.vn-item:active {
+  transform: scale(0.94) translateZ(0);
+  transition-duration: 60ms;
+}
+
+/* focus ring */
+.vn-item:focus-visible {
+  outline: 1.5px solid var(--vn-gold);
+  outline-offset: 3px;
+}
+
+/* ── ACTIVE STATE ── */
+.vn-item[aria-current="page"] {
+  color: var(--vn-ink);
+  background: var(--vn-active-bg);
+}
+
+/* gold dot indicator */
+.vn-item[aria-current="page"]::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: var(--vn-gold);
+  border-radius: 1px;
+  transform: translateX(-50%) scaleX(1) translateZ(0);
+  opacity: 1;
+  transition:
+    transform var(--vn-t1) var(--vn-ease-pop),
+    opacity   var(--vn-t1) var(--vn-ease-steady);
+}
+
+.vn-item:not([aria-current="page"])::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: var(--vn-gold);
+  border-radius: 1px;
+  transform: translateX(-50%) scaleX(0) translateZ(0);
+  opacity: 0;
+  transition:
+    transform var(--vn-t1) var(--vn-ease-pop),
+    opacity   var(--vn-t1) var(--vn-ease-steady);
+}
+
+/* hover — desktop pointer only */
+@media (hover: hover) and (pointer: fine) {
+  .vn-item:hover {
+    color: var(--vn-ink);
+    background: var(--vn-pill-bg);
+  }
+  .vn-item:hover .vn-icon {
+    transform: translateY(-2px) translateZ(0);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   ICON
+───────────────────────────────────────────────── */
+.vn-icon {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+  transition:
+    transform var(--vn-t1) var(--vn-ease-silk),
+    stroke-width var(--vn-t0) var(--vn-ease-steady);
+}
+
+.vn-item[aria-current="page"] .vn-icon {
+  stroke-width: 2.0;
+}
+
+/* ─────────────────────────────────────────────
+   CART BADGE
+───────────────────────────────────────────────── */
+.vn-badge {
+  position: absolute;
+  top: 6px;
+  right: calc(50% - 18px);
+  min-width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  background: var(--vn-gold);
+  color: #fff;
+  font-family: var(--vn-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0;
+  border-radius: 9px;
+  border: 1.5px solid var(--vn-bg);
+  pointer-events: none;
+
+  opacity: 0;
+  transform: scale(0) translateZ(0);
+  transition:
+    opacity   var(--vn-t1) var(--vn-ease-steady),
+    transform var(--vn-t1) var(--vn-ease-pop);
+}
+
+.vn-badge[data-count]:not([data-count="0"]) {
+  opacity: 1;
+  transform: scale(1) translateZ(0);
+}
+
+/* ─────────────────────────────────────────────
+   DARK MODE
+   Reassigns palette tokens only — no :root overwrite
+───────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  .vn-shell {
+    --vn-bg:         rgba(12, 8, 5, 0.92);
+    --vn-border:     rgba(184, 146, 42, 0.14);
+    --vn-ink:        #f5f0e8;
+    --vn-muted:      #7a6555;
+    --vn-active-bg:  rgba(184, 146, 42, 0.10);
+    --vn-pill-bg:    rgba(255, 255, 255, 0.04);
+  }
+
+  .vn-badge {
+    border-color: var(--vn-bg);
+  }
+}
+
+/* ─────────────────────────────────────────────
+   REDUCED MOTION
+───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .vn-pill,
+  .vn-item,
+  .vn-icon,
+  .vn-badge,
+  .vn-item::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .vn-shell[data-hidden="true"] .vn-pill {
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   HIGH CONTRAST
+───────────────────────────────────────────────── */
+@media (prefers-contrast: high) {
+  .vn-pill {
+    border: 1.5px solid currentColor;
+    backdrop-filter: none;
+    background: #fff;
+  }
+  .vn-item[aria-current="page"]::after {
+    height: 2.5px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PRINT
+───────────────────────────────────────────────── */
+@media print {
+  .vn-shell { display: none !important; }
+}
+
+{% endstyle %}
+
+
+<!-- ── HTML ─────────────────────────────────── -->
+
+<div
+  class="vn-shell"
+  id="vn-shell"
+  data-hidden="false"
+  role="navigation"
+  aria-label="Site navigation"
+>
+  <div class="vn-pill" id="vn-pill">
+    <div class="vn-grid" role="list">
+
+      <!-- HOME -->
+      <a
+        href="{{ routes.root_url }}"
+        class="vn-item"
+        aria-label="Home"
+        aria-current="{% if request.page_type == 'index' %}page{% else %}false{% endif %}"
+        role="listitem"
+      >
+        <svg class="vn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        <span>Home</span>
+      </a>
+
+      <!-- SHOP -->
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="vn-item"
+        aria-label="Shop all"
+        aria-current="{% if request.page_type == 'collection' or request.page_type == 'product' %}page{% else %}false{% endif %}"
+        role="listitem"
+      >
+        <svg class="vn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="7" width="18" height="14" rx="2"/>
+          <path d="M16 7V5a4 4 0 0 0-8 0v2"/>
+        </svg>
+        <span>Shop</span>
+      </a>
+
+      <!-- SEARCH -->
+      <a
+        href="{{ routes.search_url }}"
+        class="vn-item"
+        aria-label="Search"
+        aria-current="{% if request.page_type == 'search' %}page{% else %}false{% endif %}"
+        role="listitem"
+      >
+        <svg class="vn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7.5"/>
+          <path d="M21 21l-4.2-4.2"/>
+        </svg>
+        <span>Search</span>
+      </a>
+
+      <!-- CART -->
+      <a
+        href="{{ routes.cart_url }}"
+        class="vn-item"
+        aria-label="Cart"
+        aria-current="{% if request.page_type == 'cart' %}page{% else %}false{% endif %}"
+        role="listitem"
+        id="vn-cart-item"
+      >
+        <svg class="vn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Cart</span>
+        <span
+          class="vn-badge"
+          id="vn-badge"
+          data-count="{{ cart.item_count }}"
+          role="status"
+          aria-live="polite"
+          aria-label="Cart items"
+        >{{ cart.item_count }}</span>
+      </a>
+
+      <!-- ACCOUNT -->
+      <a
+        href="{{ routes.account_url }}"
+        class="vn-item"
+        aria-label="Account"
+        aria-current="{% if request.page_type == 'customers/account' or request.page_type == 'customers/login' or request.page_type == 'customers/register' %}page{% else %}false{% endif %}"
+        role="listitem"
+      >
+        <svg class="vn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Account</span>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Element refs ──────────────────────────── */
+  var shell = document.getElementById('vn-shell');
+  var badge = document.getElementById('vn-badge');
+  if (!shell) return;
+
+  /* ── Scroll hide / show ────────────────────── */
+  var lastY      = window.pageYOffset;
+  var hidden     = false;
+  var ticking    = false;
+  var THRESHOLD  = 80;   /* px before hide logic activates */
+  var DELTA_DOWN = 8;    /* px downward scroll to hide */
+  var DELTA_UP   = 6;    /* px upward scroll to show */
+
+  function setHidden(state) {
+    if (hidden === state) return;
+    hidden = state;
+    shell.setAttribute('data-hidden', state ? 'true' : 'false');
+  }
+
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      var y     = window.pageYOffset;
+      var delta = y - lastY;
+
+      if (y < THRESHOLD) {
+        setHidden(false);
+      } else if (delta > DELTA_DOWN) {
+        setHidden(true);
+      } else if (delta < -DELTA_UP) {
+        setHidden(false);
+      }
+
+      lastY   = y;
+      ticking = false;
+    });
+  }, { passive: true });
+
+  /* ── Cart badge sync ────────────────────────
+     Priority order:
+     1. Shopify section render events (instant)
+     2. Custom theme cart:updated events
+     3. Lazy fetch on idle (once, on load)
+     NO polling — event-driven only.
+  ─────────────────────────────────────────── */
+  function updateBadge(count) {
+    if (!badge) return;
+    var n = parseInt(count, 10) || 0;
+    badge.textContent = n > 0 ? (n > 99 ? '99+' : n) : '';
+    badge.setAttribute('data-count', n);
+    badge.setAttribute('aria-label', n === 1 ? '1 item in cart' : n + ' items in cart');
+  }
+
+  /* Shopify native cart change events */
+  document.addEventListener('cart:updated',  function (e) {
+    if (e.detail && e.detail.cart) updateBadge(e.detail.cart.item_count);
+    else fetchCart();
+  });
+  document.addEventListener('cart:change', function (e) {
+    if (e.detail && e.detail.cart) updateBadge(e.detail.cart.item_count);
+  });
+
+  /* One-time idle fetch to sync on page load */
+  function fetchCart() {
+    fetch('/cart.js', { credentials: 'same-origin' })
+      .then(function (r) { return r.json(); })
+      .then(function (c) { updateBadge(c.item_count); })
+      .catch(function () { /* silent — badge stays at Liquid-rendered value */ });
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(fetchCart, { timeout: 2000 });
+  } else {
+    setTimeout(fetchCart, 500);
+  }
+
+  /* Initialise badge visibility from Liquid-rendered value */
+  updateBadge(badge ? badge.getAttribute('data-count') : 0);
+
+})();
+</script>
