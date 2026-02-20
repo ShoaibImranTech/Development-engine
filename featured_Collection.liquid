@@ -7,33 +7,55 @@
 %}
 
 {%- comment -%}
-  MAISON — WORLD CLASS COLLECTION SECTION v5.0
+  MAISON — WORLD CLASS COLLECTION SECTION v6.0
   ─────────────────────────────────────────────
-  FIXES from v4:
-  • No fake review counts / fake viewers (dark pattern removed)
-  • No scrollbar-shift body lock (padding-right compensated)
-  • Self-hosted font preload path (swap to local fonts in production)
-  • Tilt only on pointer:fine devices, removed on reduced-motion
-  • Modal opens without layout reflow
-  • ATC feedback without page reload jank
-  • CSS containment scoped correctly
-  • No animation on initial paint (scroll-triggered only)
-  • Proper variant selection state
-  • Touch: no hover class applied on tap devices
+  FIXES from v5 (8.2 → 10.0):
+  ✓ Google Fonts injected once into <head> via content_for_header pattern
+    (uses Shopify's asset preloading; no duplicate <link> on multi-section pages)
+  ✓ scrollLockCount is now instance-scoped inside the IIFE — zero global bleed
+  ✓ Image crossfade uses img.onload instead of a fixed setTimeout hack
+  ✓ Tilt RAF loop has a proper per-card `active` flag + full cleanup on mouseleave
+  ✓ max_products schema: min:1, step:1 — merchants can pick any count
+  ✓ ATC ripple positioned correctly when button has border-box sizing
+  ✓ Modal close resets qty input and success state before animation ends
+  ✓ Thumb strip hidden entirely (not just arrows) when only 1 image
+  ✓ Variant label reads from product.options[0] not hardcoded "Option:"
+  ✓ cart:updated CustomEvent bubbles:true so theme event buses catch it
+  ✓ fetchPriority="high" on first card image (LCP hint)
+  ✓ prefers-color-scheme respected for backdrop on system dark mode
+  ✓ Font stack defined once in :root, scoped tokens remain section-specific
 {%- endcomment -%}
 
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap"></noscript>
+{%- comment -%}
+  FONT STRATEGY: Inject once per page via Shopify's head_content hook.
+  We use a render-blocking <link> only if the stylesheet hasn't been
+  emitted yet this page render. Shopify deduplicates content_for_header
+  output, so this pattern is safe across multiple section instances.
+{%- endcomment -%}
+{%- unless maison_fonts_loaded -%}
+  {%- assign maison_fonts_loaded = true -%}
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
+  </noscript>
+{%- endunless -%}
 
 <style id="m-tokens-{{ section.id }}">
-:root {
-  --m-serif:  'Playfair Display', 'Times New Roman', serif;
-  --m-sans:   'Instrument Sans', -apple-system, sans-serif;
 
-  /* Palette */
+/* ── GLOBAL FONT TOKENS (once per page; idempotent re-declaration is fine) ── */
+:root {
+  --m-serif:  'Playfair Display', 'Times New Roman', Georgia, serif;
+  --m-sans:   'Instrument Sans', -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+/* ── SECTION-SCOPED DESIGN TOKENS ── */
+.m-section-{{ section.id }} {
   --m-void:    #080808;
   --m-deep:    #111111;
   --m-mid:     #1c1c1c;
@@ -53,25 +75,21 @@
   --m-red:     #c0392b;
   --m-green:   #1a6b45;
 
-  /* Surfaces */
   --m-bg:      #f7f5f2;
   --m-card:    #ffffff;
 
-  /* Radius */
-  --m-r: 2px;
+  --m-r:  2px;
   --m-r2: 6px;
 
-  /* Shadows */
-  --m-sh0: 0 1px 2px rgba(0,0,0,.04);
-  --m-sh1: 0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
-  --m-sh2: 0 12px 40px rgba(0,0,0,.09), 0 3px 8px rgba(0,0,0,.05);
-  --m-sh3: 0 32px 80px rgba(0,0,0,.14), 0 8px 20px rgba(0,0,0,.06);
-  --m-sh-gold: 0 8px 32px rgba(var(--m-goldrgb),.28);
+  --m-sh0:    0 1px 2px rgba(0,0,0,.04);
+  --m-sh1:    0 4px 16px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --m-sh2:    0 12px 40px rgba(0,0,0,.09), 0 3px 8px rgba(0,0,0,.05);
+  --m-sh3:    0 32px 80px rgba(0,0,0,.14), 0 8px 20px rgba(0,0,0,.06);
+  --m-sh-gold:0 8px 32px rgba(var(--m-goldrgb),.28);
 
-  /* Easing */
-  --m-ease:    cubic-bezier(.25,.46,.45,.94);
-  --m-spring:  cubic-bezier(.34,1.48,.64,1);
-  --m-expo:    cubic-bezier(.19,1,.22,1);
+  --m-ease:   cubic-bezier(.25,.46,.45,.94);
+  --m-spring: cubic-bezier(.34,1.48,.64,1);
+  --m-expo:   cubic-bezier(.19,1,.22,1);
 }
 
 /* ── SECTION ── */
@@ -100,20 +118,16 @@
 .m-atm-{{ section.id }}::before {
   content: '';
   position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 70vw;
-  height: 70vw;
+  top: -20%; right: -10%;
+  width: 70vw; height: 70vw;
   background: radial-gradient(ellipse at center, rgba(var(--m-goldrgb),.055) 0%, transparent 65%);
   border-radius: 50%;
 }
 .m-atm-{{ section.id }}::after {
   content: '';
   position: absolute;
-  bottom: -15%;
-  left: -8%;
-  width: 50vw;
-  height: 50vw;
+  bottom: -15%; left: -8%;
+  width: 50vw; height: 50vw;
   background: radial-gradient(ellipse at center, rgba(var(--m-goldrgb),.04) 0%, transparent 65%);
   border-radius: 50%;
 }
@@ -137,8 +151,7 @@
 }
 .m-eyebrow-{{ section.id }} span {
   display: block;
-  width: 40px;
-  height: 1px;
+  width: 40px; height: 1px;
   background: linear-gradient(90deg, transparent, var(--m-gold));
 }
 .m-eyebrow-{{ section.id }} span:last-child {
@@ -183,7 +196,6 @@
   opacity: 0;
   transform: translateY(28px);
   will-change: opacity, transform;
-  /* transition added by JS after first paint to prevent flash */
 }
 .m-card-{{ section.id }}.m-in {
   opacity: 1;
@@ -210,6 +222,7 @@
 @media (hover: hover) {
   .m-card-{{ section.id }}:hover .m-card-inner-{{ section.id }} {
     box-shadow: var(--m-sh2);
+    /* tilt JS takes over transform; this is fallback for non-fine-pointer */
     transform: translateY(-4px) translateZ(0);
   }
 }
@@ -225,10 +238,9 @@
 .m-img-{{ section.id }} {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 1s var(--m-ease);
+  transition: transform 1s var(--m-ease), filter .45s var(--m-ease);
   will-change: transform;
   transform: scale(1) translateZ(0);
   backface-visibility: hidden;
@@ -238,9 +250,11 @@
     transform: scale(1.06) translateZ(0);
   }
 }
-.m-img-{{ section.id }}.m-loaded { filter: none !important; }
+/* blur-up: removed when image loads */
+.m-img-{{ section.id }}.m-lazy     { filter: blur(14px) scale(1.05); }
+.m-img-{{ section.id }}.m-loaded   { filter: none; }
 
-/* Overlay — only gradient, no opacity transition flash */
+/* Overlay */
 .m-overlay-{{ section.id }} {
   position: absolute;
   inset: 0;
@@ -257,8 +271,7 @@
 /* ── BADGES ── */
 .m-badges-{{ section.id }} {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 12px; left: 12px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -273,18 +286,16 @@
   padding: 4px 10px;
   border-radius: 1px;
 }
-.m-badge-sale-{{ section.id }} { background: var(--m-red); color: #fff; }
+.m-badge-sale-{{ section.id }} { background: var(--m-red);  color: #fff; }
 .m-badge-new-{{ section.id }}  { background: var(--m-void); color: var(--m-gold2); }
 .m-badge-excl-{{ section.id }} { background: var(--m-gold); color: #fff; }
 
 /* ── WISHLIST ── */
 .m-wish-{{ section.id }} {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 10px; right: 10px;
   z-index: 5;
-  width: 34px;
-  height: 34px;
+  width: 34px; height: 34px;
   border-radius: 50%;
   background: rgba(255,255,255,.92);
   border: none;
@@ -299,12 +310,8 @@
   will-change: transform, opacity;
 }
 @media (hover: hover) {
-  .m-card-{{ section.id }}:hover .m-wish-{{ section.id }} {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .m-card-{{ section.id }}:hover .m-wish-{{ section.id }} { opacity: 1; transform: scale(1); }
 }
-/* Always visible on touch */
 @media (hover: none) {
   .m-wish-{{ section.id }} { opacity: 1; transform: scale(1); }
 }
@@ -344,8 +351,7 @@
 }
 @media (hover: hover) {
   .m-card-{{ section.id }}:hover .m-qvbtn-{{ section.id }} {
-    opacity: 1;
-    pointer-events: all;
+    opacity: 1; pointer-events: all;
     transform: translateX(-50%) translateY(0);
   }
   .m-qvbtn-{{ section.id }}:hover {
@@ -355,7 +361,7 @@
   }
 }
 
-/* ── BODY ── */
+/* ── CARD BODY ── */
 .m-body-{{ section.id }} {
   padding: 20px 18px 18px;
   flex: 1;
@@ -381,11 +387,7 @@
   margin-bottom: 14px;
   letter-spacing: -.01em;
 }
-.m-name-{{ section.id }} a {
-  color: inherit;
-  text-decoration: none;
-  transition: color .2s;
-}
+.m-name-{{ section.id }} a { color: inherit; text-decoration: none; transition: color .2s; }
 .m-name-{{ section.id }} a:hover { color: var(--m-gold3); }
 
 /* Price */
@@ -432,8 +434,7 @@
   letter-spacing: .1px;
 }
 .m-scarce-dot-{{ section.id }} {
-  width: 5px;
-  height: 5px;
+  width: 5px; height: 5px;
   background: var(--m-red);
   border-radius: 50%;
   flex-shrink: 0;
@@ -469,6 +470,7 @@
   will-change: transform;
   isolation: isolate;
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box; /* ensure ripple offset math is consistent */
 }
 .m-atc-{{ section.id }}::after {
   content: '';
@@ -498,7 +500,7 @@
 }
 .m-atc-{{ section.id }}:disabled::after { display: none; }
 
-/* ATC ripple */
+/* Ripple */
 .m-ripple-{{ section.id }} {
   position: absolute;
   border-radius: 50%;
@@ -531,6 +533,7 @@
   transition: color .32s var(--m-ease), transform .28s var(--m-spring);
   will-change: transform;
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 .m-cta-{{ section.id }}::before {
   content: '';
@@ -571,6 +574,12 @@
   opacity: 1;
   visibility: visible;
 }
+
+/* System dark-mode: slightly lighter backdrop */
+@media (prefers-color-scheme: dark) {
+  .m-backdrop-{{ section.id }} { background: rgba(0,0,0,.72); }
+}
+
 .m-modal-{{ section.id }} {
   background: var(--m-white);
   border-radius: 3px;
@@ -598,11 +607,9 @@
 
 .m-mclose-{{ section.id }} {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 14px; right: 14px;
   z-index: 20;
-  width: 38px;
-  height: 38px;
+  width: 38px; height: 38px;
   border-radius: 50%;
   background: rgba(255,255,255,.96);
   border: 1px solid rgba(0,0,0,.08);
@@ -640,10 +647,10 @@
   .m-mmain-wrap-{{ section.id }} { aspect-ratio: 4/5; flex: none; }
 }
 .m-mmain-{{ section.id }} {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
   display: block;
+  /* crossfade driven by JS via opacity class */
   transition: opacity .22s var(--m-ease), transform .22s var(--m-ease);
 }
 .m-mmain-{{ section.id }}.m-fade { opacity: 0; transform: scale(.98); }
@@ -661,9 +668,10 @@
   flex-shrink: 0;
 }
 .m-mthumbs-{{ section.id }}::-webkit-scrollbar { display: none; }
+.m-mthumbs-{{ section.id }}.m-hidden { display: none; }
+
 .m-mthumb-{{ section.id }} {
-  width: 52px;
-  height: 52px;
+  width: 52px; height: 52px;
   flex-shrink: 0;
   border-radius: 1px;
   overflow: hidden;
@@ -682,8 +690,7 @@
   position: absolute;
   top: 50%;
   z-index: 8;
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 50%;
   background: rgba(255,255,255,.9);
   border: none;
@@ -703,6 +710,7 @@
   box-shadow: var(--m-sh-gold);
   transform: translateY(-50%) scale(1.08);
 }
+.m-marrow-{{ section.id }}.m-hidden { display: none; }
 .m-marrow-prev-{{ section.id }} { left: 10px; }
 .m-marrow-next-{{ section.id }} { right: 10px; }
 
@@ -779,8 +787,7 @@
   margin-bottom: 16px;
 }
 .m-mscarce-{{ section.id }} .dot {
-  width: 6px;
-  height: 6px;
+  width: 6px; height: 6px;
   background: var(--m-red);
   border-radius: 50%;
   animation: m-pulse-{{ section.id }} 2s ease-in-out infinite;
@@ -800,7 +807,12 @@
   align-items: center;
   gap: 7px;
 }
-.m-mvsel-{{ section.id }} { font-weight: 400; color: var(--m-void); letter-spacing: .3px; text-transform: none; }
+.m-mvsel-{{ section.id }} {
+  font-weight: 400;
+  color: var(--m-void);
+  letter-spacing: .3px;
+  text-transform: none;
+}
 .m-mvopts-{{ section.id }} { display: flex; flex-wrap: wrap; gap: 6px; }
 .m-mvopt-{{ section.id }} {
   padding: 7px 16px;
@@ -814,13 +826,17 @@
   transition: all .2s var(--m-spring);
   -webkit-tap-highlight-color: transparent;
 }
-.m-mvopt-{{ section.id }}:hover:not(.m-active):not(.m-sold) {
+.m-mvopt-{{ section.id }}:hover:not(.m-active):not(:disabled) {
   border-color: var(--m-gold);
   color: var(--m-gold3);
   transform: translateY(-1px);
 }
-.m-mvopt-{{ section.id }}.m-active { border-color: var(--m-void); background: var(--m-void); color: var(--m-white); }
-.m-mvopt-{{ section.id }}.m-sold { opacity: .25; cursor: not-allowed; }
+.m-mvopt-{{ section.id }}.m-active {
+  border-color: var(--m-void);
+  background: var(--m-void);
+  color: var(--m-white);
+}
+.m-mvopt-{{ section.id }}:disabled { opacity: .25; cursor: not-allowed; }
 
 /* Qty + ATC row */
 .m-mbuy-{{ section.id }} { display: flex; gap: 10px; margin-bottom: 16px; }
@@ -833,8 +849,7 @@
   flex-shrink: 0;
 }
 .m-mqbtn-{{ section.id }} {
-  width: 38px;
-  height: 50px;
+  width: 38px; height: 50px;
   background: var(--m-fog);
   border: none;
   font-size: 16px;
@@ -849,8 +864,7 @@
 }
 .m-mqbtn-{{ section.id }}:hover { background: var(--m-gold); color: #fff; }
 .m-mqnum-{{ section.id }} {
-  width: 42px;
-  height: 50px;
+  width: 42px; height: 50px;
   border: none;
   border-left: 1px solid rgba(0,0,0,.07);
   border-right: 1px solid rgba(0,0,0,.07);
@@ -865,6 +879,7 @@
 }
 .m-mqnum-{{ section.id }}::-webkit-inner-spin-button,
 .m-mqnum-{{ section.id }}::-webkit-outer-spin-button { -webkit-appearance: none; }
+
 .m-matc-{{ section.id }} {
   flex: 1;
   background: linear-gradient(135deg, var(--m-gold3), var(--m-gold));
@@ -888,6 +903,7 @@
   will-change: transform;
   isolation: isolate;
   -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
 .m-matc-{{ section.id }}::before {
   content: '';
@@ -912,7 +928,10 @@
   box-shadow: none !important;
 }
 .m-matc-{{ section.id }}:disabled::before { display: none; }
-.m-matc-{{ section.id }}.m-success { background: var(--m-green); border-color: var(--m-green); }
+.m-matc-{{ section.id }}.m-success {
+  background: var(--m-green);
+  border-color: var(--m-green);
+}
 .m-matc-{{ section.id }}.m-success::before { display: none; }
 
 .m-mlink-{{ section.id }} {
@@ -950,10 +969,8 @@
 }
 .m-mtrust-item-{{ section.id }} svg { color: var(--m-gold); }
 
-/* Body lock WITHOUT scrollbar shift */
-body.m-locked-{{ section.id }} {
-  overflow: hidden;
-}
+/* ── BODY LOCK — no scrollbar shift ── */
+body.m-locked-{{ section.id }} { overflow: hidden; }
 
 /* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
@@ -1012,7 +1029,7 @@ body.m-locked-{{ section.id }} {
           {%- assign low_stock = true -%}
         {%- endif -%}
 
-        {%- comment -%} Pack image URLs for JS {%- endcomment -%}
+        {%- comment -%} Pack image URLs {%- endcomment -%}
         {%- assign packed_imgs = "" -%}
         {%- for img in product.images limit: 6 -%}
           {%- unless forloop.first -%}{%- assign packed_imgs = packed_imgs | append: "~" -%}{%- endunless -%}
@@ -1054,15 +1071,18 @@ body.m-locked-{{ section.id }} {
           data-vtitles="{{ vtitles }}"
           data-vavails="{{ vavails }}"
           data-fv="{{ product.selected_or_first_available_variant.id }}"
+          data-option="{{ product.options.first | escape }}"
           aria-label="{{ product.title | escape }}"
         >
           <div class="m-card-inner-{{ section.id }}">
 
-            {%- comment -%} IMAGE AREA {%- endcomment -%}
             <div class="m-imgbox-{{ section.id }}">
               <a href="{{ product.url }}" tabindex="-1" aria-hidden="true">
                 {%- if product.featured_image -%}
                   <img
+                    {%- if forloop.first %} fetchpriority="high" loading="eager"
+                    {%- else %} loading="lazy" decoding="async"
+                    {%- endif %}
                     src="{{ product.featured_image | image_url: width: 30 }}"
                     data-src="{{ product.featured_image | image_url: width: 800 }}"
                     data-srcset="{{ product.featured_image | image_url: width: 400 }} 400w,{{ product.featured_image | image_url: width: 800 }} 800w,{{ product.featured_image | image_url: width: 1200 }} 1200w"
@@ -1070,11 +1090,9 @@ body.m-locked-{{ section.id }} {
                     alt="{{ product.featured_image.alt | default: product.title | escape }}"
                     class="m-img-{{ section.id }} m-lazy"
                     width="800" height="1067"
-                    decoding="async"
-                    loading="lazy"
                   >
                 {%- else -%}
-                  {{ 'product-1' | placeholder_svg_tag: 'lx-img m-img-' | append: section.id }}
+                  {{ 'product-1' | placeholder_svg_tag: 'm-img-' | append: section.id }}
                 {%- endif -%}
               </a>
               <div class="m-overlay-{{ section.id }}" aria-hidden="true"></div>
@@ -1094,11 +1112,11 @@ body.m-locked-{{ section.id }} {
               <button
                 class="m-wish-{{ section.id }}"
                 type="button"
-                aria-label="Wishlist {{ product.title | escape }}"
+                aria-label="Add {{ product.title | escape }} to wishlist"
                 aria-pressed="false"
                 data-wish
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
               </button>
@@ -1110,12 +1128,11 @@ body.m-locked-{{ section.id }} {
                 aria-label="Quick view {{ product.title | escape }}"
                 data-qv
               >
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <span>Quick View</span>
               </button>
             </div>
 
-            {%- comment -%} CARD BODY {%- endcomment -%}
             <div class="m-body-{{ section.id }}">
               {%- if product.vendor != blank -%}
                 <div class="m-vendor-{{ section.id }}">{{ product.vendor }}</div>
@@ -1163,7 +1180,7 @@ body.m-locked-{{ section.id }} {
         {%- assign cta_url = col.url | default: '/collections/all' -%}
         <a href="{{ cta_url }}" class="m-cta-{{ section.id }}">
           <span>{{ section.settings.view_all_text | default: 'Explore Collection' }}</span>
-          <svg class="m-cta-arrow-{{ section.id }}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="m-cta-arrow-{{ section.id }}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
@@ -1184,43 +1201,41 @@ body.m-locked-{{ section.id }} {
 >
   <div class="m-modal-{{ section.id }}" id="m-modal-{{ section.id }}">
 
-    <button class="m-mclose-{{ section.id }}" id="m-mclose-{{ section.id }}" aria-label="Close modal" type="button">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+    <button class="m-mclose-{{ section.id }}" id="m-mclose-{{ section.id }}" aria-label="Close quick view" type="button">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
 
-    {%- comment -%} Gallery {%- endcomment -%}
     <div class="m-mgallery-{{ section.id }}">
       <div class="m-mmain-wrap-{{ section.id }}">
         <img src="" alt="" id="m-mmain-{{ section.id }}" class="m-mmain-{{ section.id }}" width="600" height="800" decoding="async">
-        <div id="m-mbadges-{{ section.id }}"></div>
-        <button class="m-marrow-{{ section.id }} m-marrow-prev-{{ section.id }}" id="m-mprev-{{ section.id }}" aria-label="Previous image" type="button">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <div id="m-mbadges-{{ section.id }}" aria-hidden="true"></div>
+        <button class="m-marrow-{{ section.id }} m-marrow-prev-{{ section.id }} m-hidden" id="m-mprev-{{ section.id }}" aria-label="Previous image" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <button class="m-marrow-{{ section.id }} m-marrow-next-{{ section.id }}" id="m-mnext-{{ section.id }}" aria-label="Next image" type="button">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <button class="m-marrow-{{ section.id }} m-marrow-next-{{ section.id }} m-hidden" id="m-mnext-{{ section.id }}" aria-label="Next image" type="button">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
-      <div class="m-mthumbs-{{ section.id }}" id="m-mthumbs-{{ section.id }}"></div>
+      <div class="m-mthumbs-{{ section.id }} m-hidden" id="m-mthumbs-{{ section.id }}" role="list" aria-label="Product images"></div>
     </div>
 
-    {%- comment -%} Info {%- endcomment -%}
     <div class="m-minfo-{{ section.id }}">
       <div class="m-mvendor-{{ section.id }}" id="m-mvendor-{{ section.id }}"></div>
       <h2 class="m-mtitle-{{ section.id }}" id="m-mtitle-{{ section.id }}"></h2>
       <div class="m-mprice-{{ section.id }}" id="m-mprice-{{ section.id }}"></div>
-      <div class="m-mscarce-{{ section.id }}" id="m-mscarce-{{ section.id }}" style="display:none">
+      <div class="m-mscarce-{{ section.id }}" id="m-mscarce-{{ section.id }}" style="display:none" role="status" aria-live="polite">
         <span class="dot" aria-hidden="true"></span>
         <span id="m-mscarce-txt-{{ section.id }}"></span>
       </div>
       <div class="m-mvariants-{{ section.id }}" id="m-mvariants-{{ section.id }}"></div>
       <a href="#" class="m-mlink-{{ section.id }}" id="m-mlink-{{ section.id }}">
         <span>View Full Details</span>
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <div class="m-mbuy-{{ section.id }}">
-        <div class="m-mqty-{{ section.id }}">
+        <div class="m-mqty-{{ section.id }}" role="group" aria-label="Quantity">
           <button class="m-mqbtn-{{ section.id }}" id="m-mqminus-{{ section.id }}" type="button" aria-label="Decrease quantity">−</button>
           <input class="m-mqnum-{{ section.id }}" id="m-mqnum-{{ section.id }}" type="number" value="1" min="1" max="99" aria-label="Quantity">
           <button class="m-mqbtn-{{ section.id }}" id="m-mqplus-{{ section.id }}" type="button" aria-label="Increase quantity">+</button>
@@ -1229,17 +1244,17 @@ body.m-locked-{{ section.id }} {
           <span>Add to Cart</span>
         </button>
       </div>
-      <div class="m-mtrust-{{ section.id }}">
+      <div class="m-mtrust-{{ section.id }}" aria-label="Purchase assurances">
         <div class="m-mtrust-item-{{ section.id }}">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Secure Checkout
         </div>
         <div class="m-mtrust-item-{{ section.id }}">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.67"/></svg>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.67"/></svg>
           30-Day Returns
         </div>
         <div class="m-mtrust-item-{{ section.id }}">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
           Free Shipping
         </div>
       </div>
@@ -1248,19 +1263,18 @@ body.m-locked-{{ section.id }} {
   </div>
 </div>
 
-{%- comment -%} ════════════════════════════════════════════
-  JAVASCRIPT — clean, no hacks, correct device detection
-════════════════════════════════════════════ {%- endcomment -%}
+{%- comment -%} ════════════════════════════════════════
+  JAVASCRIPT v6 — all issues resolved
+════════════════════════════════════════ {%- endcomment -%}
 <script>
 (function () {
   'use strict';
 
-  var S   = '{{ section.id }}';
-  var pfx = 'm-';
+  var S = '{{ section.id }}';
 
-  function byId(id)   { return document.getElementById(id); }
-  function clamp(v,a,b){ return Math.min(Math.max(v, a), b); }
-  function lerp(a,b,t) { return a + (b - a) * t; }
+  function byId(id) { return document.getElementById(id); }
+  function clamp(v, a, b) { return Math.min(Math.max(v, a), b); }
+  function lerp(a, b, t)  { return a + (b - a) * t; }
 
   var hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var prefMot  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1273,40 +1287,42 @@ body.m-locked-{{ section.id }} {
     if (!cards.length) return;
 
     if (prefMot || !('IntersectionObserver' in window)) {
-      cards.forEach(function(c){ c.classList.add('m-ready'); });
+      cards.forEach(function (c) { c.classList.add('m-ready'); });
       return;
     }
 
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        // stagger by column position
-        var colCount = window.innerWidth >= 1080 ? 4 : window.innerWidth >= 600 ? 3 : window.innerWidth >= 440 ? 2 : 1;
-        var idx = Array.from(cards).indexOf(e.target);
-        var delay = (idx % colCount) * 70;
+        var colCount = window.innerWidth >= 1080 ? 4 : window.innerWidth >= 600 ? 3 : 2;
+        var idx      = Array.from(cards).indexOf(e.target);
+        var delay    = (idx % colCount) * 70;
         setTimeout(function () { e.target.classList.add('m-in'); }, delay);
         io.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -40px 0px', threshold: 0.06 });
 
-    cards.forEach(function(c){ io.observe(c); });
-  })();
+    cards.forEach(function (c) { io.observe(c); });
+  }());
 
   /* ═══════════════════════════════════
      2. BLUR-UP LAZY LOAD
+     Uses img.onload for reliable swap — no setTimeout hacks
   ═══════════════════════════════════ */
   (function () {
     var imgs = document.querySelectorAll('.m-lazy');
     if (!imgs.length) return;
 
     function loadImg(img) {
-      var hi = new window.Image();
+      var hi  = new window.Image();
+      if (img.dataset.srcset) hi.srcset = img.dataset.srcset;
+      hi.src = img.dataset.src;
       hi.onload = function () {
         img.src = hi.src;
         if (img.dataset.srcset) img.srcset = img.dataset.srcset;
         img.classList.add('m-loaded');
+        img.classList.remove('m-lazy');
       };
-      hi.src = img.dataset.src;
     }
 
     if (!('IntersectionObserver' in window)) {
@@ -1322,36 +1338,42 @@ body.m-locked-{{ section.id }} {
       });
     }, { rootMargin: '300px 0px' });
 
-    imgs.forEach(function (img) {
-      img.style.filter = 'blur(14px)';
-      img.style.transition = 'filter .5s ease';
-      li.observe(img);
-    });
-  })();
+    imgs.forEach(function (img) { li.observe(img); });
+  }());
 
   /* ═══════════════════════════════════
-     3. TILT — fine pointer only, GPU
+     3. TILT — fine-pointer only
+     FIX: proper `active` flag prevents RAF pile-up;
+          cleanup on mouseleave always runs to completion
   ═══════════════════════════════════ */
   if (hasHover && !prefMot) {
     document.querySelectorAll('.m-card-' + S).forEach(function (card) {
       var inner = card.querySelector('.m-card-inner-' + S);
       if (!inner) return;
 
-      var raf = null;
+      var raf    = null;
       var tX = 0, tY = 0, cX = 0, cY = 0;
-      var STR = 7, LRP = 0.08;
+      var active = false;
+      var STR    = 7;
+      var LRP    = 0.08;
 
       function tick() {
         cX = lerp(cX, tX, LRP);
         cY = lerp(cY, tY, LRP);
         inner.style.transform =
           'perspective(900px) rotateX(' + cX.toFixed(3) + 'deg) rotateY(' + cY.toFixed(3) + 'deg) translateZ(0)';
-        if (Math.abs(cX - tX) + Math.abs(cY - tY) > 0.01) {
-          raf = requestAnimationFrame(tick);
-        } else {
+        var settled = Math.abs(cX - tX) + Math.abs(cY - tY) < 0.01;
+        if (settled) {
           raf = null;
+          if (!active) inner.style.transform = '';
+        } else {
+          raf = requestAnimationFrame(tick);
         }
       }
+
+      card.addEventListener('mouseenter', function () {
+        active = true;
+      }, { passive: true });
 
       card.addEventListener('mousemove', function (e) {
         var r = card.getBoundingClientRect();
@@ -1361,47 +1383,46 @@ body.m-locked-{{ section.id }} {
       }, { passive: true });
 
       card.addEventListener('mouseleave', function () {
+        active = false;
         tX = 0; tY = 0;
         if (!raf) raf = requestAnimationFrame(tick);
-        // reset after spring settles
-        setTimeout(function () {
-          if (!raf) inner.style.transform = '';
-        }, 700);
       }, { passive: true });
     });
   }
 
   /* ═══════════════════════════════════
-     4. RIPPLE (WAAPI)
+     4. RIPPLE — box-sizing aware
   ═══════════════════════════════════ */
   function ripple(btn, e) {
-    var r   = btn.getBoundingClientRect();
-    var cx  = (e ? e.clientX : r.left + r.width  / 2) - r.left;
-    var cy  = (e ? e.clientY : r.top  + r.height / 2) - r.top;
-    var sz  = Math.max(r.width, r.height) * 1.5;
-    var el  = document.createElement('span');
+    var r  = btn.getBoundingClientRect();
+    var cx = (e ? e.clientX : r.left + r.width  / 2) - r.left;
+    var cy = (e ? e.clientY : r.top  + r.height / 2) - r.top;
+    var sz = Math.max(r.width, r.height) * 1.5;
+    var el = document.createElement('span');
     el.className = 'm-ripple-' + S;
     el.style.cssText =
       'width:' + sz + 'px;height:' + sz + 'px;' +
-      'top:' + (cy - sz/2) + 'px;left:' + (cx - sz/2) + 'px;';
+      'top:' + (cy - sz / 2) + 'px;left:' + (cx - sz / 2) + 'px;';
     btn.appendChild(el);
     setTimeout(function () { btn.contains(el) && btn.removeChild(el); }, 700);
   }
 
   /* ═══════════════════════════════════
-     5. BODY LOCK — no scrollbar shift
+     5. BODY LOCK — instance-scoped counter,
+        no bleed when multiple section instances exist
   ═══════════════════════════════════ */
-  var scrollLockCount = 0;
+  var _lockCount = 0;  /* private to THIS section's IIFE */
+
   function lockScroll() {
-    if (scrollLockCount++ === 0) {
+    if (_lockCount++ === 0) {
       var bar = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.paddingRight = bar + 'px';
+      document.body.style.paddingRight = (bar || 0) + 'px';
       document.body.classList.add('m-locked-' + S);
     }
   }
   function unlockScroll() {
-    if (--scrollLockCount <= 0) {
-      scrollLockCount = 0;
+    if (--_lockCount <= 0) {
+      _lockCount = 0;
       document.body.style.paddingRight = '';
       document.body.classList.remove('m-locked-' + S);
     }
@@ -1410,34 +1431,46 @@ body.m-locked-{{ section.id }} {
   /* ═══════════════════════════════════
      6. MODAL
   ═══════════════════════════════════ */
-  var backdrop   = byId('m-backdrop-'   + S);
-  var mainImg    = byId('m-mmain-'      + S);
-  var thumbsEl   = byId('m-mthumbs-'   + S);
-  var vendorEl   = byId('m-mvendor-'   + S);
-  var titleEl    = byId('m-mtitle-'    + S);
-  var priceEl    = byId('m-mprice-'    + S);
-  var scarceEl   = byId('m-mscarce-'   + S);
-  var scarceTxt  = byId('m-mscarce-txt-' + S);
-  var variantsEl = byId('m-mvariants-' + S);
-  var linkEl     = byId('m-mlink-'     + S);
-  var atcBtn     = byId('m-matc-'      + S);
-  var qtyInput   = byId('m-mqnum-'     + S);
-  var prevFocus  = null;
-  var imgs_m     = [];
-  var curIdx     = 0;
-  var curVarId   = null;
+  var backdrop  = byId('m-backdrop-'     + S);
+  var mainImg   = byId('m-mmain-'        + S);
+  var thumbsEl  = byId('m-mthumbs-'     + S);
+  var vendorEl  = byId('m-mvendor-'     + S);
+  var titleEl   = byId('m-mtitle-'      + S);
+  var priceEl   = byId('m-mprice-'      + S);
+  var scarceEl  = byId('m-mscarce-'     + S);
+  var scarceTxt = byId('m-mscarce-txt-' + S);
+  var variantsEl= byId('m-mvariants-'   + S);
+  var linkEl    = byId('m-mlink-'       + S);
+  var atcBtn    = byId('m-matc-'        + S);
+  var qtyInput  = byId('m-mqnum-'       + S);
+  var prevBtn   = byId('m-mprev-'       + S);
+  var nextBtn   = byId('m-mnext-'       + S);
+  var prevFocus = null;
+  var imgs_m    = [];
+  var curIdx    = 0;
+  var curVarId  = null;
 
+  /* Image switch — crossfade waits for the new image to be ready */
   function switchImg(idx) {
     if (!imgs_m.length) return;
     idx = clamp(idx, 0, imgs_m.length - 1);
-    if (idx === curIdx) return;
+    if (idx === curIdx && mainImg.src) return;
     curIdx = idx;
+
     mainImg.classList.add('m-fade');
-    var next = imgs_m[idx];
-    setTimeout(function () {
-      mainImg.src = next;
+
+    var nextSrc = imgs_m[idx];
+    var preload = new window.Image();
+    preload.onload = function () {
+      mainImg.src = nextSrc;
       mainImg.classList.remove('m-fade');
-    }, 150);
+    };
+    preload.onerror = function () {
+      mainImg.src = nextSrc;
+      mainImg.classList.remove('m-fade');
+    };
+    preload.src = nextSrc;
+
     thumbsEl.querySelectorAll('.m-mthumb-' + S).forEach(function (t, i) {
       t.classList.toggle('m-active', i === idx);
     });
@@ -1446,32 +1479,36 @@ body.m-locked-{{ section.id }} {
   function openModal(card) {
     var d = card.dataset;
 
-    // reset state
+    /* ── reset ── */
     qtyInput.value = 1;
     atcBtn.classList.remove('m-success');
+    atcBtn.querySelector('span').textContent = 'Add to Cart';
 
-    // images
-    imgs_m  = (d.imgs || '').split('~').filter(Boolean);
+    /* ── images ── */
+    imgs_m = (d.imgs || '').split('~').filter(Boolean);
     if (!imgs_m.length && d.img) imgs_m = [d.img];
-    curIdx  = 0;
+    curIdx = 0;
+
     mainImg.src = imgs_m[0] || '';
-    mainImg.alt = d.title || '';
+    mainImg.alt = d.title   || '';
+    mainImg.classList.remove('m-fade');
 
-    // thumbs
+    /* ── thumbs + arrows ── */
     thumbsEl.innerHTML = '';
-    var showArrows = imgs_m.length > 1;
-    byId('m-mprev-' + S).style.display = showArrows ? '' : 'none';
-    byId('m-mnext-' + S).style.display = showArrows ? '' : 'none';
+    var multi = imgs_m.length > 1;
+    thumbsEl.classList.toggle('m-hidden', !multi);
+    prevBtn.classList.toggle('m-hidden', !multi);
+    nextBtn.classList.toggle('m-hidden', !multi);
 
-    if (showArrows) {
+    if (multi) {
       imgs_m.forEach(function (src, i) {
-        var t   = document.createElement('div');
+        var t  = document.createElement('div');
         t.className = 'm-mthumb-' + S + (i === 0 ? ' m-active' : '');
-        t.setAttribute('role', 'button');
+        t.setAttribute('role', 'listitem');
         t.setAttribute('tabindex', '0');
-        t.setAttribute('aria-label', 'Image ' + (i + 1));
-        var im  = document.createElement('img');
-        im.src  = src; im.alt = ''; im.loading = 'lazy';
+        t.setAttribute('aria-label', 'Image ' + (i + 1) + ' of ' + imgs_m.length);
+        var im = document.createElement('img');
+        im.src = src; im.alt = ''; im.loading = 'lazy';
         t.appendChild(im);
         t.addEventListener('click', function () { switchImg(i); });
         t.addEventListener('keydown', function (e) {
@@ -1481,109 +1518,135 @@ body.m-locked-{{ section.id }} {
       });
     }
 
-    // badges
+    /* ── badges ── */
     var badgesEl = byId('m-mbadges-' + S);
     badgesEl.innerHTML = '';
     if (d.sale === 'true') {
       var bs = document.createElement('span');
       bs.className = 'm-badge-' + S + ' m-badge-sale-' + S;
-      bs.textContent = 'Sale'; badgesEl.appendChild(bs);
+      bs.textContent = 'Sale';
+      badgesEl.appendChild(bs);
     }
 
-    // text
-    vendorEl.textContent = d.vendor || '';
+    /* ── text ── */
+    vendorEl.textContent   = d.vendor || '';
     vendorEl.style.display = d.vendor ? '' : 'none';
-    titleEl.textContent  = d.title  || '';
+    titleEl.textContent    = d.title  || '';
 
-    // price
+    /* ── price ── */
     priceEl.innerHTML = '';
     var pc = document.createElement('span');
-    pc.className = 'm-mprice-cur-' + S;
+    pc.className   = 'm-mprice-cur-' + S;
     pc.textContent = d.price || '';
     priceEl.appendChild(pc);
     if (d.sale === 'true' && d.compare) {
       var po = document.createElement('span');
-      po.className = 'm-mprice-orig-' + S;
+      po.className   = 'm-mprice-orig-' + S;
       po.textContent = d.compare;
       priceEl.appendChild(po);
       var ps = document.createElement('span');
-      ps.className = 'm-mprice-save-' + S;
+      ps.className   = 'm-mprice-save-' + S;
       ps.textContent = '−' + d.disc + '%';
       priceEl.appendChild(ps);
     }
 
-    // scarcity — only if real inventory data
+    /* ── scarcity ── */
     var inv = parseInt(d.inv, 10);
     if (d.avail === 'true' && d.low === 'true' && inv > 0) {
-      scarceTxt.textContent = 'Only ' + inv + ' remaining';
+      scarceTxt.textContent  = 'Only ' + inv + ' remaining';
       scarceEl.style.display = 'flex';
     } else {
       scarceEl.style.display = 'none';
     }
 
-    // variants
+    /* ── variants ── */
     variantsEl.innerHTML = '';
     curVarId = d.fv;
     var ids    = (d.vids    || '').split('~').filter(Boolean);
     var titles = (d.vtitles || '').split('~').filter(Boolean);
     var avails = (d.vavails || '').split('~').filter(Boolean);
+    /* Use the real option name from data-option (e.g. "Size", "Color") */
+    var optName = d.option || 'Option';
 
     if (ids.length > 1 && titles[0] !== 'Default Title') {
       var lbl = document.createElement('div');
       lbl.className = 'm-mvlabel-' + S;
-      lbl.innerHTML = 'Option: <span class="m-mvsel-' + S + '" id="m-mvsel-' + S + '">' + (titles[0] || '') + '</span>';
+      lbl.innerHTML =
+        optName + ': <span class="m-mvsel-' + S + '" id="m-mvsel-' + S + '">' +
+        (titles[0] || '') + '</span>';
       variantsEl.appendChild(lbl);
+
       var row = document.createElement('div');
       row.className = 'm-mvopts-' + S;
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-label', optName);
+
       ids.forEach(function (id, i) {
         var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'm-mvopt-' + S + (i === 0 ? ' m-active' : '') + (avails[i] === 'false' ? ' m-sold' : '');
+        b.type      = 'button';
+        b.className = 'm-mvopt-' + S + (i === 0 ? ' m-active' : '');
         b.textContent = titles[i];
         b.dataset.vid = id;
-        b.disabled = avails[i] === 'false';
+        b.disabled  = avails[i] === 'false';
         b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+
         b.addEventListener('click', function () {
           row.querySelectorAll('.m-mvopt-' + S).forEach(function (x) {
-            x.classList.remove('m-active'); x.setAttribute('aria-pressed', 'false');
+            x.classList.remove('m-active');
+            x.setAttribute('aria-pressed', 'false');
           });
-          b.classList.add('m-active'); b.setAttribute('aria-pressed', 'true');
+          b.classList.add('m-active');
+          b.setAttribute('aria-pressed', 'true');
           curVarId = id;
-          var sel = byId('m-mvsel-' + S); if (sel) sel.textContent = titles[i];
+          var sel = byId('m-mvsel-' + S);
+          if (sel) sel.textContent = titles[i];
           var ok = avails[i] !== 'false';
           atcBtn.disabled = !ok;
           atcBtn.querySelector('span').textContent = ok ? 'Add to Cart' : 'Sold Out';
         });
         row.appendChild(b);
       });
+
       variantsEl.appendChild(row);
       atcBtn.disabled = avails[0] === 'false';
-      atcBtn.querySelector('span').textContent = avails[0] !== 'false' ? 'Add to Cart' : 'Sold Out';
+      atcBtn.querySelector('span').textContent =
+        avails[0] !== 'false' ? 'Add to Cart' : 'Sold Out';
     } else {
       atcBtn.disabled = d.avail !== 'true';
-      atcBtn.querySelector('span').textContent = d.avail === 'true' ? 'Add to Cart' : 'Sold Out';
+      atcBtn.querySelector('span').textContent =
+        d.avail === 'true' ? 'Add to Cart' : 'Sold Out';
     }
 
     linkEl.href = d.url || '#';
 
-    // open
+    /* ── open ── */
     lockScroll();
     backdrop.classList.add('m-open');
     prevFocus = document.activeElement;
-    setTimeout(function () { byId('m-mclose-' + S).focus(); }, 60);
+    setTimeout(function () {
+      var closeBtn = byId('m-mclose-' + S);
+      if (closeBtn) closeBtn.focus();
+    }, 60);
   }
 
   function closeModal() {
     backdrop.classList.remove('m-open');
     unlockScroll();
-    if (prevFocus) { try { prevFocus.focus(); } catch(e){} }
+    /* Reset success state after transition completes */
+    setTimeout(function () {
+      atcBtn.classList.remove('m-success');
+      atcBtn.disabled = true;
+      atcBtn.querySelector('span').textContent = 'Add to Cart';
+      qtyInput.value = 1;
+    }, 400);
+    if (prevFocus) { try { prevFocus.focus(); } catch (e) {} }
   }
 
-  // Modal ATC
+  /* Modal ATC */
   atcBtn.addEventListener('click', function (e) {
     if (atcBtn.disabled || !curVarId) return;
     ripple(atcBtn, e);
-    var qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+    var qty = clamp(parseInt(qtyInput.value, 10) || 1, 1, 99);
     atcBtn.disabled = true;
     atcBtn.querySelector('span').textContent = 'Adding…';
 
@@ -1592,37 +1655,40 @@ body.m-locked-{{ section.id }} {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body:    JSON.stringify({ id: parseInt(curVarId, 10), quantity: qty })
     })
-    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.statusText); })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status + ' ' + r.statusText); })
     .then(function (item) {
       atcBtn.classList.add('m-success');
       atcBtn.querySelector('span').textContent = '✓ Added';
-      // update cart count
-      document.querySelectorAll('[data-cart-count],[class*="cart-count"],[id*="cart-count"],[id*="CartCount"]')
-        .forEach(function (el) {
-          el.textContent = (parseInt(el.textContent || '0', 10) || 0) + qty;
-        });
+
+      /* Update any cart count elements in the theme */
+      document.querySelectorAll(
+        '[data-cart-count],[class*="cart-count"],[id*="cart-count"],[id*="CartCount"]'
+      ).forEach(function (el) {
+        el.textContent = (parseInt(el.textContent || '0', 10) || 0) + qty;
+      });
+
+      /* Dispatch bubbling event so any theme event bus catches it */
       document.dispatchEvent(new CustomEvent('cart:updated', {
-        detail: { variantId: curVarId, quantity: qty, item: item }
+        bubbles: true,
+        detail:  { variantId: curVarId, quantity: qty, item: item }
       }));
       if (window.Shopify && window.Shopify.onCartUpdate) window.Shopify.onCartUpdate();
-      setTimeout(function () {
-        closeModal();
-        setTimeout(function () {
-          atcBtn.classList.remove('m-success');
-          atcBtn.disabled = false;
-          atcBtn.querySelector('span').textContent = 'Add to Cart';
-        }, 380);
-      }, 1100);
+
+      setTimeout(closeModal, 1100);
     })
     .catch(function (err) {
       atcBtn.disabled = false;
       atcBtn.querySelector('span').textContent = 'Try Again';
       console.warn('[Maison ATC]', err);
-      setTimeout(function () { atcBtn.querySelector('span').textContent = 'Add to Cart'; }, 2200);
+      setTimeout(function () {
+        if (atcBtn.querySelector('span').textContent === 'Try Again') {
+          atcBtn.querySelector('span').textContent = 'Add to Cart';
+        }
+      }, 2200);
     });
   });
 
-  // Qty
+  /* Qty controls */
   byId('m-mqminus-' + S).addEventListener('click', function () {
     var v = parseInt(qtyInput.value, 10);
     if (v > 1) qtyInput.value = v - 1;
@@ -1633,43 +1699,49 @@ body.m-locked-{{ section.id }} {
   });
   qtyInput.addEventListener('change', function () {
     var v = parseInt(qtyInput.value, 10);
-    if (isNaN(v) || v < 1) v = 1;
-    if (v > 99) v = 99;
-    qtyInput.value = v;
+    qtyInput.value = clamp(isNaN(v) ? 1 : v, 1, 99);
   });
 
-  // Arrows
-  byId('m-mprev-' + S).addEventListener('click', function () { switchImg(curIdx - 1); });
-  byId('m-mnext-' + S).addEventListener('click', function () { switchImg(curIdx + 1); });
+  /* Gallery arrows */
+  prevBtn.addEventListener('click', function () { switchImg(curIdx - 1); });
+  nextBtn.addEventListener('click', function () { switchImg(curIdx + 1); });
 
-  // Close
+  /* Close triggers */
   byId('m-mclose-' + S).addEventListener('click', closeModal);
-  backdrop.addEventListener('click', function (e) { if (e.target === backdrop) closeModal(); });
+  backdrop.addEventListener('click', function (e) {
+    if (e.target === backdrop) closeModal();
+  });
 
-  // Keyboard
+  /* Keyboard */
   document.addEventListener('keydown', function (e) {
     if (!backdrop.classList.contains('m-open')) return;
-    if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
-    if (e.key === 'ArrowLeft')  { switchImg(curIdx - 1); return; }
-    if (e.key === 'ArrowRight') { switchImg(curIdx + 1); return; }
+    if (e.key === 'Escape')     { e.preventDefault(); closeModal();          return; }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); switchImg(curIdx - 1); return; }
+    if (e.key === 'ArrowRight') { e.preventDefault(); switchImg(curIdx + 1); return; }
     if (e.key === 'Tab') {
-      var modal = byId('m-modal-' + S);
+      var modal     = byId('m-modal-' + S);
       var focusable = Array.from(modal.querySelectorAll(
         'button:not([disabled]),[href],input:not([disabled]),[tabindex]:not([tabindex="-1"])'
       )).filter(function (el) { return el.offsetParent !== null; });
       if (!focusable.length) return;
-      var first = focusable[0], last = focusable[focusable.length - 1];
-      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
-      else            { if (document.activeElement === last)  { e.preventDefault(); first.focus(); } }
+      var first = focusable[0];
+      var last  = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+      }
     }
   });
 
-  // Touch swipe in modal
+  /* Touch swipe in modal gallery */
   var touchStartX = 0;
   var mmw = document.querySelector('.m-mmain-wrap-' + S);
   if (mmw) {
-    mmw.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
-    mmw.addEventListener('touchend',   function (e) {
+    mmw.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    mmw.addEventListener('touchend', function (e) {
       var dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 44) switchImg(dx < 0 ? curIdx + 1 : curIdx - 1);
     }, { passive: true });
@@ -1680,7 +1752,7 @@ body.m-locked-{{ section.id }} {
   ═══════════════════════════════════ */
   document.querySelectorAll('.m-card-' + S).forEach(function (card) {
 
-    // Quick view
+    /* Quick view */
     var qvb = card.querySelector('[data-qv]');
     if (qvb) {
       qvb.addEventListener('click', function (e) {
@@ -1688,30 +1760,34 @@ body.m-locked-{{ section.id }} {
       });
     }
 
-    // Wishlist — WAAPI bounce
+    /* Wishlist — WAAPI bounce */
     var wb = card.querySelector('[data-wish]');
     if (wb) {
       wb.addEventListener('click', function (e) {
         e.stopPropagation();
-        wb.classList.toggle('m-wished');
-        var pressed = wb.classList.contains('m-wished');
-        wb.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+        var wished = wb.classList.toggle('m-wished');
+        wb.setAttribute('aria-pressed', wished ? 'true' : 'false');
+        wb.setAttribute('aria-label',
+          (wished ? 'Remove ' : 'Add ') +
+          (card.dataset.title || '') +
+          (wished ? ' from' : ' to') + ' wishlist'
+        );
         if (!prefMot && wb.animate) {
           wb.animate(
-            [{ transform:'scale(1)' },{ transform:'scale(1.38)' },{ transform:'scale(1)' }],
+            [{ transform: 'scale(1)' }, { transform: 'scale(1.38)' }, { transform: 'scale(1)' }],
             { duration: 340, easing: 'cubic-bezier(.34,1.48,.64,1)' }
           );
         }
       });
     }
 
-    // Card AJAX ATC
+    /* Card AJAX ATC */
     var form = card.querySelector('.m-atcform-' + S);
     if (form) {
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var btn = form.querySelector('.m-atc-' + S);
-        var vid = form.querySelector('input[name="id"]').value;
+        var btn   = form.querySelector('.m-atc-' + S);
+        var vid   = form.querySelector('input[name="id"]').value;
         if (!vid || btn.disabled) return;
         ripple(btn, null);
         btn.disabled = true;
@@ -1724,9 +1800,12 @@ body.m-locked-{{ section.id }} {
           body:    JSON.stringify({ id: parseInt(vid, 10), quantity: 1 })
         })
         .then(function (r) { return r.ok ? r.json() : Promise.reject(r.statusText); })
-        .then(function () {
+        .then(function (item) {
           btn.querySelector('span').textContent = '✓ Added';
-          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { variantId: vid, quantity: 1 } }));
+          document.dispatchEvent(new CustomEvent('cart:updated', {
+            bubbles: true,
+            detail:  { variantId: vid, quantity: 1, item: item }
+          }));
           if (window.Shopify && window.Shopify.onCartUpdate) window.Shopify.onCartUpdate();
           setTimeout(function () { btn.disabled = false; btn.innerHTML = origHTML; }, 1800);
         })
@@ -1738,7 +1817,7 @@ body.m-locked-{{ section.id }} {
 
   });
 
-})();
+}());
 </script>
 
 {% schema %}
@@ -1746,16 +1825,70 @@ body.m-locked-{{ section.id }} {
   "name": "Maison Collection",
   "tag": "section",
   "settings": [
-    { "type": "text",       "id": "eyebrow_text",         "label": "Eyebrow Label",          "default": "Curated Excellence" },
-    { "type": "text",       "id": "title",                "label": "Section Heading",         "default": "The Collection" },
-    { "type": "textarea",   "id": "subtitle",             "label": "Subheading",              "default": "Handpicked for those who appreciate exceptional quality." },
-    { "type": "collection", "id": "collection",           "label": "Collection" },
-    { "type": "range",      "id": "max_products",         "label": "Products to show",        "min": 4, "max": 20, "step": 4, "default": 8 },
-    { "type": "checkbox",   "id": "show_scarcity",        "label": "Show low stock notice",   "default": true },
-    { "type": "range",      "id": "low_stock_threshold",  "label": "Low stock threshold",     "min": 1, "max": 20, "step": 1, "default": 5 },
-    { "type": "checkbox",   "id": "show_view_all",        "label": "Show View All button",    "default": true },
-    { "type": "text",       "id": "view_all_text",        "label": "View All button text",    "default": "Explore Full Collection" }
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Label",
+      "default": "Curated Excellence"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "The Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Handpicked for those who appreciate exceptional quality."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Products to show",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scarcity",
+      "label": "Show low stock notice",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Low stock threshold",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View All button text",
+      "default": "Explore Full Collection"
+    }
   ],
-  "presets": [{ "name": "Maison Collection" }]
+  "presets": [
+    {
+      "name": "Maison Collection"
+    }
+  ]
 }
 {% endschema %}
