@@ -75,7 +75,7 @@ All contributions should preserve the project’s architectural discipline and u
 
 Released under the MIT License.
 
----
+-
 
 ## Stewardship
 
