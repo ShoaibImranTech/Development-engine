@@ -6,46 +6,6 @@
   endif
 %}
 
-{%- comment -%}
-  MAISON — WORLD CLASS COLLECTION SECTION v7.0
-  ─────────────────────────────────────────────
-  UPGRADES from v6 (8.5 → 10.0):
-  ✓ Font loading uses content_for_header via Shopify script tag pattern
-    so Google Fonts are truly injected once into <head> — no duplicate
-    network requests across multi-section pages
-  ✓ Variant data packed with URL-safe delimiter (||) instead of tilde (~)
-    so product titles/option values containing ~ can never break parsing
-  ✓ :root font tokens extracted from section-scoped block — declared once
-    in a dedicated <style id="m-root-tokens"> that is idempotent via JS guard
-  ✓ cart:updated CustomEvent dispatched on document — bubbles flag removed
-    (bubbling is irrelevant on document; was a conceptual muddle)
-  ✓ Scarcity inventory count pulled from Storefront API-safe liquid only
-  ✓ Modal focus trap uses a WeakSet to guard against double-bind
-  ✓ Tilt RAF cleanup uses cancelAnimationFrame on mouseleave for zero leaks
-  ✓ ATC card form restores full original innerHTML on success (not just span)
-  ✓ IntersectionObserver for scroll reveal uses disconnect() after all
-    cards are revealed — no lingering observers
-  ✓ Schema: low_stock_threshold step changed to 1, description added
-  ✓ prefers-reduced-motion guard applied to WAAPI wishlist bounce
-  ✓ Touch swipe threshold configurable via constant (not magic number)
-  ✓ Keyboard arrow nav wraps around (last → first, first → last)
-  ✓ All hardcoded colour values replaced with tokens (zero magic colors in JS)
-{%- endcomment -%}
-
-{%- comment -%}
-  FONT STRATEGY: Use content_for_header to inject fonts once into <head>.
-  Shopify deduplicates content_for_header snippets automatically, so this
-  is safe across multiple instances of this section on the same page.
-{%- endcomment -%}
-{%- capture font_link -%}
-<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Instrument+Sans:wght@300;400;500;600&display=swap"></noscript>
-{%- endcapture -%}
-{%- comment -%} content_for_header deduplicates on identical strings {%- endcomment -%}
-
 <style id="m-tokens-{{ section.id }}">
 
 /* ── GLOBAL FONT TOKENS — declared once; browser ignores re-declarations ── */
