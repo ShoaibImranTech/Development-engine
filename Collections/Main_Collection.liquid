@@ -1,20 +1,5 @@
 {% comment %}
-╔══════════════════════════════════════════════════════════════════════════════╗
-║  VYRA — APEX COLLECTION  v11.0  ◆  REFINED EDITION                        ║
-║  Changes from v10:                                                          ║
-║  ✓ Debounced filter/price operations (no layout thrash)                    ║
-║  ✓ animationend-based coordination (no setTimeout fragility)               ║
-║  ✓ Color swatches use data-map fallback (no silent CSS failures)           ║
-║  ✓ Real inventory-aware viewer count (no fake social proof)                ║
-║  ✓ Exit popup replaced with honest newsletter opt-in                       ║
-║  ✓ requestIdleCallback for non-critical init                               ║
-║  ✓ AbortController for fetch cancellation                                  ║
-║  ✓ ResizeObserver for grid column recalculation                            ║
-║  ✓ Proper focus trap in sidebar                                            ║
-║  ✓ content-visibility for off-screen cards                                 ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-{% endcomment %}
-
+ 
 {% liquid
   assign ppp       = section.settings.products_per_page | default: 24
   assign grid_cols = section.settings.products_per_row  | default: 3
