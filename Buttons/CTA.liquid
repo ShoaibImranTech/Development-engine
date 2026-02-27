@@ -1,38 +1,6 @@
 {{ 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap' | stylesheet_tag }}
 
 <style>
-/* ============================================================
-   GLAMHIVE COUTURE — DEFINITIVE CTA SYSTEM  v6.0
-   Cold Heritage Maximalism — Perfect Edition
-
-   Gold: #B8966A   Cream: #EDE0C8   Void: #060402
-   
-   v6.0 Improvements over v5.0:
-   ─────────────────────────────────────────────────────────────
-   1. Ray idle animation: eliminated snap-back flicker using
-      alternate direction + smooth ease-in-out fade-out frame.
-   2. Corner ornaments: switched from clip-path inset to
-      scaleX/scaleY for Safari subpixel safety.
-   3. Grain SVG: extracted to CSS custom property for single
-      source of truth — no duplication across instances.
-   4. Schema: added color_scheme, size_variant, and
-      caption_style settings for full theme flexibility.
-   5. Active state: moved from :has() wrapper hack to direct
-      :active on anchor for broader browser compatibility,
-      with :has() as progressive enhancement.
-   6. Focus ring: uses outline-offset instead of box-shadow
-      layering so it doesn't fight the hover shadow stack.
-   7. Ornament reveal: switched to scaleX transform reveal
-      (GPU-composited) instead of clip-path inset which
-      caused Safari antialiasing flicker on dark backgrounds.
-   8. Added --gh-timing function debug comments for each
-      transition so future maintainers know intent.
-   9. Reduced motion: added explicit animation: none !important
-      for .gh-fill transition-based fades as well — some
-      browsers still run transition durations under RRM.
-  10. Added color_scheme CSS classes (void/obsidian/ivory)
-      to support light-background placement contexts.
-============================================================ */
 
 :root {
   --gh-void:         #060402;
