@@ -12,26 +12,6 @@
 %}
 
 {% case variant %}
-
-  {%- comment -%} ============================================================
-    VARIANT: MOBILE DRAWER
-  ============================================================ {%- endcomment -%}
-  {% when 'mobile' %}
-    <div
-      class="header__drawer desktop:hidden"
-      ref="headerDrawerContainer"
-      {{ block.shopify_attributes }}
-    >
-      {%- render 'header-drawer',
-        class: 'header__drawer--mobile',
-        linklist: block_settings.menu,
-        data_header_drawer_type: 'mobile-drawer'
-      -%}
-    </div>
-
-  {%- comment -%} ============================================================
-    VARIANT: MOBILE NAVIGATION BAR
-  ============================================================ {%- endcomment -%}
   {% when 'navigation_bar' %}
     {%- if block_settings.navigation_bar -%}
       <nav
