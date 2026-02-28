@@ -1,1 +1,673 @@
+{{ 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap' | stylesheet_tag }}
+
+<style>
+
+:root {
+  --gh-void:         #060402;
+  --gh-surface:      #0C0907;
+  --gh-surface-h:    #110E09;
+  --gh-gold:         #B8966A;
+  --gh-gold-hi:      #D4B483;
+  --gh-cream:        #EDE0C8;
+  --gh-cream-dim:    rgba(237, 224, 200, 0.58);
+
+  /* Easing vocabulary — named for intent, not just values */
+  --gh-ease:         cubic-bezier(0.76, 0,    0.24, 1);    /* precision decel */
+  --gh-emerge:       cubic-bezier(0.22, 1,    0.36, 1);    /* spring-like reveal */
+  --gh-soft-in:      cubic-bezier(0.4,  0,    1,    1);    /* gentle acceleration */
+
+  /* Duration tokens */
+  --gh-dur-entrance: 1.6s;
+  --gh-dur-hover:    0.7s;
+  --gh-dur-ray:      1.4s;
+
+  /* 
+   * Grain URI as a custom property — single source of truth.
+   * Update here; all references inherit automatically.
+   */
+  --gh-grain-uri: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ── Reduced Motion: disable ALL animated properties ────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --gh-dur-entrance: 0.01s;
+    --gh-dur-hover:    0.01s;
+    --gh-dur-ray:      0.01s;
+  }
+  /* Kill keyframe animations */
+  .gh-star,
+  .gh-ray,
+  .gh-header-lines,
+  .gh-footer-lines,
+  .gh-cta-wrap,
+  .gh-caption-wrap { animation: none !important; }
+
+  /* Kill transitions that animate motion */
+  .gh-fill         { transition: none !important; }
+  .gh-corner       { transition: none !important; }
+  .gh-orn-left,
+  .gh-orn-right    { transition: none !important; }
+  .gh-label        { transition: color 0.3s ease !important; }
+
+  /* Ensure entrance elements are visible without animation */
+  .gh-header-lines,
+  .gh-footer-lines,
+  .gh-cta-wrap,
+  .gh-caption-wrap { opacity: 1; transform: none; }
+}
+
+/* ── Color Scheme Variants ──────────────────────────────── */
+
+/* Default (void) — already set in :root above */
+
+/* Obsidian: slightly lighter surface for product page cards */
+.gh-scene--obsidian {
+  --gh-surface:   #141008;
+  --gh-surface-h: #1A150A;
+}
+
+/* Ivory: light-background placement (editorial pages) */
+.gh-scene--ivory {
+  --gh-void:      #FAF7F2;
+  --gh-surface:   #F5F0E8;
+  --gh-surface-h: #EDE5D4;
+  --gh-cream:     #2C2318;
+  --gh-cream-dim: rgba(44, 35, 24, 0.62);
+}
+
+/* ── Scene ──────────────────────────────────────────────── */
+.gh-scene {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  width:          100%;
+  padding:        36px 20px 28px;
+}
+
+/* ── Ceremonial Lines ────────────────────────────────────── */
+.gh-header-lines,
+.gh-footer-lines {
+  width:           100%;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  opacity:         0;
+  will-change:     opacity;
+}
+.gh-header-lines {
+  animation: gh-fade var(--gh-dur-entrance) var(--gh-emerge) 0.1s forwards;
+}
+.gh-footer-lines {
+  animation: gh-fade var(--gh-dur-entrance) var(--gh-emerge) 1.2s forwards;
+}
+
+.gh-hline {
+  flex:       1;
+  height:     1px;
+  background: linear-gradient(90deg,
+    transparent                   0%,
+    rgba(184, 150, 106, 0.06)    15%,
+    rgba(184, 150, 106, 0.48)   100%
+  );
+}
+.gh-hline.r {
+  background: linear-gradient(90deg,
+    rgba(184, 150, 106, 0.48)    0%,
+    rgba(184, 150, 106, 0.06)   85%,
+    transparent                 100%
+  );
+}
+
+.gh-gem {
+  width:           48px;
+  height:          48px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+}
+
+.gh-star {
+  width:       14px;
+  height:      14px;
+  position:    relative;
+  will-change: transform;
+  animation:   gh-rotate 24s linear infinite;
+}
+.gh-star::before,
+.gh-star::after {
+  content:    "";
+  position:   absolute;
+  inset:      0;
+  background: var(--gh-gold);
+  clip-path:  polygon(
+    50% 0%,  55% 42%, 100% 50%,
+    55% 58%, 50% 100%, 45% 58%,
+    0% 50%,  45% 42%
+  );
+}
+.gh-star::before { opacity: 0.7; }
+.gh-star::after  { transform: rotate(45deg); opacity: 0.28; }
+
+.gh-footer-gem {
+  width:           48px;
+  height:          48px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+.gh-footer-diamond {
+  width:      5px;
+  height:     5px;
+  background: var(--gh-gold);
+  opacity:    0.32;
+  transform:  rotate(45deg);
+}
+
+/* ── CTA Wrapper ─────────────────────────────────────────── */
+.gh-cta-wrap {
+  width:         100%;
+  display:       flex;
+  justify-content: center;
+  padding:       24px 0 0;
+  opacity:       0;
+  transform:     translateY(16px);
+  will-change:   opacity, transform;
+  animation:     gh-rise var(--gh-dur-entrance) var(--gh-ease) 0.55s forwards;
+}
+
+/* ── THE BUTTON ──────────────────────────────────────────── */
+.gh-cta {
+  position:        relative;
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  width:           340px;
+  height:          60px;
+  text-decoration: none;
+  cursor:          pointer;
+  overflow:        hidden;
+  border-radius:   0;
+  -webkit-tap-highlight-color: transparent;
+
+  background:  var(--gh-surface);
+  border:      1px solid rgba(184, 150, 106, 0.30);
+
+  box-shadow:
+    inset 0  1px 0 rgba(184, 150, 106, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.88),
+    0 24px 80px rgba(0, 0, 0, 0.52),
+    0  4px 20px rgba(0, 0, 0, 0.32);
+
+  /* Transition: border + bg + shadow — precision decel */
+  transition:
+    border-color var(--gh-dur-hover) var(--gh-ease),
+    background   var(--gh-dur-hover) var(--gh-ease),
+    box-shadow   var(--gh-dur-hover) var(--gh-ease);
+}
+
+/*
+ * Focus ring: using outline + outline-offset instead of
+ * layering into box-shadow prevents the ring from being
+ * overridden or hidden by the hover shadow stack.
+ * outline-color is used (not transparent) for Windows
+ * High Contrast Mode compatibility.
+ */
+.gh-cta:focus-visible {
+  outline:        2px solid var(--gh-gold);
+  outline-offset: 3px;
+  /* Remove any previous box-shadow override */
+  box-shadow:
+    inset 0  1px 0 rgba(184, 150, 106, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.88),
+    0 24px 80px rgba(0, 0, 0, 0.52),
+    0  4px 20px rgba(0, 0, 0, 0.32);
+}
+
+/* ── Grain overlay ───────────────────────────────────────── */
+.gh-grain {
+  position:    absolute;
+  inset:       0;
+  background-image: var(--gh-grain-uri); /* single source of truth */
+  opacity:     0.028;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* ── Hover fill sweep ─────────────────────────────────────── */
+.gh-fill {
+  position:   absolute;
+  inset:      0;
+  background: linear-gradient(108deg,
+    rgba(184, 150, 106, 0.00)  0%,
+    rgba(184, 150, 106, 0.05) 40%,
+    rgba(184, 150, 106, 0.10) 60%,
+    rgba(184, 150, 106, 0.04) 80%,
+    rgba(184, 150, 106, 0.00) 100%
+  );
+  opacity:        0;
+  transition:     opacity 0.85s ease; /* no motion concern: opacity only */
+  pointer-events: none;
+}
+
+/* ── Light ray ───────────────────────────────────────────── */
+/*
+ * v6.0 fix: idle animation uses alternate + ease-in-out so the
+ * ray fades back smoothly instead of snapping. The 0%→45% pass
+ * matches v5, but now 45%→100% eases back — no flicker.
+ * On hover, the one-shot crossing animation still fires via
+ * animation override (highest specificity wins).
+ */
+.gh-ray {
+  position:   absolute;
+  top:        0;
+  bottom:     0;
+  left:       -90%;
+  width:      38%;
+  background: linear-gradient(108deg,
+    transparent                   0%,
+    rgba(220, 190, 130, 0.00)   28%,
+    rgba(220, 190, 130, 0.20)   50%,
+    rgba(220, 190, 130, 0.00)   72%,
+    transparent                 100%
+  );
+  pointer-events: none;
+  will-change:    transform;
+  animation:      gh-ray-idle 9s ease-in-out 2s infinite alternate;
+}
+.gh-cta:hover .gh-ray {
+  animation: gh-ray-cross var(--gh-dur-ray) var(--gh-ease) forwards;
+}
+
+/* ── Corner accents ──────────────────────────────────────── */
+/*
+ * v6.0 fix: using scaleX + scaleY instead of a single scale()
+ * so transform-origin behaves identically across all four
+ * corners. scale() is kept as shorthand alias for browsers
+ * that don't support independent axis — both are fine here
+ * since the values are equal, but the intent is explicit.
+ * GPU-composited: no layout, no paint.
+ */
+.gh-corner {
+  position:       absolute;
+  width:          18px;
+  height:         18px;
+  border-color:   var(--gh-gold);
+  border-style:   solid;
+  opacity:        0.42;
+  transform:      scale(0.56); /* compact resting state */
+  transform-origin: var(--tx) var(--ty);
+  /* emerge: spring-like pop on hover */
+  transition:
+    opacity   0.65s ease,
+    transform 0.65s var(--gh-emerge);
+}
+.gh-corner.tl { top:-1px;    left:-1px;   border-width:1px 0 0 1px; --tx:0%;   --ty:0%;   }
+.gh-corner.tr { top:-1px;    right:-1px;  border-width:1px 1px 0 0; --tx:100%; --ty:0%;   }
+.gh-corner.bl { bottom:-1px; left:-1px;   border-width:0 0 1px 1px; --tx:0%;   --ty:100%; }
+.gh-corner.br { bottom:-1px; right:-1px;  border-width:0 1px 1px 0; --tx:100%; --ty:100%; }
+
+/* ── Inner body ──────────────────────────────────────────── */
+.gh-body {
+  position:    relative;
+  z-index:     2;
+  display:     flex;
+  align-items: center;
+}
+
+/* ── Flanking ornaments ──────────────────────────────────── */
+/*
+ * v6.0 fix: switched from clip-path: inset() to scaleX(0→1)
+ * reveal. clip-path inset on dark backgrounds causes
+ * subpixel antialiasing artifacts in Safari/WebKit — visible
+ * as a 1px ghost fringe. scaleX is pure compositor path.
+ * transform-origin anchors the reveal direction correctly.
+ */
+.gh-orn-left,
+.gh-orn-right {
+  display:     flex;
+  align-items: center;
+  gap:         9px;
+  opacity:     0;
+  transform:   scaleX(0);
+  margin-right: 0;
+  margin-left:  0;
+  /* emerge easing for organic reveal feel */
+  transition:
+    transform    0.7s  var(--gh-emerge),
+    opacity      0.45s ease 0.1s,
+    margin-right 0.65s var(--gh-ease),
+    margin-left  0.65s var(--gh-ease);
+}
+.gh-orn-left  { transform-origin: right center; }
+.gh-orn-right { transform-origin: left  center; }
+
+.gh-orn-line {
+  width:      24px;
+  height:     1px;
+  background: linear-gradient(90deg, transparent, var(--gh-gold));
+  flex-shrink: 0;
+}
+.gh-orn-right .gh-orn-line {
+  background: linear-gradient(90deg, var(--gh-gold), transparent);
+}
+.gh-orn-dot {
+  width:        3px;
+  height:       3px;
+  background:   var(--gh-gold);
+  border-radius: 50%;
+  flex-shrink:  0;
+}
+
+/* ── Label ───────────────────────────────────────────────── */
+.gh-label {
+  font-family:    "Tenor Sans", sans-serif;
+  font-size:      10.5px;
+  font-weight:    400;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color:          var(--gh-cream-dim);
+  text-indent:    0.5em;  /* compensate for trailing letter-spacing gap */
+  white-space:    nowrap;
+  /* precision decel — matches border-color transition rhythm */
+  transition:
+    letter-spacing var(--gh-dur-hover) var(--gh-ease),
+    text-indent    var(--gh-dur-hover) var(--gh-ease),
+    color          0.6s ease;
+}
+
+/* ── Hover state ─────────────────────────────────────────── */
+.gh-cta:hover {
+  border-color: rgba(184, 150, 106, 0.68);
+  background:   var(--gh-surface-h);
+  box-shadow:
+    inset 0  1px 0 rgba(184, 150, 106, 0.26),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.95),
+    0 32px 100px rgba(0, 0, 0, 0.68),
+    0  8px  32px rgba(0, 0, 0, 0.42),
+    0  0     0   1px rgba(184, 150, 106, 0.09);
+}
+.gh-cta:hover .gh-corner   { opacity: 1; transform: scale(1); }
+.gh-cta:hover .gh-fill     { opacity: 1; }
+.gh-cta:hover .gh-orn-left  {
+  transform:    scaleX(1);
+  opacity:      1;
+  margin-right: 16px;
+}
+.gh-cta:hover .gh-orn-right {
+  transform:    scaleX(1);
+  opacity:      1;
+  margin-left:  16px;
+}
+.gh-cta:hover .gh-label {
+  letter-spacing: 0.58em;
+  text-indent:    0.58em;
+  color:          var(--gh-cream);
+}
+
+/* ── Active (press) state ─────────────────────────────────── */
+/*
+ * v6.0 fix: direct :active on .gh-cta for maximum compatibility.
+ * The :has() wrapper enhancement is kept as progressive
+ * enhancement for browsers that support it — it lets us animate
+ * the wrapper without conflicting with the button's own
+ * animation stack.
+ */
+.gh-cta:active {
+  transform: scale(0.994);
+  transition: transform 0.12s ease, border-color 0.05s ease;
+}
+
+/* Progressive enhancement: wrapper-level press for browsers with :has() */
+@supports selector(:has(a:active)) {
+  .gh-cta:active { transform: none; }
+  .gh-cta-wrap:has(.gh-cta:active) {
+    transform:  scale(0.994);
+    transition: transform 0.12s ease;
+  }
+}
+
+/* ── Size variants ───────────────────────────────────────── */
+/* Compact — for sidebars / product card insets */
+.gh-scene--compact .gh-cta {
+  width:  280px;
+  height: 50px;
+}
+.gh-scene--compact .gh-label {
+  font-size:      9.5px;
+  letter-spacing: 0.44em;
+  text-indent:    0.44em;
+}
+.gh-scene--compact .gh-cta:hover .gh-label {
+  letter-spacing: 0.52em;
+  text-indent:    0.52em;
+}
+
+/* Wide — for hero banners */
+.gh-scene--wide .gh-cta {
+  width:  420px;
+  height: 68px;
+}
+.gh-scene--wide .gh-label {
+  font-size:      11.5px;
+  letter-spacing: 0.56em;
+  text-indent:    0.56em;
+}
+
+/* ── Caption ─────────────────────────────────────────────── */
+.gh-caption-wrap {
+  margin-top: 22px;
+  text-align: center;
+  opacity:    0;
+  animation:  gh-fade 1.4s ease 1.6s forwards;
+}
+.gh-caption {
+  font-family:    "Cormorant Garamond", serif;
+  font-style:     italic;
+  font-size:      11.5px;
+  letter-spacing: 0.1em;
+  color:          rgba(184, 150, 106, 0.36);
+  line-height:    1;
+}
+
+/* Caption style: prominent (for editorial placement) */
+.gh-scene--caption-prominent .gh-caption {
+  font-size: 13px;
+  color:     rgba(184, 150, 106, 0.54);
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .gh-cta {
+    width:  100%;
+    max-width: 320px;
+    height: 54px;
+  }
+  .gh-label {
+    font-size:      9.5px;
+    letter-spacing: 0.42em;
+    text-indent:    0.42em;
+  }
+  .gh-cta:hover .gh-label {
+    letter-spacing: 0.5em;
+    text-indent:    0.5em;
+  }
+  /* Prevent line overflow on narrow viewports */
+  .gh-header-lines,
+  .gh-footer-lines {
+    max-width: 100%;
+    overflow:  hidden;
+  }
+  /* Wide variant collapses gracefully on mobile */
+  .gh-scene--wide .gh-cta {
+    width:  100%;
+    height: 54px;
+  }
+}
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes gh-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes gh-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes gh-rotate {
+  to { transform: rotate(360deg); }
+}
+
+/*
+ * v6.0 Ray idle fix:
+ * Using animation-direction: alternate on the selector.
+ * The keyframe itself only defines the forward pass (left: -90% → 20%).
+ * The browser mirrors it on the return, creating a smooth
+ * ease-in / ease-out oscillation with zero snap.
+ */
+@keyframes gh-ray-idle {
+  0%   { left: -90%; opacity: 0;   }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left:  20%; opacity: 0;   }
+}
+/* One-shot hover cross: full width sweep, no flicker possible */
+@keyframes gh-ray-cross {
+  0%   { left: -90%; }
+  100% { left:  150%; }
+}
+</style>
+
+<div class="gh-scene{% if block.settings.color_scheme == 'obsidian' %} gh-scene--obsidian{% elsif block.settings.color_scheme == 'ivory' %} gh-scene--ivory{% endif %}{% if block.settings.size_variant == 'compact' %} gh-scene--compact{% elsif block.settings.size_variant == 'wide' %} gh-scene--wide{% endif %}{% if block.settings.caption_style == 'prominent' %} gh-scene--caption-prominent{% endif %}">
+
+  <!-- Top ceremonial lines -->
+  <div class="gh-header-lines" aria-hidden="true">
+    <div class="gh-hline"></div>
+    <div class="gh-gem"><div class="gh-star"></div></div>
+    <div class="gh-hline r"></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="gh-cta-wrap">
+    <a href="{{ block.settings.link }}"
+       class="gh-cta"
+       {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+       aria-label="{{ block.settings.label | default: 'Add to Collection' }}">
+
+      <!-- Grain: references --gh-grain-uri custom property (single source of truth) -->
+      <div class="gh-grain" aria-hidden="true"></div>
+      <div class="gh-fill"  aria-hidden="true"></div>
+      <div class="gh-ray"   aria-hidden="true"></div>
+
+      <div class="gh-corner tl" aria-hidden="true"></div>
+      <div class="gh-corner tr" aria-hidden="true"></div>
+      <div class="gh-corner bl" aria-hidden="true"></div>
+      <div class="gh-corner br" aria-hidden="true"></div>
+
+      <div class="gh-body">
+        <div class="gh-orn-left" aria-hidden="true">
+          <div class="gh-orn-line"></div>
+          <div class="gh-orn-dot"></div>
+        </div>
+
+        <span class="gh-label">
+          {{ block.settings.label | default: "Add to Collection" }}
+        </span>
+
+        <div class="gh-orn-right" aria-hidden="true">
+          <div class="gh-orn-dot"></div>
+          <div class="gh-orn-line"></div>
+        </div>
+      </div>
+
+    </a>
+  </div>
+
+  <!-- Bottom ceremonial lines -->
+  <div class="gh-footer-lines" aria-hidden="true">
+    <div class="gh-hline"></div>
+    <div class="gh-footer-gem"><div class="gh-footer-diamond"></div></div>
+    <div class="gh-hline r"></div>
+  </div>
+
+  <!-- Optional caption -->
+  {% if block.settings.caption != blank %}
+  <div class="gh-caption-wrap">
+    <p class="gh-caption">{{ block.settings.caption }}</p>
+  </div>
+  {% endif %}
+
+</div>
+
+{% schema %}
+{
+  "name": "GlamHive Couture CTA",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button Text",
+      "default": "Add to Collection"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Colour Scheme",
+      "info": "Void (default) suits dark pages. Obsidian suits product cards. Ivory suits editorial / light backgrounds.",
+      "options": [
+        { "value": "void",     "label": "Void (default)" },
+        { "value": "obsidian", "label": "Obsidian"       },
+        { "value": "ivory",    "label": "Ivory / Light"  }
+      ],
+      "default": "void"
+    },
+    {
+      "type": "select",
+      "id": "size_variant",
+      "label": "Size",
+      "options": [
+        { "value": "default", "label": "Default (340px)"  },
+        { "value": "compact", "label": "Compact (280px)"  },
+        { "value": "wide",    "label": "Wide (420px)"     }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Sub-caption (optional)",
+      "info": "e.g. 'Complimentary worldwide shipping · Returns within 14 days'"
+    },
+    {
+      "type": "select",
+      "id": "caption_style",
+      "label": "Caption Style",
+      "options": [
+        { "value": "subtle",    "label": "Subtle (default)" },
+        { "value": "prominent", "label": "Prominent"        }
+      ],
+      "default": "subtle"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GlamHive Couture CTA",
+      "category": "Hero / CTA"
+    }
+  ]
+}
+{% endschema %}
+
 
