@@ -1,1 +1,806 @@
 
+{%- doc -%}
+  Renders a header menu block.
+
+  @param {string} [variant]     - Render variant: 'mobile' | 'navigation_bar' | default (desktop header menu)
+  @param {string} [transparent] - When set, suppresses color scheme class on navigation bar
+{%- enddoc -%}
+
+{% liquid
+  assign block_settings = block.settings
+  assign animation_speed = 200
+  assign menu_links      = block_settings.menu.links
+%}
+
+{% case variant %}
+  {% when 'navigation_bar' %}
+    {%- if block_settings.navigation_bar -%}
+      <nav
+        class="menu-list menu-list--mobile{%- if transparent == blank %} color-{{ block_settings.color_scheme_navigation_bar }}{%- endif -%}"
+        aria-label="{{ 'general.navigation.main' | t }}"
+        style="--menu-horizontal-gap: 15px; --mobile-nav-margin: auto;"
+      >
+        <div class="menu-list__scroll-container" role="region" aria-label="{{ 'general.navigation.scrollable' | t }}">
+          <ul class="menu-list__list list-unstyled" role="list">
+            {%- for link in menu_links -%}
+              <li class="menu-list__mobile-item">
+                <a
+                  href="{{ link.url }}"
+                  id="MenuItem-{{ link.handle }}"
+                  class="menu-list__item{%- if link.current %} menu-list__item--active{%- endif -%}"
+                  {%- if link.current %} aria-current="page"{%- endif -%}
+                >
+                  {{- link.title -}}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </nav>
+    {%- endif -%}
+
+  {%- comment -%} ============================================================
+    VARIANT: DEFAULT DESKTOP HEADER MENU
+  ============================================================ {%- endcomment -%}
+  {% else %}
+    <header-menu
+      ref="headerMenu"
+      class="header-menu mobile:hidden"
+      data-animation-delay="{{ animation_speed }}"
+      {{ block.shopify_attributes }}
+      style="--submenu-animation-speed: {{ animation_speed }}ms;"
+    >
+      <div class="header-menu__inner">
+        {%- render 'header-menu' -%}
+      </div>
+
+      <script src="{{ 'header-menu.js' | asset_url }}" type="module" fetchpriority="low"></script>
+    </header-menu>
+
+{% endcase %}
+
+<style>
+  /* ============================================================
+     TOKENS & DEFAULTS
+     All magic numbers live here as custom properties so
+     downstream overrides require only a single re-assignment.
+  ============================================================ */
+
+  :root {
+    --menu-horizontal-gap:          clamp(1rem, 2vw, 2.25rem);
+    --menu-vertical-gap:            var(--gap-xl, 1.5rem);
+    --menu-animation-speed:         200ms;
+    --menu-submenu-animation-speed: 200ms;
+    --menu-image-border-radius:     0px;
+    --menu-scroll-fade-width:       20px;
+    --minimum-touch-target:         44px;
+    --submenu-padding-block-start:  var(--padding-3xl, 2.5rem);
+    --submenu-padding-block-end:    var(--padding-3xl, 2.5rem);
+  }
+
+  /* ============================================================
+     MOBILE NAVIGATION BAR
+  ============================================================ */
+
+  .menu-list--mobile.menu-list {
+    display: grid;
+  }
+
+  .menu-list--mobile .menu-list__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--menu-horizontal-gap, 2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: max-content;
+    margin-inline: auto;
+  }
+
+  .menu-list--mobile .menu-list__mobile-item {
+    flex-shrink: 0;
+    padding-block: var(--padding-sm, 0.5rem);
+    white-space: nowrap;
+  }
+
+  .menu-list--mobile .menu-list__mobile-item:first-of-type {
+    padding-inline-start: var(--menu-horizontal-gap, 2rem);
+  }
+
+  .menu-list--mobile .menu-list__mobile-item:last-of-type {
+    padding-inline-end: var(--menu-horizontal-gap, 2rem);
+  }
+
+  /* ============================================================
+     MOBILE NAV LINKS — animated underline shared with desktop
+  ============================================================ */
+
+  .menu-list--mobile a.menu-list__item {
+    color: var(--color-foreground);
+    display: block;
+    font-family: var(--menu-top-level-font-family);
+    font-size: var(--menu-top-level-font-size, 0.875rem);
+    letter-spacing: 0.04em;
+    opacity: 0.72;
+    padding-block: 0.25rem;
+    position: relative;
+    text-decoration: none;
+    transition:
+      color var(--menu-animation-speed) ease,
+      opacity var(--menu-animation-speed) ease;
+  }
+
+  .menu-list--mobile a.menu-list__item::after,
+  .menu-list__link::after {
+    background: currentColor;
+    content: '';
+    height: 1px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .menu-list--mobile a.menu-list__item::after { bottom: 0; }
+  .menu-list__link::after                     { bottom: 12px; }
+
+  .menu-list--mobile a.menu-list__item:is(:hover, :focus-visible),
+  .menu-list__link:is(:hover, :focus-visible) {
+    opacity: 1;
+    outline: none;
+  }
+
+  .menu-list--mobile a.menu-list__item:is(:hover, :focus-visible)::after,
+  .menu-list--mobile a.menu-list__item--active::after,
+  .menu-list__link:is(:hover, :focus-visible)::after,
+  .menu-list__link--active::after {
+    transform: scaleX(1);
+  }
+
+  .menu-list--mobile a.menu-list__item--active {
+    opacity: 1;
+  }
+
+  /* ============================================================
+     SCROLL CONTAINER
+  ============================================================ */
+
+  .menu-list__scroll-container {
+    -ms-overflow-style: none;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--menu-scroll-fade-width),
+      #000 calc(100% - var(--menu-scroll-fade-width)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--menu-scroll-fade-width),
+      #000 calc(100% - var(--menu-scroll-fade-width)),
+      transparent
+    );
+    overflow-x: auto;
+    padding-block: var(--padding-2xs, 0.25rem);
+    position: relative;
+    scrollbar-width: none;
+  }
+
+  .menu-list__scroll-container::-webkit-scrollbar { display: none; }
+
+  /* ============================================================
+     DESKTOP HEADER MENU — HOST ELEMENT
+  ============================================================ */
+
+  header-menu {
+    align-items: center;
+    display: flex;
+    width: 100%;
+  }
+
+  .header-menu__inner { width: 100%; }
+
+  /* ============================================================
+     MENU LIST — DESKTOP
+  ============================================================ */
+
+  .menu-list {
+    align-items: center;
+    display: flex;
+  }
+
+  .menu-list__list {
+    align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0 var(--menu-horizontal-gap);
+    justify-content: var(--grid-area-alignment, flex-start);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-list__list-item {
+    flex-shrink: 0;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .menu-list__list-item[aria-hidden='true'] { visibility: hidden; }
+
+  /* ============================================================
+     TOP-LEVEL LINK
+  ============================================================ */
+
+  .menu-list__link {
+    align-items: center;
+    color: var(--menu-top-level-font-color);
+    display: inline-flex;
+    font-family: var(--menu-top-level-font-family);
+    font-size: var(--menu-top-level-font-size, 0.875rem);
+    font-style: var(--menu-top-level-font-style, normal);
+    font-weight: var(--menu-top-level-font-weight, 500);
+    letter-spacing: 0.04em;
+    line-height: var(--menu-top-level-font-line-height, 1.2);
+    min-height: var(--minimum-touch-target);
+    position: relative;
+    text-decoration: none;
+    text-transform: var(--menu-top-level-font-case, none);
+    transition: color var(--menu-animation-speed) ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .menu-list__link {
+      font-size: var(--menu-top-level-font-size-desktop, var(--menu-top-level-font-size, 0.875rem));
+    }
+  }
+
+  /* Dim siblings when any item is hovered / focused */
+  .menu-list:has(.menu-list__list-item:is(:hover, :focus-within)) .menu-list__link {
+    color: rgba(var(--menu-top-level-font-color-rgb), var(--opacity-subdued-text, 0.45));
+  }
+
+  /* Restore the active item */
+  .menu-list .menu-list__list-item:is(:hover, :focus-within) .menu-list__link,
+  .menu-list .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] {
+    color: var(--menu-top-level-font-color);
+  }
+
+  /* ============================================================
+     OVERFLOW MENU
+  ============================================================ */
+
+  .overflow-menu::part(list) { gap: 0 var(--menu-horizontal-gap); }
+
+  .overflow-menu { background-color: transparent; }
+
+  /* Backdrop panel that grows with the submenu */
+  .overflow-menu::after {
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-popover, 0 8px 40px rgba(0, 0, 0, 0.12));
+    clip-path: inset(0.5px 0 -100px 0);
+    content: '';
+    height: var(--submenu-height, 0px);
+    left: 0;
+    opacity: var(--submenu-opacity, 1);
+    position: absolute;
+    top: calc(100% - 1px + var(--border-bottom-width, 0px));
+    transition:
+      height var(--menu-submenu-animation-speed) cubic-bezier(0.33, 1, 0.68, 1),
+      opacity 350ms cubic-bezier(0.33, 1, 0.68, 1) 50ms;
+    width: 100%;
+    z-index: calc(var(--layer-header-menu, 200) - 1);
+  }
+
+  /* ============================================================
+     MEGA MENU — SUBMENU PANEL
+  ============================================================ */
+
+  .menu-list__submenu,
+  .overflow-menu::part(overflow) {
+    background-color: transparent;
+  }
+
+  /* Remove top padding when there is no visible border below the header row */
+  .header__row[style*='--border-bottom-width: 0px'] .menu-list__submenu.color-scheme-matches-parent,
+  .header__row[style*='--border-bottom-width: 0px'] .overflow-menu.color-scheme-matches-parent::part(overflow) {
+    --submenu-padding-block-start: 0px;
+  }
+
+  .menu-list__list-item:not([slot='overflow']) > .menu-list__submenu,
+  .overflow-menu::part(overflow) {
+    --submenu-content-opacity: 0;
+    background-color: var(--color-background);
+    clip-path: rect(0 100% var(--submenu-height, 0px) 0);
+    left: 0;
+    padding-inline: var(--padding-inline, 1.5rem);
+    position: absolute;
+    top: calc(100% - 1px + var(--border-bottom-width, 0px));
+    transition: clip-path var(--menu-submenu-animation-speed) cubic-bezier(0.33, 1, 0.68, 1);
+    visibility: hidden;
+    width: 100%;
+    z-index: var(--layer-header-menu, 200);
+  }
+
+  /* Reveal submenu when expanded or hovered */
+  .menu-list__list-item:has([aria-expanded='true']) > .menu-list__submenu,
+  .overflow-menu:has([slot='overflow'] [aria-expanded='true'])::part(overflow),
+  .menu-list__submenu:hover,
+  .overflow-menu::part(overflow):hover {
+    --submenu-content-opacity: 1;
+    visibility: visible;
+  }
+
+  /* Mid-animation: visible container, hidden content */
+  .menu-list__list-item:has([data-animating]) > .menu-list__submenu {
+    --submenu-content-opacity: 0;
+    visibility: visible;
+  }
+
+  .menu-list__list-item:has([data-animating]) > .menu-list__submenu::before {
+    height: 0;
+  }
+
+  /* ============================================================
+     SUBMENU INNER
+  ============================================================ */
+
+  .menu-list__submenu-inner,
+  .overflow-menu::part(overflow-list) {
+    grid-column: 2;
+    max-height: calc(80vh - var(--header-height, 60px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-block-end: var(--submenu-padding-block-end);
+    padding-block-start: var(--submenu-padding-block-start);
+    padding-inline: var(--section-padding-inline, 2rem);
+    scrollbar-color: rgba(var(--color-foreground-rgb), 0.4) transparent;
+    scrollbar-width: thin;
+  }
+
+  .overflow-menu::part(overflow) {
+    --menu-top-level-font-size: var(--font-size--xlarge, 1.25rem);
+    display: grid;
+    grid-template-columns: var(--full-page-grid-with-margins);
+  }
+
+  .overflow-menu::part(overflow-list) {
+    --submenu-content-opacity: 0;
+    display: grid;
+    gap: 0;
+    grid-template-areas: 'left right';
+    grid-template-columns: minmax(auto, 200px) 1fr;
+    grid-template-rows: max-content;
+    position: relative;
+  }
+
+  /* ============================================================
+     OVERFLOW SLOT ITEMS
+  ============================================================ */
+
+  .menu-list__list-item[slot='overflow'] {
+    --menu-top-level-font-color: var(--color-foreground);
+    --menu-top-level-font-color-rgb: var(--color-foreground-rgb);
+    display: contents;
+    white-space: normal;
+  }
+
+  .menu-list__list-item[slot='overflow'] .menu-list__link {
+    --submenu-content-opacity: 0;
+    font-size: var(--font-size--xl, 1.125rem);
+    grid-area: left;
+    grid-row: auto;
+    height: min-content;
+    opacity: var(--submenu-content-opacity);
+    transition: opacity 150ms ease;
+  }
+
+  .menu-list__list-item[slot='overflow'] .menu-list__submenu {
+    grid-area: right;
+    grid-row: 1;
+    grid-row-end: span calc(var(--overflow-count) + 1);
+    padding-inline-start: var(--menu-horizontal-gap, 2rem);
+    visibility: hidden;
+  }
+
+  .menu-list__list-item[slot='overflow'] .menu-list__submenu .menu-list__submenu-inner {
+    grid-column: unset;
+    padding-block-start: 0;
+  }
+
+  .menu-list__list-item[slot='overflow'] .menu-list__link[aria-expanded='true'] + .menu-list__submenu {
+    visibility: visible;
+  }
+
+  .header-menu[data-overflow-expanded='true'] .menu-list__list-item[slot='overflow'] .menu-list__link {
+    --submenu-content-opacity: 1;
+  }
+
+  .menu-list__list-item[slot='overflow']:has([data-animating]) > .menu-list__link {
+    --submenu-content-opacity: 0;
+  }
+
+  /* ============================================================
+     SUBMENU INNER — CONTENT
+  ============================================================ */
+
+  .menu-list__submenu-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    opacity: var(--submenu-content-opacity);
+    position: relative;
+    transition: opacity 150ms ease;
+  }
+
+  /* ============================================================
+     MEGA MENU — LINKS
+  ============================================================ */
+
+  .mega-menu__link {
+    color: var(--menu-child-font-color);
+    display: inline-flex;
+    font-family: var(--menu-child-font-family);
+    font-size: var(--menu-child-font-size, 0.875rem);
+    font-style: var(--menu-child-font-style, normal);
+    font-weight: var(--menu-child-font-weight, 400);
+    letter-spacing: 0.02em;
+    line-height: var(--menu-child-font-line-height, 1.5);
+    padding: var(--padding-2xs, 0.25rem) 0;
+    text-decoration: none;
+    text-transform: var(--menu-child-font-case, none);
+    transition: color 200ms ease;
+    white-space: normal;
+  }
+
+  .mega-menu__link:hover { color: var(--menu-child-active-font-color); }
+
+  .mega-menu__link--parent {
+    color: var(--menu-parent-font-color);
+    font-family: var(--menu-parent-font-family);
+    font-size: var(--menu-parent-font-size, 1rem);
+    font-style: var(--menu-parent-font-style, normal);
+    font-weight: var(--menu-parent-font-weight, 600);
+    letter-spacing: 0.03em;
+    line-height: var(--menu-parent-font-line-height, 1.3);
+    text-transform: var(--menu-parent-font-case, none);
+  }
+
+  .mega-menu__link--parent:hover { color: var(--menu-parent-active-font-color); }
+
+  @media screen and (max-width: 989px) {
+    .mega-menu__content-list-item--hidden-tablet { display: none; }
+  }
+
+  /* Image links */
+  .mega-menu__link:has(.mega-menu__link-image) {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--padding-sm, 0.5rem) 0;
+    padding-inline: 0;
+  }
+
+  .mega-menu__link-image {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--menu-image-border-radius);
+    margin-bottom: var(--padding-sm, 0.5rem);
+    object-fit: cover;
+    position: relative;
+    transition:
+      opacity 300ms ease,
+      transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+  }
+
+  .mega-menu__link:hover .mega-menu__link-image {
+    opacity: 0.92;
+    transform: scale(1.025);
+  }
+
+  /* Placeholder block for text-only links inside an image grid */
+  .mega-menu__grid:has(.mega-menu__link-image) .mega-menu__column > div > .mega-menu__link:not(:has(.mega-menu__link-image)) {
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--padding-sm, 0.5rem) 0;
+    padding-inline: 0;
+  }
+
+  .mega-menu__grid:has(.mega-menu__link-image) .mega-menu__column > div > .mega-menu__link:not(:has(.mega-menu__link-image))::before {
+    aspect-ratio: 16 / 9;
+    background-color: var(--color-foreground-muted);
+    border-radius: var(--menu-image-border-radius);
+    content: '';
+    display: block;
+    margin-bottom: var(--padding-sm, 0.5rem);
+    opacity: 0.08;
+    width: 100%;
+  }
+
+  /* ============================================================
+     MEGA MENU — GRID
+  ============================================================ */
+
+  .mega-menu__grid {
+    display: grid;
+    gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
+    grid-template-columns: repeat(var(--menu-columns-tablet, 4), minmax(0, 1fr));
+    width: 100%;
+  }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__grid {
+      grid-template-columns: repeat(var(--menu-columns-desktop, 4), minmax(0, 1fr));
+    }
+  }
+
+  /* Column span helpers */
+  .mega-menu__column                        { grid-column: span 1; }
+  .mega-menu__column--span-2                { grid-column: span 2; }
+  .mega-menu__column--span-3                { grid-column: span 3; }
+  .mega-menu__column--span-4                { grid-column: span 4; }
+  .mega-menu__column--wide-collection-image { grid-column: span 1; }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__column--wide-collection-image { grid-column: span 2; }
+  }
+
+  .mega-menu__submenu .mega-menu__column--wide-collection-image { grid-column: span 1; }
+
+  /* Content list */
+  .mega-menu__content-list {
+    display: grid;
+    gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
+    justify-content: end;
+  }
+
+  .mega-menu__content-list--products {
+    grid-template-columns: repeat(var(--menu-content-columns-tablet, 3), minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__content-list--products {
+      grid-template-columns: repeat(var(--menu-content-columns-desktop, 3), minmax(0, 1fr));
+    }
+  }
+
+  .mega-menu__content-list--collections {
+    grid-template-columns: repeat(var(--menu-content-columns-tablet, 3), minmax(0, 300px));
+  }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__content-list--collections {
+      grid-template-columns: repeat(var(--menu-content-columns-desktop, 3), minmax(0, 300px));
+    }
+  }
+
+  .mega-menu__list {
+    display: grid;
+    gap: var(--menu-vertical-gap) var(--menu-horizontal-gap);
+    grid-column: span var(--menu-columns-tablet, 4);
+    grid-template-columns: subgrid;
+  }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__list { grid-column: span var(--menu-columns-desktop, 4); }
+  }
+
+  .mega-menu__content { grid-column: span var(--menu-content-columns-tablet, 3) / -1; }
+
+  @media screen and (min-width: 990px) {
+    .mega-menu__content { grid-column: span var(--menu-content-columns-desktop, 3) / -1; }
+  }
+
+  /* Overflow slot overrides */
+  .menu-list__list-item[slot='overflow'] .section                  { grid-template-columns: 1fr; }
+  .menu-list__list-item[slot='overflow'] .section .mega-menu__grid { grid-column: 1; }
+  .mega-menu__content-list li                                       { white-space: normal; }
+
+  /* ============================================================
+     DRAWER — FEATURED CONTENT
+  ============================================================ */
+
+  .menu-drawer__featured-content {
+    container-type: inline-size;
+    z-index: var(--layer-base, 1);
+  }
+
+  .menu-drawer__featured-content--childlist { z-index: var(--layer-flat, 0); }
+
+  .menu-drawer__featured-content-list {
+    -ms-overflow-style: none;
+    display: flex;
+    gap: 1em;
+    overflow-x: auto;
+    padding-block-end: var(--padding-lg, 1.5rem);
+    scrollbar-width: none;
+  }
+
+  .menu-drawer__featured-content-list::-webkit-scrollbar { display: none; }
+
+  .menu-drawer__featured-content-list-item          { flex: 0 0 auto; }
+  .menu-drawer__featured-content-list-item--product { width: 35cqi; }
+
+  .menu-drawer__featured-content-list-item--collection img.resource-card__image { width: 80cqi; }
+
+  .menu-drawer__featured-content-list-item:first-child { margin-inline-start: var(--margin-xl, 2rem); }
+  .menu-drawer__featured-content-list-item:last-child  { margin-inline-end: var(--margin-xl, 2rem); }
+
+  /* ============================================================
+     MEGA MORE LIST
+  ============================================================ */
+
+  .mega-menu__more-list {
+    --menu-child-font-size: var(--font-size--xl, 1.125rem);
+    width: 200px;
+  }
+
+  .mega-menu__more-list-item .mega-menu__link {
+    color: rgba(var(--menu-top-level-font-color-rgb), var(--opacity-subdued-text, 0.45));
+  }
+
+  .mega-menu__more-list-item:is(:hover, .active) .mega-menu__link {
+    color: var(--menu-top-level-font-color);
+  }
+
+  .mega-menu__more-list-item[aria-hidden='true'] { display: none; }
+
+  .mega-menu__submenu { display: contents; }
+</style>
+
+{% schema %}
+{
+  "name": "Menu",
+  "tag": null,
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "type_font_primary_size",
+      "label": "Top-level link size",
+      "options": [
+        { "value": "0.625rem", "label": "10px" },
+        { "value": "0.75rem",  "label": "12px" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "1rem",     "label": "16px" },
+        { "value": "1.125rem", "label": "18px" }
+      ],
+      "default": "1rem"
+    },
+    {
+      "type": "select",
+      "id": "menu_font_style",
+      "label": "Submenu link size",
+      "options": [
+        { "value": "regular",       "label": "Small"  },
+        { "value": "inverse",       "label": "Medium" },
+        { "value": "inverse_large", "label": "Large"  }
+      ],
+      "default": "inverse"
+    },
+    {
+      "type": "select",
+      "id": "type_font_primary_link",
+      "label": "Font family",
+      "options": [
+        { "value": "body",       "label": "Body"       },
+        { "value": "subheading", "label": "Subheading" },
+        { "value": "heading",    "label": "Heading"    },
+        { "value": "accent",     "label": "Accent"     }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "select",
+      "id": "type_case_primary_link",
+      "label": "Text case",
+      "options": [
+        { "value": "none",      "label": "Default"   },
+        { "value": "uppercase", "label": "Uppercase" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Submenu feature"
+    },
+    {
+      "type": "select",
+      "id": "menu_style",
+      "label": "Media type",
+      "options": [
+        { "value": "text",                 "label": "None"                 },
+        { "value": "collection_images",    "label": "Collection images"    },
+        { "value": "featured_products",    "label": "Featured products"    },
+        { "value": "featured_collections", "label": "Featured collections" }
+      ],
+      "default": "collection_images"
+    },
+    {
+      "type": "select",
+      "id": "featured_products_aspect_ratio",
+      "label": "Product image ratio",
+      "options": [
+        { "value": "adapt", "label": "Auto"     },
+        { "value": "4 / 5", "label": "Portrait" },
+        { "value": "1 / 1", "label": "Square"   }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "select",
+      "id": "featured_collections_aspect_ratio",
+      "label": "Collection image ratio",
+      "options": [
+        { "value": "adapt",  "label": "Auto"      },
+        { "value": "16 / 9", "label": "Landscape" },
+        { "value": "1 / 1",  "label": "Square"    }
+      ],
+      "default": "16 / 9"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation_bar",
+      "label": "Show navigation bar",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme_navigation_bar",
+      "label": "Navigation bar color scheme",
+      "default": "primary"
+    },
+    {
+      "type": "checkbox",
+      "id": "drawer_accordion",
+      "label": "Accordion",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "drawer_accordion_expand_first",
+      "label": "Expand first group by default",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "drawer_dividers",
+      "label": "Show dividers",
+      "default": false
+    }
+  ]
+}
+{% endschema %}
+
